@@ -1,3 +1,4 @@
+```
 GRANT CREATE SESSION, CREATE TABLE, CREATE VIEW, CREATE SEQUENCE, 
       CREATE SYNONYM, CREATE PROCEDURE, CREATE TRIGGER, CREATE MATERIALIZED VIEW 
 TO METRO_HOUSE;
@@ -5,3 +6,68 @@ GRANT SELECT ANY TABLE, INSERT ANY TABLE, UPDATE ANY TABLE, DELETE ANY TABLE
 TO METRO_HOUSE;
 ALTER USER METRO_HOUSE DEFAULT TABLESPACE USERS;
 ALTER USER METRO_HOUSE QUOTA UNLIMITED ON USERS;
+
+
+CREATE TABLE USERINFO (
+userNumber      NUMBER PRIMARY KEY,
+userId          VARCHAR2(100),
+userPw          VARCHAR2(100),
+userName        VARCHAR2(100),
+userTel         VARCHAR2(20),
+userEmail       VARCHAR2(200),
+userBirth       VARCHAR2(50),
+userZipCode     VARCHAR2(50),
+userAddress     VARCHAR2(300),
+userDetailAddress VARCHAR2(500),
+userAdmin       NUMBER DEFAULT 0,
+userRegdate     DATE DEFAULT SYSDATE
+);
+
+
+CREATE TABLE BOARD (
+boardNumber     NUMBER PRIMARY KEY,
+userNumber      NUMBER,
+userName        VARCHAR2(50),
+boardTitle      VARCHAR2(1000),
+boardContent    VARCHAR2(4000),
+boardWriteDate  DATE DEFAULT SYSDATE,
+boardHit        NUMBER DEFAULT 0,
+boardViews      NUMBER DEFAULT 0,
+boardLikes      NUMBER DEFAULT 0,
+FOREIGN KEY (userNumber) REFERENCES USERINFO(userNumber)ON DELETE CASCADE
+);
+
+
+CREATE TABLE board_likes (
+boardNumber number,
+userNumber number,
+PRIMARY KEY (boardNumber, userNumber)
+);
+
+
+CREATE TABLE BOARD_COMMENT (
+commentNumber       NUMBER PRIMARY KEY,
+commentSubNumber    NUMBER,
+commentSubStepNumber NUMBER,
+boardNumber         NUMBER,
+userNumber          NUMBER,
+userName            VARCHAR2(50),
+commentContent      VARCHAR2(4000),
+commentWriteDate    DATE DEFAULT SYSDATE
+);
+
+
+ALTER TABLE BOARD_COMMENT
+ADD CONSTRAINT fk_comment_board
+FOREIGN KEY (boardNumber)
+REFERENCES BOARD(boardNumber)
+ON DELETE CASCADE;
+
+
+ALTER TABLE BOARD_COMMENT
+ADD CONSTRAINT fk_comment_user
+FOREIGN KEY (userNumber)
+REFERENCES USERINFO(userNumber)
+ON DELETE CASCADE;
+DESC board_comment;
+```
