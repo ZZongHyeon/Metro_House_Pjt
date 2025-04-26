@@ -1,0 +1,153 @@
+    * {
+        box-sizing: border-box;
+        font-family: 'Noto Sans KR', sans-serif;
+    }
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+        color: #333;
+    }
+    .container {
+        max-width: 500px;
+        margin: 50px auto;
+        padding: 30px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    h2 {
+        text-align: center;
+        color: #2563EB;
+        margin-bottom: 30px;
+        font-size: 28px;
+    }
+    .login-form {
+        display: flex;
+        flex-direction: column;
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #444;
+    }
+    input[type="text"],
+    input[type="password"] {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+    }
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+        border-color: #2563EB;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(30, 58, 138, 0.2);
+    }
+    .button-group {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+    }
+    .btn {
+        flex: 1;
+        padding: 12px 15px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .btn-primary {
+        background-color: #2563EB;
+        color: white;
+    }
+    .btn-primary:hover {
+        background-color: #1D4ED8;
+    }
+    .btn-secondary {
+        background-color: #e5e7eb;
+        color: #4b5563;
+    }
+    .btn-secondary:hover {
+        background-color: #d1d5db;
+    }
+    .error-message {
+        background-color: #fee2e2;
+        color: #b91c1c;
+        padding: 12px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    .login-options {
+        margin-top: 30px;
+        text-align: center;
+        border-top: 1px solid #eee;
+        padding-top: 20px;
+    }
+    .login-options p {
+        margin-bottom: 15px;
+        color: #6b7280;
+    }
+    .social-login {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+    .social-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: #f3f4f6;
+        transition: background-color 0.3s;
+    }
+    .social-btn:hover {
+        background-color: #e5e7eb;
+    }
+    .social-btn img {
+        width: 24px;
+        height: 24px;
+    }
+    .forgot-password {
+        text-align: right;
+        margin-bottom: 20px;
+    }
+    .forgot-password a {
+        color: #6b7280;
+        text-decoration: none;
+        font-size: 14px;
+    }
+    .forgot-password a:hover {
+        color: #2563EB;
+        text-decoration: underline;
+    }
+    .library-logo {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .library-logo img {
+        height: 80px;
+    }
+    .welcome-text {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #6b7280;
+    }
+    @media (max-width: 600px) {
+        .container {
+            margin: 20px;
+            padding: 20px;
+        }
+    }

@@ -5,6 +5,8 @@
 <configuration>
 	<mappers>
 		<!-- 수정 필요 -->
-		<mapper resource="mybatis/mappers/MemDAO.xml"/>
+		<mapper resource="mybatis/mappers/boardCommentMapper.xml"/>
+		<mapper resource="mybatis/mappers/boardMapper.xml"/>
+		<mapper resource="mybatis/mappers/userMapper.xml"/>
 	</mappers>
 </configuration>
