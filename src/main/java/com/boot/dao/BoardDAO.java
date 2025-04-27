@@ -25,6 +25,10 @@ public interface BoardDAO {
 
 	public void boardIncrementLike(HashMap<String, String> param);
 
+	public void boardRemoveLike(HashMap<String, String> param);
+
+	public void boardDecrementLike(HashMap<String, String> param);
+
 	public int boardgetLike(HashMap<String, String> param);
 
 	public int getTotalCount(CriteriaDTO criteriaDTO);

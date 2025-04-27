@@ -91,7 +91,20 @@
 		SET boardLikes = NVL(boardLikes, 0) + 1
 		WHERE boardNumber = #{boardNumber}
 	</update>
-
+	<!-- 좋아요 삭제 -->
+<delete id="boardRemoveLike">
+    DELETE FROM board_likes 
+    WHERE boardNumber = #{boardNumber} AND userNumber = #{userNumber}
+</delete>
+<!-- 좋아요 1감소 -->
+<update id="boardDecrementLike">
+    UPDATE board
+    SET boardLikes = CASE 
+                        WHEN boardLikes > 0 THEN boardLikes - 1 
+                        ELSE 0 
+                     END
+    WHERE boardNumber = #{boardNumber}
+</update>
 	<!-- 현재 좋아요 수 조회 -->
 	<select id="boardgetLike" resultType="int">
 		SELECT boardLikes FROM

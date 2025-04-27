@@ -23,6 +23,8 @@ public interface BoardService {
 
 	public int boardAddLike(HashMap<String, String> param);
 
+	public void boardRemoveLike(HashMap<String, String> param);
+
 	public int getTotalCount(CriteriaDTO criteriaDTO);
 
 }

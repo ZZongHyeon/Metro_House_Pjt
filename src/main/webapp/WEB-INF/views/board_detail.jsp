@@ -306,30 +306,37 @@
 						<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 						<script>
 							function likePost(boardNumber) {
-								$.ajax({
-									type: "post",
-									url: "/boardLikes",
-									data: { boardNumber: boardNumber },
-									success: function (data) {
-										let likeCountElement = $(".like-count");
-										let currentCount = parseInt(likeCountElement.text());
-										likeCountElement.text(currentCount + 1);
-
-										// 좋아요 버튼 활성화 효과
-										$(".like-button").addClass("active");
-
-										console.log(data);
-									},
-									error: function (xhr) {
-										if (xhr.status === 409) {
-											alert("이미 추천을 눌렀습니다.");
-										} else if (xhr.status === 401) {
-											alert("로그인 후 추천을 누르실 수 있습니다.");
-										} else {
-											alert("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-										}
-									}
-								});
+							    $.ajax({
+							        type: "post",
+							        url: "/boardLikes",
+							        data: { boardNumber: boardNumber },
+							        success: function (data) {
+							            // 좋아요 수 업데이트
+							            let likeCountElements = $(".like-count, #like-count");
+							            let currentCount = parseInt(likeCountElements.first().text());
+							            
+							            if (data === "추천 완료") {
+							                // 좋아요 추가
+							                likeCountElements.text(currentCount + 1);
+							                // 좋아요 버튼 활성화 효과
+							                $(".like-button").addClass("active");
+							            } else if (data === "추천 취소 완료") {
+							                // 좋아요 취소
+							                likeCountElements.text(currentCount - 1);
+							                // 좋아요 버튼 비활성화 효과
+							                $(".like-button").removeClass("active");
+							            }
+							            
+							            console.log(data);
+							        },
+							        error: function (xhr) {
+							            if (xhr.status === 401) {
+							                alert("로그인 후 추천을 누르실 수 있습니다.");
+							            } else {
+							                alert("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+							            }
+							        }
+							    });
 							}
 
 							function deletePost(boardNumber) {
@@ -421,6 +428,26 @@
 								// actionForm.submit();
 								// 컨트롤러에 content_view로 찾아감
 								actionForm.attr("action", "board_detail_view").submit();
+							});
+							
+							// 페이지 로드 시 추천 상태 확인
+							$(document).ready(function() {
+							    // 로그인한 사용자만 확인
+							    <% if (user != null) { %>
+							        const boardNumber = ${board.boardNumber};
+							        
+							        $.ajax({
+							            type: "get",
+							            url: "/checkLikeStatus",
+							            data: { boardNumber: boardNumber },
+							            success: function(hasLiked) {
+							                if (hasLiked === true || hasLiked === "true") {
+							                    // 이미 추천한 경우 버튼 활성화 스타일 적용
+							                    $(".like-button").addClass("active");
+							                }
+							            }
+							        });
+							    <% } %>
 							});
 						</script>
 					</body>

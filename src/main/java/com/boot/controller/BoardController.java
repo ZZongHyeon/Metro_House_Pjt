@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -81,9 +82,6 @@ public class BoardController {
 	public String boardViewUpdate(@RequestParam HashMap<String, String> param, Model model, RedirectAttributes rttr) {
 		BoardDTO dto = service.boardDetailView(param);
 
-		// 날짜 변환 처리
-		convertBoardDate(dto);
-
 		rttr.addAttribute("pageNum", param.get("pageNum"));
 		rttr.addAttribute("amount", param.get("amount"));
 		model.addAttribute("board", dto);
@@ -111,23 +109,28 @@ public class BoardController {
 
 	@RequestMapping("/boardLikes")
 	public ResponseEntity<String> boardLikes(@RequestParam HashMap<String, String> param, HttpSession session) {
-		UserDTO user = (UserDTO) session.getAttribute("loginUser");
-		if (user == null) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인필요");
-		}
-		int boardNumber = Integer.parseInt(param.get("boardNumber"));
-		int userNumber = user.getUserNumber();
-		param.put("userNumber", String.valueOf(userNumber));
+	    UserDTO user = (UserDTO) session.getAttribute("loginUser");
+	    if (user == null) {
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인필요");
+	    }
+	    int boardNumber = Integer.parseInt(param.get("boardNumber"));
+	    int userNumber = user.getUserNumber();
+	    param.put("userNumber", String.valueOf(userNumber));
 
-		if (service.boardHasLiked(param)) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 추천 완료");
-		}
-		try {
-			service.boardAddLike(param);
-			return ResponseEntity.ok("추천 완료");
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류 발생");
-		}
+	    try {
+	        // 이미 좋아요를 눌렀는지 확인
+	        if (service.boardHasLiked(param)) {
+	            // 좋아요 취소 처리
+	            service.boardRemoveLike(param);
+	            return ResponseEntity.ok("추천 취소 완료");
+	        } else {
+	            // 좋아요 추가 처리
+	            service.boardAddLike(param);
+	            return ResponseEntity.ok("추천 완료");
+	        }
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류 발생");
+	    }
 	}
 
 	@RequestMapping("/comment_write_ok")
@@ -140,45 +143,21 @@ public class BoardController {
 
 		return "redirect:/board_detail_view?boardNumber=" + boardNumber + "&skipViewCount=true";
 	}
-
-	// 게시글 목록의 날짜 변환을 처리하는 메소드
-	private void convertBoardDates(ArrayList<BoardDTO> boardList) {
-		if (boardList == null)
-			return;
-
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-		for (BoardDTO board : boardList) {
-			convertBoardDate(board);
-		}
-	}
-
-	// 단일 게시글의 날짜 변환을 처리하는 메소드
-	private void convertBoardDate(BoardDTO board) {
-		if (board == null)
-			return;
-
-		Object dateObj = board.getBoardWriteDate();
-		if (dateObj instanceof String) {
-			String dateStr = (String) dateObj;
-			// 대괄호 제거 (있는 경우)
-			dateStr = dateStr.replace("[", "").replace("]", "");
-
-			try {
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				Date date = sdf.parse(dateStr);
-				board.setBoardWriteDate(dateStr);
-			} catch (ParseException e) {
-				// 날짜 형식이 다른 경우 다른 형식으로 시도
-				try {
-					SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
-					Date date = sdf2.parse(dateStr);
-					board.setBoardWriteDate(dateStr);
-				} catch (ParseException e2) {
-					// 변환 실패 시 로그 출력
-					System.err.println("날짜 변환 실패: " + dateStr);
-				}
-			}
-		}
+	
+	
+	// 추천 확인(버튼색반전용)
+	@GetMapping("/checkLikeStatus")
+	@ResponseBody
+	public boolean checkLikeStatus(@RequestParam("boardNumber") int boardNumber, HttpSession session) {
+	    UserDTO user = (UserDTO) session.getAttribute("loginUser");
+	    if (user == null) {
+	        return false;
+	    }
+	    
+	    HashMap<String, String> param = new HashMap<>();
+	    param.put("boardNumber", String.valueOf(boardNumber));
+	    param.put("userNumber", String.valueOf(user.getUserNumber()));
+	    
+	    return service.boardHasLiked(param);
 	}
 }

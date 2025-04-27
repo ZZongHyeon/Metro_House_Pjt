@@ -77,4 +77,14 @@ public class BoardServiceImpl implements BoardService {
 		
 	}
 
+	// BoardServiceImpl.java에 추가
+	@Override
+	public void boardRemoveLike(HashMap<String, String> param) {
+		BoardDAO dao = sqlSession.getMapper(BoardDAO.class);
+	    // 좋아요 테이블에서 해당 레코드 삭제
+		dao.boardRemoveLike(param);
+	    // 게시글의 좋아요 수 감소
+		dao.boardDecrementLike(param);
+	}
+
 }
