@@ -73,17 +73,17 @@ public class BoardController {
 	}
 
 	@RequestMapping("/board_update_ok")
-	public String boardViewUpdate(@RequestParam HashMap<String, String> param) {
+	public String boardViewUpdate(@RequestParam HashMap<String, String> param, RedirectAttributes rttr) {
 		service.boardModify(param);
-		return "board_view";
+		rttr.addAttribute("boardNumber", param.get("boardNumber"));
+	    rttr.addAttribute("pageNum", param.get("pageNum"));
+	    rttr.addAttribute("amount", param.get("amount"));
+	    return "redirect:/board_detail_view";
 	}
 
 	@RequestMapping("/board_update")
-	public String boardViewUpdate(@RequestParam HashMap<String, String> param, Model model, RedirectAttributes rttr) {
+	public String boardViewUpdate(@RequestParam HashMap<String, String> param, Model model) {
 		BoardDTO dto = service.boardDetailView(param);
-
-		rttr.addAttribute("pageNum", param.get("pageNum"));
-		rttr.addAttribute("amount", param.get("amount"));
 		model.addAttribute("board", dto);
 		return "board_update";
 	}
