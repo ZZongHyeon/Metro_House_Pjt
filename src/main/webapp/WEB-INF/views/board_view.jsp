@@ -1,127 +1,145 @@
-<%@page import="com.boot.dto.UserDTO"%>
-<%@page import="com.boot.dto.BoardDTO"%>
-<%@page import="java.util.List"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>커뮤니티 게시판 - 메트로하우스</title>
-    <link rel="stylesheet" type="text/css" href="/resources/css/board_view.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="/resources/js/board_view.js"></script>
-</head>
-<body>
-    <jsp:include page="header.jsp" />
-    
-    <div class="container">
-        <div class="board-container">
-            <div class="board-header">
-                <h1 class="board-title"><i class="fas fa-comments"></i> 커뮤니티 게시판</h1>
-                <div class="board-actions">
-                    <% 
-                    UserDTO user = (UserDTO) session.getAttribute("loginUser");
-                    if (user != null) { 
-                    %>
-                    <button class="write-button" onclick="location.href='/board_write'">
-                        <i class="fas fa-pen"></i> 글쓰기
-                    </button>
-                    <% } %>
-                </div>
-            </div>
-            
-<!--            <div class="board-info-banner">-->
-<!--                <div class="info-item">-->
-<!--                    <i class="fas fa-clipboard-list"></i>-->
-<!--                    <span>총 게시글 <strong>${totalPosts}</strong>개</span>-->
-<!--                </div>-->
-<!--                <div class="info-item">-->
-<!--                    <i class="fas fa-eye"></i>-->
-<!--                    <span>전체 조회 <strong>${totalViews}</strong>회</span>-->
-<!--                </div>-->
-<!--                <div class="info-item">-->
-<!--                    <i class="fas fa-thumbs-up"></i>-->
-<!--                    <span>전체 추천 <strong>${totalLikes}</strong>개</span>-->
-<!--                </div>-->
-<!--            </div>-->
-            
-            <div class="sort-options">
-                <div class="sort-option ${param.sort == 'latest' || param.sort == null ? 'active' : ''}" onclick="changeSort('latest')">최신순</div>
-                <div class="sort-option ${param.sort == 'views' ? 'active' : ''}" onclick="changeSort('views')">조회순</div>
-                <div class="sort-option ${param.sort == 'likes' ? 'active' : ''}" onclick="changeSort('likes')">추천순</div>
-            </div>
-            
-            <form class="search-form" action="/board_view" method="get">
-                <select name="searchType" class="search-select">
-                    <option value="title" ${param.searchType == 'title' ? 'selected' : ''}>제목</option>
-                    <option value="content" ${param.searchType == 'content' ? 'selected' : ''}>내용</option>
-                    <option value="author" ${param.searchType == 'author' ? 'selected' : ''}>작성자</option>
-                </select>
-                <input type="text" name="keyword" class="search-input" placeholder="검색어를 입력하세요" value="${param.keyword}">
-                <button type="submit" class="search-button">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
-            
-            <div class="table-container">
-                <table class="board-table">
-                    <thead>
-                        <tr>
-                            <th class="board-number">번호</th>
-                            <th class="board-title-col">제목</th>
-                            <th class="board-author">작성자</th>
-                            <th class="board-date">작성일</th>
-                            <th class="board-views">조회</th>
-                            <th class="board-likes">추천</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:if test="${empty boardList}">
-                            <tr>
-                                <td colspan="6" class="empty-message">등록된 게시글이 없습니다.</td>
-                            </tr>
-                        </c:if>
-                        
-                        <c:forEach items="${boardList}" var="board" varStatus="status">
-                            <tr>
-                                <td class="board-number">${status.count}</td>
-                                <td class="board-title-col">
-                                    <a href="board_detail_view?boardNumber=${board.boardNumber}" class="title-link">
-                                        ${board.boardTitle}
-                                        <c:if test="${board.commentCount > 0}">
-                                            <span class="comment-count">[${board.commentCount}]</span>
-                                        </c:if>
-                                    </a>
-                                </td>
-                                <td class="board-author">${board.userName}</td>
-								<td class="board-date">
-								    <c:set var="dateStr" value="${board.boardWriteDate}" />
-								    <c:if test="${not empty dateStr}">
-								        <c:choose>
-								            <c:when test="${fn:length(dateStr) > 10}">
-								                ${fn:substring(dateStr, 0, 10)}
-								            </c:when>
-								            <c:otherwise>
-								                ${dateStr}
-								            </c:otherwise>
-								        </c:choose>
-								    </c:if>
-								</td>
-                                <td class="board-views">${board.boardViews}</td>
-                                <td class="board-likes">${board.boardLikes}</td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="pagination">
+<%@page import="com.boot.dto.UserDTO" %>
+    <%@page import="com.boot.dto.BoardDTO" %>
+        <%@page import="java.util.List" %>
+            <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+                <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+                    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+                        <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+                            <script src="${pageContext.request.contextPath}/js/jquery.js"></script>
+                            <!DOCTYPE html>
+                            <html>
+
+                            <head>
+                                <meta charset="UTF-8">
+                                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                <title>커뮤니티 게시판 - 메트로하우스</title>
+                                <link rel="stylesheet" type="text/css" href="/resources/css/board_view.css">
+                                <link rel="stylesheet"
+                                    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+                                <link
+                                    href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap"
+                                    rel="stylesheet">
+                                <script src="/resources/js/board_view.js"></script>
+                            </head>
+
+                            <body>
+                                <jsp:include page="header.jsp" />
+
+                                <div class="container">
+                                    <div class="board-container">
+                                        <div class="board-header">
+                                            <h1 class="board-title"><i class="fas fa-comments"></i> 커뮤니티 게시판</h1>
+                                            <div class="board-actions">
+                                                <% UserDTO user=(UserDTO) session.getAttribute("loginUser"); if (user
+                                                    !=null) { %>
+                                                    <button class="write-button" onclick="location.href='/board_write'">
+                                                        <i class="fas fa-pen"></i> 글쓰기
+                                                    </button>
+                                                    <% } %>
+                                            </div>
+                                        </div>
+
+                                        <!--            <div class="board-info-banner">-->
+                                        <!--                <div class="info-item">-->
+                                        <!--                    <i class="fas fa-clipboard-list"></i>-->
+                                        <!--                    <span>총 게시글 <strong>${totalPosts}</strong>개</span>-->
+                                        <!--                </div>-->
+                                        <!--                <div class="info-item">-->
+                                        <!--                    <i class="fas fa-eye"></i>-->
+                                        <!--                    <span>전체 조회 <strong>${totalViews}</strong>회</span>-->
+                                        <!--                </div>-->
+                                        <!--                <div class="info-item">-->
+                                        <!--                    <i class="fas fa-thumbs-up"></i>-->
+                                        <!--                    <span>전체 추천 <strong>${totalLikes}</strong>개</span>-->
+                                        <!--                </div>-->
+                                        <!--            </div>-->
+
+                                        <!-- <div class="sort-options">
+                                            <div class="sort-option ${param.sort == 'latest' || param.sort == null ? 'active' : ''}"
+                                                onclick="changeSort('latest')">최신순</div>
+                                            <div class="sort-option ${param.sort == 'views' ? 'active' : ''}"
+                                                onclick="changeSort('views')">조회순</div>
+                                            <div class="sort-option ${param.sort == 'likes' ? 'active' : ''}"
+                                                onclick="changeSort('likes')">추천순</div>
+                                        </div> -->
+
+                                        <form id="searchForm" method="get">
+                                            <select name="type">
+                                                <option value="T" <c:out
+                                                    value="${pageMaker.criteriaDTO.type eq 'T' ? 'selected':''}" />>제목
+                                                </option>
+                                                <option value="C" <c:out
+                                                    value="${pageMaker.criteriaDTO.type eq 'C' ? 'selected':''}" />>내용
+                                                </option>
+                                                <option value="W" <c:out
+                                                    value="${pageMaker.criteriaDTO.type eq 'W' ? 'selected':''}" />>작성자
+                                                </option>
+                                            </select>
+                                            <input type="text" name="keyword" class="search-input"
+                                                placeholder="검색어를 입력하세요" value="${pageMaker.criteriaDTO.keyword}">
+                                            <input type="hidden" name="pageNum" value="1">
+                                            <input type="hidden" name="amount" value="${pageMaker.criteriaDTO.amount}">
+                                            <button type="submit" class="search-button">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </form>
+
+                                        <div class="table-container">
+                                            <table class="board-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="board-number">번호</th>
+                                                        <th class="board-title-col">제목</th>
+                                                        <th class="board-author">작성자</th>
+                                                        <th class="board-date">작성일</th>
+                                                        <th class="board-views">조회</th>
+                                                        <th class="board-likes">추천</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <c:if test="${empty boardList}">
+                                                        <tr>
+                                                            <td colspan="6" class="empty-message">등록된 게시글이 없습니다.</td>
+                                                        </tr>
+                                                    </c:if>
+
+                                                    <c:forEach items="${boardList}" var="board" varStatus="status">
+                                                        <tr>
+                                                            <!-- <td class="board-number">${status.count}</td> -->
+                                                            <td class="board-number">${board.boardNumber}</td>
+                                                            <td class="board-title-col">
+                                                                <a href="board_detail_view?boardNumber=${board.boardNumber}"
+                                                                    class="title-link">
+                                                                    ${board.boardTitle}
+                                                                    <c:if test="${board.commentCount > 0}">
+                                                                        <span
+                                                                            class="comment-count">[${board.commentCount}]</span>
+                                                                    </c:if>
+                                                                </a>
+                                                            </td>
+                                                            <td class="board-author">${board.userName}</td>
+                                                            <td class="board-date">
+                                                                <c:set var="dateStr" value="${board.boardWriteDate}" />
+                                                                <c:if test="${not empty dateStr}">
+                                                                    <c:choose>
+                                                                        <c:when test="${fn:length(dateStr) > 10}">
+                                                                            ${fn:substring(dateStr, 0, 10)}
+                                                                        </c:when>
+                                                                        <c:otherwise>
+                                                                            ${dateStr}
+                                                                        </c:otherwise>
+                                                                    </c:choose>
+                                                                </c:if>
+                                                            </td>
+                                                            <td class="board-views">${board.boardViews}</td>
+                                                            <td class="board-likes">${board.boardLikes}</td>
+                                                        </tr>
+                                                    </c:forEach>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <!-- <div class="pagination">
                 <c:if test="${currentPage > 1}">
                     <div class="page-item">
                         <a href="/board_view?page=${currentPage - 1}${not empty param.searchType ? '&searchType='.concat(param.searchType) : ''}${not empty param.keyword ? '&keyword='.concat(param.keyword) : ''}${not empty param.sort ? '&sort='.concat(param.sort) : ''}" class="page-link">
@@ -143,37 +161,140 @@
                         </a>
                     </div>
                 </c:if>
-            </div>
-        </div>
-    </div>
-    
-    <script>
-        function changeSort(sortType) {
-            // 정렬 옵션 변경 시 처리
-            const sortOptions = document.querySelectorAll('.sort-option');
-            sortOptions.forEach(option => {
-                option.classList.remove('active');
-            });
-            
-            event.target.classList.add('active');
-            
-            // 검색 파라미터 유지하면서 정렬 변경
-            const currentUrl = new URL(window.location.href);
-            const searchParams = currentUrl.searchParams;
-            
-            // 기존 검색 파라미터 유지
-            let url = '/board_view?sort=' + sortType;
-            
-            if(searchParams.has('searchType') && searchParams.has('keyword')) {
-                url += '&searchType=' + searchParams.get('searchType') + '&keyword=' + searchParams.get('keyword');
-            }
-            
-            if(searchParams.has('page')) {
-                url += '&page=' + searchParams.get('page');
-            }
-            
-            location.href = url;
-        }
-    </script>
-</body>
-</html>
+            </div> -->
+                                    
+                                        <div class="div_page">
+                                            <ul>
+                                                <c:if test="${pageMaker.prev}">
+                                                    <!-- <li>[이전]</li> -->
+                                                    <li class="paginate_button">
+                                                        <a href="${pageMaker.startPage - 1}">
+                                                            <i class="fas fa-caret-left"></i>
+                                                        </a>
+                                                    </li>
+                                                </c:if>
+
+                                                <c:forEach var="num" begin="${pageMaker.startPage}"
+                                                    end="${pageMaker.endPage}">
+                                                    <!-- <li>[${num}]</li> -->
+                                                    <li
+                                                        class="paginate_button ${pageMaker.criteriaDTO.pageNum==num ? 'active' : ''}">
+                                                        <a href="${num}">
+                                                            ${num}
+                                                        </a>
+                                                    </li>
+                                                </c:forEach>
+
+                                                <c:if test="${pageMaker.next}">
+                                                    <!-- <li>[Next]</li> -->
+                                                    <li class="paginate_button">
+                                                        <a href="${pageMaker.endPage+1}">
+                                                            <i class="fas fa-caret-right"></i>
+                                                        </a>
+                                                    </li>
+                                                </c:if>
+                                            </ul>
+                                        </div>
+                                        <form id="actionForm" action="board_view" method="get">
+                                            <input type="hidden" name="pageNum"
+                                                value="${pageMaker.criteriaDTO.pageNum}">
+                                            <input type="hidden" name="amount" value="${pageMaker.criteriaDTO.amount}">
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <script>
+                                    // function changeSort(sortType) {
+                                    //     // 정렬 옵션 변경 시 처리
+                                    //     const sortOptions = document.querySelectorAll('.sort-option');
+                                    //     sortOptions.forEach(option => {
+                                    //         option.classList.remove('active');
+                                    //     });
+
+                                    //     event.target.classList.add('active');
+
+                                    //     // 검색 파라미터 유지하면서 정렬 변경
+                                    //     const currentUrl = new URL(window.location.href);
+                                    //     const searchParams = currentUrl.searchParams;
+
+                                    //     // 기존 검색 파라미터 유지
+                                    //     let url = '/board_view?sort=' + sortType;
+
+                                    //     if (searchParams.has('searchType') && searchParams.has('keyword')) {
+                                    //         url += '&searchType=' + searchParams.get('searchType') + '&keyword=' + searchParams.get('keyword');
+                                    //     }
+
+                                    //     if (searchParams.has('page')) {
+                                    //         url += '&page=' + searchParams.get('page');
+                                    //     }
+
+                                    //     location.href = url;
+
+                                    // 페이징처리
+                                    var actionForm = $("#actionForm");
+
+                                    // 페이지번호 처리
+                                    $(".paginate_button a").on("click", function (e) {
+                                        e.preventDefault();
+                                        console.log("click했음");
+                                        console.log("@# href => " + $(this).attr("href"));
+
+                                        // actionForm.find("input[name='pageNum']").val(this).attr("href");
+                                        actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+                                        // actionForm.submit();
+
+                                        // 버그처리(게시글 클릭 후 뒤로가기 누른 후 다른 페 이지 클릭 할 때 content_view2가 작동되는 것을 해결)
+                                        actionForm.attr("action", "board_view").submit();
+                                    }); // end of paginate_button click
+
+                                    // 게시글 처리
+                                    $(".move_link").on("click", function (e) {
+                                        e.preventDefault();
+                                        console.log("move_link click");
+                                        console.log("@# click => " + $(this).attr("href"));
+
+                                        var targetBno = $(this).attr("href");
+
+                                        // 버그처리(게시글 클릭 후 뒤로가기 누른 후 다른 게시글 클릭 할 때 &boardNo=번호 게속 누적되는 거 방지)
+                                        var bno = actionForm.find("input[name='boardNo']").val();
+                                        if (bno != "") {
+                                            actionForm.find("input[name='boardNo']").remove();
+                                        }
+
+                                        // "content_view?boardNo=${dto.boardNo}"를 actionForm로 처리
+                                        actionForm.append("<input type='hidden' name='boardNo' value='" + targetBno + "'>");
+                                        // actionForm.submit();
+                                        // 컨트롤러에 content_view로 찾아감
+                                        actionForm.attr("action", "board_detail_view").submit();
+                                    });
+
+
+                                    // 검색처리
+                                    var searchForm = $("#searchForm");
+
+
+                                    $("#searchForm button").on("click", function () {
+                                        // alert("검색");
+
+                                        // 키워드 입력 받을 조건
+                                        if (searchForm.find("option:selected").val() != "" && !searchForm.find("input[name='keyword']").val()) {
+                                            alert("키워드를 입력하세요.");
+                                            return false;
+                                        }
+
+                                        searchForm.attr("action", "board_view").submit();
+                                    }); // end of searchForm click
+
+                                    // type 콤보박스 변경
+                                    $("#searchForm select").on("change", function () {
+                                        if (searchForm.find("option:selected").val() == "") {
+                                            // 키워드를 널값으로 변경
+                                            searchForm.find("input[name='keyword']").val("");
+                                        }
+                                    }); // end of searchForm click 2
+
+
+                                </script>
+                            </body>
+
+                            </html>

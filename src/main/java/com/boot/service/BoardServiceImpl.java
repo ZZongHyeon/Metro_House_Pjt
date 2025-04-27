@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.boot.dao.BoardDAO;
 import com.boot.dto.BoardDTO;
+import com.boot.dto.CriteriaDTO;
 
 
 @Service
@@ -23,9 +24,9 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public ArrayList<BoardDTO> boardView() {
+	public ArrayList<BoardDTO> boardView(CriteriaDTO criteriaDTO) {
 		BoardDAO dao = sqlSession.getMapper(BoardDAO.class);
-		ArrayList<BoardDTO> list = dao.boardView();
+		ArrayList<BoardDTO> list = dao.boardView(criteriaDTO);
 		return list;
 	}
 
@@ -62,6 +63,13 @@ public class BoardServiceImpl implements BoardService {
 		dao.boardAddLike(param);
 		dao.boardIncrementLike(param);
 		return dao.boardgetLike(param);
+	}
+
+	@Override
+	public int getTotalCount() {
+		BoardDAO dao = sqlSession.getMapper(BoardDAO.class);
+		int total = dao.getTotalCount();
+		return total;
 	}
 
 }

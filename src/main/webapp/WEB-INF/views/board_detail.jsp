@@ -85,10 +85,9 @@
 						<%
 						}
 						%>
-						<button class="action-button list-button"
-							onclick="location.href='/board_view'">
+						<button class="action-button list-button" onclick="history.back()">
 							<i class="fas fa-list"></i> 목록
-						</button>
+						  </button>
 					</div>
 				</div>
 			</div>

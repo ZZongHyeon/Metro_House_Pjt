@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.boot.dto.BoardDTO;
+import com.boot.dto.CriteriaDTO;
 
 
 public interface BoardDAO {
 	public void boardWrite(HashMap<String, String> param);
 
-	public ArrayList<BoardDTO> boardView();
+	public ArrayList<BoardDTO> boardView(CriteriaDTO criteriaDTO);
 
 	public BoardDTO boardDetailView(HashMap<String, String> param);
 
@@ -26,4 +27,6 @@ public interface BoardDAO {
 	public void boardIncrementLike(HashMap<String, String> param);
 
 	public int boardgetLike(HashMap<String, String> param);
+	public int getTotalCount();
+	
 }

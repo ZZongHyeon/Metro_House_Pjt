@@ -1,600 +1,783 @@
-:root { 
-    /* 새로운 색상 팔레트 - 지하철 테마 */
-    --primary: #3b82f6;         /* 파란색 (지하철 1호선 색상에서 영감) */
-    --primary-dark: #1d4ed8;    /* 진한 파란색 */
-    --primary-light: #dbeafe;   /* 연한 파란색 */
-    --secondary: #4b5563;       /* 어두운 회색 */
-    --accent: #10b981;          /* 녹색 (지하철 2호선 색상에서 영감) */
-    --accent2: #f97316;         /* 주황색 (지하철 3호선 색상에서 영감) */
-    --accent3: #06b6d4;         /* 청록색 (지하철 4호선 색상에서 영감) */
-    --accent4: #8b5cf6;         /* 보라색 (지하철 5호선 색상에서 영감) */
-    --success: #22c55e;
-    --danger: #ef4444;
-    --warning: #f59e0b;
-    --info: #0ea5e9;
-    --light: #f8fafc;
-    --dark: #1e293b;
-    --gray-100: #f1f5f9;
-    --gray-200: #e2e8f0;
-    --gray-300: #cbd5e1;
-    --gray-400: #94a3b8;
-    --gray-500: #64748b;
-    --border-radius: 12px;      /* 더 둥근 모서리 */
-    --box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    --transition: all 0.3s ease;
-    --card-gradient: linear-gradient(135deg, var(--primary-light) 0%, #ffffff 100%);
-    --likeBtn-color: #f43f5e;   /* 좋아요 버튼 색상 */
+/* 메트로하우스 커뮤니티 게시판 - 프리미엄 디자인 (게시글 상세 페이지) */
+:root {
+  --primary-color: #5e72e4;
+  --primary-light: #8392f7;
+  --primary-dark: #324cdd;
+  --secondary-color: #11cdef;
+  --success-color: #2dce89;
+  --info-color: #6772e5;
+  --warning-color: #fb6340;
+  --danger-color: #f5365c;
+  --text-color: #32325d;
+  --text-light: #8898aa;
+  --background: #ffffff;
+  --background-alt: #f7fafc;
+  --border-color: #e9ecef;
+  --border-radius: 8px;
+  --box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  --box-shadow-hover: 0 4px 20px rgba(0, 0, 0, 0.1);
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --font-main: 'Noto Sans KR', sans-serif;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: 'Noto Sans KR', sans-serif;
-    background-color: var(--gray-100);
-    color: var(--dark);
-    line-height: 1.6;
+  font-family: var(--font-main);
+  color: var(--text-color);
+  background-color: var(--background-alt);
+  line-height: 1.6;
+  font-size: 15px;
+  overflow-x: hidden;
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 30px 20px;
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
 }
 
 .board-container {
-    max-width: 900px;
-    margin: 0 auto;
+  background-color: var(--background);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  overflow: hidden;
+  animation: fadeIn 0.5s ease-out;
 }
 
+/* 게시글 상세 영역 */
 .board-detail {
-    background-color: white;
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    box-shadow: var(--box-shadow);
-    margin-bottom: 30px;
+  padding: 0;
 }
 
+/* 게시글 헤더 */
 .board-header {
-    padding: 30px;
-    border-bottom: 1px solid var(--gray-200);
+  padding: 30px 30px 20px;
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+  background: linear-gradient(to right, var(--background), var(--background-alt));
 }
 
 .board-category {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 .category-link {
-    color: var(--primary);
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 14px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  transition: var(--transition);
+  background-color: rgba(94, 114, 228, 0.1);
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+
+.category-link i {
+  margin-right: 8px;
+  font-size: 16px;
 }
 
 .category-link:hover {
-    color: var(--primary-dark);
+  color: var(--primary-dark);
+  background-color: rgba(94, 114, 228, 0.2);
 }
 
 .board-title {
-    font-size: 26px;
-    font-weight: 700;
-    margin-bottom: 20px;
-    color: var(--dark);
-    line-height: 1.4;
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  line-height: 1.4;
+  color: var(--text-color);
+  word-break: keep-all;
+  text-align: left;
+  border-left: 4px solid var(--primary-color);
+  padding-left: 15px;
 }
 
 .board-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px dashed var(--border-color);
 }
 
 .author-info {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+  display: flex;
+  align-items: center;
 }
 
 .author-avatar {
-    width: 45px;
-    height: 45px;
-    background-color: var(--primary);
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 500;
-    font-size: 18px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 18px;
+  margin-right: 12px;
+  box-shadow: 0 3px 6px rgba(50, 50, 93, 0.15);
 }
 
 .author-details {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .author-name {
-    font-weight: 600;
-    color: var(--dark);
-    font-size: 15px;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--text-color);
 }
 
 .post-date {
-    color: var(--gray-500);
-    font-size: 14px;
+  font-size: 13px;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+}
+
+.post-date::before {
+  content: "\f017";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+  margin-right: 5px;
+  font-size: 12px;
+  color: var(--primary-light);
 }
 
 .post-info {
-    display: flex;
-    gap: 15px;
+  display: flex;
+  gap: 15px;
+  background-color: rgba(94, 114, 228, 0.05);
+  padding: 8px 15px;
+  border-radius: 20px;
 }
 
 .info-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    color: var(--gray-500);
-    font-size: 14px;
+  display: flex;
+  align-items: center;
+  color: var(--text-light);
+  font-size: 14px;
 }
 
 .info-item i {
-    font-size: 16px;
+  margin-right: 6px;
+  font-size: 16px;
+  color: var(--primary-light);
 }
 
+/* 게시글 내용 */
 .board-content {
-    padding: 30px;
-    min-height: 300px;
-    line-height: 1.7;
-    color: var(--dark);
-    font-size: 15px;
+  padding: 30px;
+  min-height: 300px;
+  line-height: 1.8;
+  font-size: 16px;
+  color: var(--text-color);
+  word-break: break-word;
+  overflow-wrap: break-word;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--background);
 }
 
+.board-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 15px 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.board-content p {
+  margin-bottom: 16px;
+}
+
+.board-content a {
+  color: var(--primary-color);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--primary-light);
+  padding-bottom: 1px;
+}
+
+.board-content a:hover {
+  color: var(--primary-dark);
+  border-bottom: 1px solid var(--primary-dark);
+}
+
+/* 게시글 액션 버튼 */
 .board-actions {
-    padding: 20px 30px;
-    border-top: 1px solid var(--gray-200);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+  background-color: var(--background-alt);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .like-button {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background-color: white;
-    border: 2px solid var(--likeBtn-color);
-    color: var(--likeBtn-color);
-    padding: 10px 20px;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: var(--transition);
-    font-weight: 500;
-    font-size: 14px;
-}
-
-.like-button:hover, .like-button.active {
-    background-color: var(--likeBtn-color);
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 6px -1px rgba(244, 63, 94, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 50px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 2px 4px rgba(50, 50, 93, 0.1);
 }
 
 .like-button i {
-    font-size: 16px;
+  color: var(--danger-color);
+  margin-right: 8px;
+  font-size: 16px;
+  transition: var(--transition);
+}
+
+.like-button:hover {
+  background-color: var(--danger-color);
+  color: white;
+  border-color: var(--danger-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(245, 54, 92, 0.2);
+}
+
+.like-button:hover i {
+  color: white;
+}
+
+.like-button.active {
+  background-color: var(--danger-color);
+  color: white;
+  border-color: var(--danger-color);
+}
+
+.like-button.active i {
+  color: white;
+  animation: heartBeat 0.5s ease-in-out;
+}
+
+.like-count {
+  display: inline-block;
+  margin-left: 5px;
+  font-weight: 700;
 }
 
 .action-buttons {
-    display: flex;
-    gap: 10px;
+  display: flex;
+  gap: 10px;
 }
 
 .action-button {
-    padding: 10px 16px;
-    border-radius: 30px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    gap: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
 }
 
-.edit-button {
-    background-color: var(--accent);
-    color: white;
-    border: none;
+.action-button i {
+  margin-right: 6px;
+  font-size: 14px;
+}
+
+.action-button:hover {
+  background-color: var(--background-alt);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .edit-button:hover {
-    background-color: #0d9488;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3);
-}
-
-.delete-button {
-    background-color: var(--danger);
-    color: white;
-    border: none;
+  color: var(--info-color);
+  border-color: var(--info-color);
 }
 
 .delete-button:hover {
-    background-color: #dc2626;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.3);
-}
-
-.list-button {
-    background-color: white;
-    color: var(--gray-500);
-    border: 2px solid var(--gray-200);
+  color: var(--danger-color);
+  border-color: var(--danger-color);
 }
 
 .list-button:hover {
-    background-color: var(--gray-100);
-    color: var(--dark);
+  color: var(--primary-color);
+  border-color: var(--primary-color);
 }
 
-/* 댓글 섹션 */
+/* 댓글 섹션 - 개선된 디자인 */
 .comments-section {
-    margin-top: 30px;
+  padding: 20px 30px;
+  background-color: var(--background);
 }
 
+/* 댓글 헤더 */
 .comments-header {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 20px;
-    color: var(--dark);
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  margin-bottom: 15px;
+  border-bottom: 2px solid var(--primary-light);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-color);
 }
 
 .comments-header i {
-    color: var(--primary);
+  margin-right: 8px;
+  color: var(--primary-color);
+  font-size: 16px;
 }
 
 .comment-count {
-    color: var(--primary);
-    font-weight: 700;
-    margin-left: 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  background-color: var(--primary-light);
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  padding: 0 6px;
 }
 
+/* 댓글 작성 폼 */
 .comment-form {
-    background-color: white;
-    border-radius: var(--border-radius);
-    padding: 25px;
-    margin-bottom: 25px;
-    box-shadow: var(--box-shadow);
+  margin-bottom: 20px;
+  background-color: var(--background-alt);
+  border-radius: var(--border-radius);
+  padding: 15px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
 .comment-textarea {
-    width: 100%;
-    min-height: 100px;
-    padding: 15px;
-    border: 2px solid var(--gray-200);
-    border-radius: var(--border-radius);
-    resize: vertical;
-    margin-bottom: 15px;
-    font-family: inherit;
-    font-size: 14px;
-    transition: var(--transition);
+  width: 100%;
+  min-height: 80px;
+  padding: 12px 15px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-family: var(--font-main);
+  font-size: 14px;
+  resize: vertical;
+  margin-bottom: 12px;
+  transition: var(--transition);
 }
 
 .comment-textarea:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px var(--primary-light);
+  outline: none;
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 2px rgba(94, 114, 228, 0.1);
 }
 
 .comment-submit {
-    padding: 10px 20px;
-    background-color: var(--primary);
-    color: white;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    float: right;
-    transition: var(--transition);
-    font-weight: 500;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
+  float: right;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+}
+
+.comment-submit i {
+  margin-right: 6px;
+  font-size: 12px;
 }
 
 .comment-submit:hover {
-    background-color: var(--primary-dark);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.1);
 }
 
 .login-required {
-    text-align: center;
-    padding: 30px;
+  text-align: center;
+  padding: 20px;
+  background-color: rgba(94, 114, 228, 0.05);
+  border-radius: var(--border-radius);
 }
 
 .login-required p {
-    color: var(--gray-500);
-    font-size: 15px;
+  color: var(--text-light);
+  font-size: 14px;
 }
 
 .login-required a {
-    color: var(--primary);
-    text-decoration: none;
-    font-weight: 500;
-    transition: var(--transition);
+  color: var(--primary-color);
+  font-weight: 600;
+  text-decoration: none;
 }
 
 .login-required a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
+/* 댓글 목록 - 개선된 디자인 */
 .comment-list {
-    margin-top: 20px;
-}
-
-.comment-item {
-    background-color: white;
-    border-radius: var(--border-radius);
-    padding: 25px;
-    margin-bottom: 20px;
-    box-shadow: var(--box-shadow);
-}
-
-.comment-header {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 10px;
-}
-
-.comment-author-avatar {
-    width: 40px;
-    height: 40px;
-    background-color: var(--primary);
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 500;
-    font-size: 16px;
-    flex-shrink: 0;
-}
-
-.reply-avatar {
-    background-color: var(--accent);
-    width: 35px;
-    height: 35px;
-    font-size: 14px;
-}
-
-.comment-content-wrapper {
-    flex: 1;
-}
-
-.comment-author {
-    font-weight: 600;
-    color: var(--dark);
-    margin-bottom: 5px;
-    font-size: 15px;
-}
-
-.comment-content {
-    line-height: 1.6;
-    color: var(--dark);
-    margin-bottom: 8px;
-    font-size: 14px;
-}
-
-.comment-date {
-    color: var(--gray-500);
-    font-size: 13px;
+  margin-top: 15px;
 }
 
 .no-comments {
-    text-align: center;
-    padding: 40px 30px;
-    color: var(--gray-500);
-    background-color: white;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
+  text-align: center;
+  padding: 25px 0;
+  color: var(--text-light);
+  background-color: var(--background-alt);
+  border-radius: var(--border-radius);
+  border: 1px dashed var(--border-color);
 }
 
 .no-comments i {
-    font-size: 30px;
-    color: var(--gray-400);
+  font-size: 24px;
+  margin-bottom: 10px;
+  opacity: 0.5;
+  color: var(--primary-light);
 }
 
-/* 답글 관련 스타일 */
+.no-comments p {
+  font-size: 14px;
+}
+
+/* 댓글 아이템 - 개선된 디자인 */
+.comment-item {
+  margin-bottom: 12px;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--background);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  transition: var(--transition);
+}
+
+.comment-item:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-color: var(--primary-light);
+}
+
+.comment-header {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.comment-author-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 12px;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.comment-content-wrapper {
+  flex: 1;
+}
+
+.comment-author {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-color);
+  margin-bottom: 4px;
+}
+
+.comment-content {
+  font-size: 14px;
+  line-height: 1.5;
+  word-break: break-word;
+  color: var(--text-color);
+  margin-bottom: 6px;
+}
+
+.comment-date {
+  font-size: 12px;
+  color: var(--text-light);
+}
+
+.comment-date::before {
+  content: "\f017";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 400;
+  margin-right: 4px;
+  font-size: 11px;
+  color: var(--primary-light);
+}
+
+/* 답글 버튼 */
 .reply-button {
-    background: none;
-    border: none;
-    color: var(--primary);
-    font-size: 14px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 10px;
-    transition: var(--transition);
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 3px 8px;
+  display: inline-flex;
+  align-items: center;
+  transition: var(--transition);
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+.reply-button i {
+  margin-right: 4px;
+  font-size: 10px;
 }
 
 .reply-button:hover {
-    color: var(--primary-dark);
-    text-decoration: underline;
+  color: var(--primary-dark);
+  background-color: rgba(94, 114, 228, 0.05);
 }
 
+/* 대댓글 폼 */
 .reply-form {
-    margin-top: 15px;
-    margin-bottom: 15px;
-    padding: 15px;
-    border-radius: var(--border-radius);
-    background-color: var(--primary-light);
-    display: none;
-}
-
-.reply-textarea {
-    width: 100%;
-    min-height: 80px;
-    padding: 12px;
-    border: 2px solid var(--gray-200);
-    border-radius: var(--border-radius);
-    resize: vertical;
-    margin-bottom: 12px;
-    font-family: inherit;
-    font-size: 14px;
-    transition: var(--transition);
-}
-
-.reply-textarea:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-}
-
-.reply-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-}
-
-.reply-submit {
-    background-color: var(--primary);
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 30px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.reply-submit:hover {
-    background-color: var(--primary-dark);
-    transform: translateY(-2px);
-}
-
-.reply-cancel {
-    background-color: white;
-    color: var(--gray-500);
-    border: 2px solid var(--gray-200);
-    padding: 8px 16px;
-    border-radius: 30px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: var(--transition);
-}
-
-.reply-cancel:hover {
-    background-color: var(--gray-100);
-    color: var(--dark);
-}
-
-.reply-item {
-    margin-top: 15px;
-    padding: 15px;
-    background-color: var(--gray-100);
-    border-radius: var(--border-radius);
-    position: relative;
-}
-
-.reply-indicator {
-    display: flex;
-    align-items: center;
-    color: var(--primary);
-    font-size: 14px;
-    margin-bottom: 10px;
-}
-
-.reply-indicator i {
-    margin-right: 5px;
+  margin: 10px 0;
+  background-color: var(--background-alt);
+  border-radius: var(--border-radius);
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  display: none;
 }
 
 .reply-to {
-    font-size: 14px;
-    color: var(--primary);
-    margin-bottom: 10px;
+  font-size: 12px;
+  color: var(--primary-color);
+  margin-bottom: 8px;
+  padding: 4px 10px;
+  background-color: rgba(94, 114, 228, 0.1);
+  border-radius: 4px;
+  display: none;
 }
 
-.reply-to strong {
-    font-weight: 600;
+.reply-textarea {
+  width: 100%;
+  min-height: 60px;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-family: var(--font-main);
+  font-size: 13px;
+  resize: vertical;
+  margin-bottom: 10px;
+  transition: var(--transition);
 }
 
-/* 반응형 스타일 */
+.reply-textarea:focus {
+  outline: none;
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 2px rgba(94, 114, 228, 0.1);
+}
+
+.reply-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.reply-cancel {
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-light);
+  border-radius: var(--border-radius);
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.reply-cancel:hover {
+  background-color: var(--background);
+  color: var(--text-color);
+}
+
+.reply-submit {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+}
+
+.reply-submit i {
+  margin-right: 4px;
+  font-size: 10px;
+}
+
+.reply-submit:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.1);
+}
+
+/* 대댓글 스타일 */
+.reply-item {
+  margin: 10px 0 10px 20px;
+  padding: 12px;
+  background-color: var(--background-alt);
+  border-radius: var(--border-radius);
+  position: relative;
+  border: 1px solid var(--border-color);
+  border-left: 3px solid var(--primary-light);
+}
+
+.reply-indicator {
+  position: absolute;
+  left: -12px;
+  top: 12px;
+  color: var(--primary-light);
+  font-size: 10px;
+  background-color: var(--background);
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.reply-avatar {
+  width: 24px;
+  height: 24px;
+  font-size: 10px;
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes heartBeat {
+  0% { transform: scale(1); }
+  14% { transform: scale(1.3); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.3); }
+  70% { transform: scale(1); }
+}
+
+/* 반응형 디자인 */
 @media (max-width: 768px) {
-    .board-meta {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
-    }
-    
-    .board-actions {
-        flex-direction: column;
-        gap: 15px;
-    }
-    
-    .action-buttons {
-        width: 100%;
-        justify-content: space-between;
-    }
-    
-    .like-button {
-        width: 100%;
-        justify-content: center;
-    }
-    
-    .comment-header {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .comment-author-avatar {
-        margin-bottom: 5px;
-    }
+  .container {
+    padding: 0 15px;
+    margin: 20px auto;
+  }
+  
+  .board-header {
+    padding: 20px 20px 15px;
+  }
+  
+  .board-title {
+    font-size: 22px;
+    padding-left: 12px;
+  }
+  
+  .board-content {
+    padding: 20px;
+    font-size: 15px;
+  }
+  
+  .board-actions {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px 20px;
+  }
+  
+  .like-button {
+    width: 100%;
+  }
+  
+  .action-buttons {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .action-button {
+    flex: 1;
+    justify-content: center;
+  }
+  
+  .comments-section {
+    padding: 15px;
+  }
 }
 
 @media (max-width: 576px) {
-    .board-header {
-        padding: 20px;
-    }
-    
-    .board-content {
-        padding: 20px;
-    }
-    
-    .board-title {
-        font-size: 22px;
-    }
-    
-    .action-buttons {
-        flex-direction: column;
-    }
-    
-    .action-button {
-        width: 100%;
-        justify-content: center;
-    }
-    
-    .reply-actions {
-        flex-direction: column;
-    }
-    
-    .reply-submit, .reply-cancel {
-        width: 100%;
-        justify-content: center;
-    }
+  .board-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .post-info {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  
+  .reply-item {
+    margin-left: 15px;
+  }
+  
+  .reply-form {
+    margin-left: 0;
+  }
+}
+
+/* 스크롤바 스타일링 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-alt);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-light);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
 }

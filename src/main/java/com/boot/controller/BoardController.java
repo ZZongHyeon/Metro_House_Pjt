@@ -16,30 +16,47 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.boot.dto.BoardCommentDTO;
 import com.boot.dto.BoardDTO;
+import com.boot.dto.CriteriaDTO;
+import com.boot.dto.PageDTO;
 import com.boot.dto.UserDTO;
 import com.boot.service.BoardCommentService;
+import com.boot.service.BoardCommentServiceImpl;
 import com.boot.service.BoardService;
+
+import lombok.extern.slf4j.Slf4j;
 
 
 @Controller
+@Slf4j
 public class BoardController {
+
+    private final BoardCommentServiceImpl boardCommentServiceImpl;
 	@Autowired
 	private BoardService service;
 
 	@Autowired
 	private BoardCommentService bcService;
 
+    BoardController(BoardCommentServiceImpl boardCommentServiceImpl) {
+        this.boardCommentServiceImpl = boardCommentServiceImpl;
+    }
+
 	@RequestMapping("/board_view")
-	public String boardView(Model model) {
-		ArrayList<BoardDTO> list = service.boardView();
+	public String boardView(CriteriaDTO criteriaDTO, Model model) {
+		log.info("pagenum : " + criteriaDTO.getPageNum()); 
+		log.info("pageamount : " + criteriaDTO.getAmount()); 
+		ArrayList<BoardDTO> list = service.boardView(criteriaDTO);
+		int total = service.getTotalCount();
 		
 		// 날짜 변환 처리
 		convertBoardDates(list);
-		
+
 		model.addAttribute("boardList", list);
+		model.addAttribute("pageMaker", new PageDTO(total, criteriaDTO));
 
 		return "board_view";
 	}
@@ -53,9 +70,10 @@ public class BoardController {
 	}
 
 	@RequestMapping("/delete_post")
-	public String boardViewDelete(@RequestParam HashMap<String, String> param) {
+	public String boardViewDelete(@RequestParam HashMap<String, String> param, RedirectAttributes rttr) {
 		service.boardDelete(param);
-
+        rttr.addAttribute("pageNum", param.get("pageNum"));
+        rttr.addAttribute("amount", param.get("amount"));
 		return "board_view";
 	}
 
@@ -66,12 +84,14 @@ public class BoardController {
 	}
 
 	@RequestMapping("/board_update")
-	public String boardViewUpdate(@RequestParam HashMap<String, String> param, Model model) {
+	public String boardViewUpdate(@RequestParam HashMap<String, String> param, Model model, RedirectAttributes rttr) {
 		BoardDTO dto = service.boardDetailView(param);
 		
 		// 날짜 변환 처리
 		convertBoardDate(dto);
 		
+        rttr.addAttribute("pageNum", param.get("pageNum"));
+        rttr.addAttribute("amount", param.get("amount"));
 		model.addAttribute("board", dto);
 		return "board_update";
 	}
@@ -82,7 +102,7 @@ public class BoardController {
 		ArrayList<BoardCommentDTO> commentList = bcService.bcView(param);
 
 		// 날짜 변환 처리
-		convertBoardDate(dto);
+//		convertBoardDate(dto);
 		
 		model.addAttribute("board", dto);
 		model.addAttribute("commentList", commentList);
