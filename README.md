@@ -51,7 +51,7 @@
 | Postman | API 테스트
 
 
-<details><summary><b>📝 패치 내역 (2025-04-27)</b></summary>
+<details><summary><b>📝 패치 (2025-04-27)</b></summary>
 
 <pre><b>게시판 기능:</b>
 • 게시글 페이징 구현
@@ -64,8 +64,6 @@
 <b>추천 시스템:</b>
 • 추천 취소 기능 추가
 • 추천 상태에 따른 버튼 색상 반전 효과 적용
-
-<i>버전: v1.0.1</i>
 
 </pre></details>
 
