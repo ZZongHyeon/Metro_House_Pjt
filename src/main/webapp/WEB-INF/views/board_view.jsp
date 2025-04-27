@@ -162,7 +162,7 @@
                     </div>
                 </c:if>
             </div> -->
-                                    
+                                    <!-- <h3>${pageMaker}</h3> -->
                                         <div class="div_page">
                                             <ul>
                                                 <c:if test="${pageMaker.prev}">
@@ -204,87 +204,59 @@
                                 </div>
 
                                 <script>
-                                    // function changeSort(sortType) {
-                                    //     // 정렬 옵션 변경 시 처리
-                                    //     const sortOptions = document.querySelectorAll('.sort-option');
-                                    //     sortOptions.forEach(option => {
-                                    //         option.classList.remove('active');
-                                    //     });
-
-                                    //     event.target.classList.add('active');
-
-                                    //     // 검색 파라미터 유지하면서 정렬 변경
-                                    //     const currentUrl = new URL(window.location.href);
-                                    //     const searchParams = currentUrl.searchParams;
-
-                                    //     // 기존 검색 파라미터 유지
-                                    //     let url = '/board_view?sort=' + sortType;
-
-                                    //     if (searchParams.has('searchType') && searchParams.has('keyword')) {
-                                    //         url += '&searchType=' + searchParams.get('searchType') + '&keyword=' + searchParams.get('keyword');
-                                    //     }
-
-                                    //     if (searchParams.has('page')) {
-                                    //         url += '&page=' + searchParams.get('page');
-                                    //     }
-
-                                    //     location.href = url;
-
                                     // 페이징처리
                                     var actionForm = $("#actionForm");
-
+                                
                                     // 페이지번호 처리
                                     $(".paginate_button a").on("click", function (e) {
                                         e.preventDefault();
                                         console.log("click했음");
                                         console.log("@# href => " + $(this).attr("href"));
-
+                                
                                         // actionForm.find("input[name='pageNum']").val(this).attr("href");
                                         actionForm.find("input[name='pageNum']").val($(this).attr("href"));
-                                        // actionForm.submit();
-
-                                        // 버그처리(게시글 클릭 후 뒤로가기 누른 후 다른 페 이지 클릭 할 때 content_view2가 작동되는 것을 해결)
+                                        
+                                        // 버그처리(게시글 클릭 후 뒤로가기 누른 후 다른 페이지 클릭 할 때 content_view2가 작동되는 것을 해결)
                                         actionForm.attr("action", "board_view").submit();
                                     }); // end of paginate_button click
-
+                                
                                     // 게시글 처리
                                     $(".move_link").on("click", function (e) {
                                         e.preventDefault();
                                         console.log("move_link click");
                                         console.log("@# click => " + $(this).attr("href"));
-
+                                
                                         var targetBno = $(this).attr("href");
-
+                                
                                         // 버그처리(게시글 클릭 후 뒤로가기 누른 후 다른 게시글 클릭 할 때 &boardNo=번호 게속 누적되는 거 방지)
                                         var bno = actionForm.find("input[name='boardNo']").val();
                                         if (bno != "") {
                                             actionForm.find("input[name='boardNo']").remove();
                                         }
-
+                                
                                         // "content_view?boardNo=${dto.boardNo}"를 actionForm로 처리
                                         actionForm.append("<input type='hidden' name='boardNo' value='" + targetBno + "'>");
                                         // actionForm.submit();
                                         // 컨트롤러에 content_view로 찾아감
                                         actionForm.attr("action", "board_detail_view").submit();
                                     });
-
-
+                                
                                     // 검색처리
                                     var searchForm = $("#searchForm");
-
-
+                                
                                     $("#searchForm button").on("click", function () {
                                         // alert("검색");
-
+                                
                                         // 키워드 입력 받을 조건
                                         if (searchForm.find("option:selected").val() != "" && !searchForm.find("input[name='keyword']").val()) {
                                             alert("키워드를 입력하세요.");
                                             return false;
                                         }
-
+                                
+                                        // searchForm.find("input[name='pageNum']").val("1"); // 검색 시 1페이지로 이동
                                         searchForm.attr("action", "board_view").submit();
                                     }); // end of searchForm click
-
+                                
                                     // type 콤보박스 변경
                                     $("#searchForm select").on("change", function () {
                                         if (searchForm.find("option:selected").val() == "") {
@@ -292,8 +264,6 @@
                                             searchForm.find("input[name='keyword']").val("");
                                         }
                                     }); // end of searchForm click 2
-
-
                                 </script>
                             </body>
 

@@ -8,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.boot.dao.BoardCommentDAO;
+import com.boot.dao.BoardDAO;
 import com.boot.dto.BoardCommentDTO;
-
+import com.boot.dto.CriteriaDTO;
 
 @Service
 public class BoardCommentServiceImpl implements BoardCommentService {
@@ -17,10 +18,10 @@ public class BoardCommentServiceImpl implements BoardCommentService {
 	private SqlSession sqlSession;
 
 	@Override
-	public ArrayList<BoardCommentDTO> bcView(HashMap<String, String> param) {
+	public ArrayList<BoardCommentDTO> bcView(HashMap<String, String> param, CriteriaDTO criteriaDTO) {
 		BoardCommentDAO dao = sqlSession.getMapper(BoardCommentDAO.class);
 
-		ArrayList<BoardCommentDTO> list = dao.bcView(param);
+		ArrayList<BoardCommentDTO> list = dao.bcView(param, criteriaDTO);
 		return list;
 	}
 
@@ -42,4 +43,17 @@ public class BoardCommentServiceImpl implements BoardCommentService {
 		dao.bcDelete(param);
 	}
 
+	@Override
+	public int getTotalCount(HashMap<String, String> param) {
+		BoardCommentDAO dao = sqlSession.getMapper(BoardCommentDAO.class);
+		int total = dao.getTotalCount(param);
+		return total;
+	}
+
+	@Override
+	public int getAllCount(HashMap<String, String> param) {
+		BoardCommentDAO dao = sqlSession.getMapper(BoardCommentDAO.class);
+		int total = dao.getAllCount(param);
+		return total;
+	}
 }

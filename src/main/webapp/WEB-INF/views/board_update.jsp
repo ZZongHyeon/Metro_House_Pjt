@@ -85,7 +85,7 @@
 					</div>
 
 					<div class="form-actions">
-						<button type="button" class="btn btn-secondary" onclick="location.href='board_view'">
+						<button type="button" class="btn btn-secondary" onclick="history.back()">
 							<i class="fas fa-times"></i> 취소
 						</button>
 						<button type="button" class="btn btn-primary" onclick="fn_submit()">

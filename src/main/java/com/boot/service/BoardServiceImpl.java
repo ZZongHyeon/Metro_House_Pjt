@@ -11,7 +11,6 @@ import com.boot.dao.BoardDAO;
 import com.boot.dto.BoardDTO;
 import com.boot.dto.CriteriaDTO;
 
-
 @Service
 public class BoardServiceImpl implements BoardService {
 	@Autowired
@@ -33,7 +32,6 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public BoardDTO boardDetailView(HashMap<String, String> param) {
 		BoardDAO dao = sqlSession.getMapper(BoardDAO.class);
-		dao.boardHit(param);
 		BoardDTO dto = dao.boardDetailView(param);
 		return dto;
 	}
@@ -66,10 +64,17 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int getTotalCount() {
+	public int getTotalCount(CriteriaDTO criteriaDTO) {
 		BoardDAO dao = sqlSession.getMapper(BoardDAO.class);
-		int total = dao.getTotalCount();
+		int total = dao.getTotalCount(criteriaDTO);
 		return total;
+	}
+
+	@Override
+	public void boardHit(HashMap<String, String> param) {
+		BoardDAO dao = sqlSession.getMapper(BoardDAO.class);
+		dao.boardHit(param);
+		
 	}
 
 }

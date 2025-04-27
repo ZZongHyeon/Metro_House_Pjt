@@ -29,31 +29,25 @@ import com.boot.service.BoardService;
 
 import lombok.extern.slf4j.Slf4j;
 
-
 @Controller
 @Slf4j
 public class BoardController {
 
-    private final BoardCommentServiceImpl boardCommentServiceImpl;
+	private final BoardCommentServiceImpl boardCommentServiceImpl;
 	@Autowired
 	private BoardService service;
 
 	@Autowired
 	private BoardCommentService bcService;
 
-    BoardController(BoardCommentServiceImpl boardCommentServiceImpl) {
-        this.boardCommentServiceImpl = boardCommentServiceImpl;
-    }
+	BoardController(BoardCommentServiceImpl boardCommentServiceImpl) {
+		this.boardCommentServiceImpl = boardCommentServiceImpl;
+	}
 
 	@RequestMapping("/board_view")
 	public String boardView(CriteriaDTO criteriaDTO, Model model) {
-		log.info("pagenum : " + criteriaDTO.getPageNum()); 
-		log.info("pageamount : " + criteriaDTO.getAmount()); 
 		ArrayList<BoardDTO> list = service.boardView(criteriaDTO);
-		int total = service.getTotalCount();
-		
-		// 날짜 변환 처리
-		convertBoardDates(list);
+		int total = service.getTotalCount(criteriaDTO);
 
 		model.addAttribute("boardList", list);
 		model.addAttribute("pageMaker", new PageDTO(total, criteriaDTO));
@@ -72,8 +66,8 @@ public class BoardController {
 	@RequestMapping("/delete_post")
 	public String boardViewDelete(@RequestParam HashMap<String, String> param, RedirectAttributes rttr) {
 		service.boardDelete(param);
-        rttr.addAttribute("pageNum", param.get("pageNum"));
-        rttr.addAttribute("amount", param.get("amount"));
+		rttr.addAttribute("pageNum", param.get("pageNum"));
+		rttr.addAttribute("amount", param.get("amount"));
 		return "board_view";
 	}
 
@@ -86,26 +80,32 @@ public class BoardController {
 	@RequestMapping("/board_update")
 	public String boardViewUpdate(@RequestParam HashMap<String, String> param, Model model, RedirectAttributes rttr) {
 		BoardDTO dto = service.boardDetailView(param);
-		
+
 		// 날짜 변환 처리
 		convertBoardDate(dto);
-		
-        rttr.addAttribute("pageNum", param.get("pageNum"));
-        rttr.addAttribute("amount", param.get("amount"));
+
+		rttr.addAttribute("pageNum", param.get("pageNum"));
+		rttr.addAttribute("amount", param.get("amount"));
 		model.addAttribute("board", dto);
 		return "board_update";
 	}
 
 	@RequestMapping("/board_detail_view")
-	public String boardViewDetail(@RequestParam HashMap<String, String> param, Model model) {
+	public String boardViewDetail(@RequestParam HashMap<String, String> param, Model model, CriteriaDTO criteriaDTO,
+			@RequestParam(value = "skipViewCount", required = false) Boolean skipViewCount) {
+		if (skipViewCount == null || !skipViewCount) {
+			// 조회수 증가 로직
+			service.boardHit(param);
+		}
 		BoardDTO dto = service.boardDetailView(param);
-		ArrayList<BoardCommentDTO> commentList = bcService.bcView(param);
+		ArrayList<BoardCommentDTO> commentList = bcService.bcView(param, criteriaDTO);
+		int total = bcService.getTotalCount(param);
+		int allTotal = bcService.getAllCount(param);
 
-		// 날짜 변환 처리
-//		convertBoardDate(dto);
-		
+		model.addAttribute("allCount", allTotal);
 		model.addAttribute("board", dto);
 		model.addAttribute("commentList", commentList);
+		model.addAttribute("pageMaker", new PageDTO(total, criteriaDTO));
 		return "board_detail";
 	}
 
@@ -138,30 +138,32 @@ public class BoardController {
 		}
 		bcService.bcWrite(param);
 
-		return "redirect:/board_detail_view?boardNumber=" + boardNumber;
+		return "redirect:/board_detail_view?boardNumber=" + boardNumber + "&skipViewCount=true";
 	}
-	
+
 	// 게시글 목록의 날짜 변환을 처리하는 메소드
 	private void convertBoardDates(ArrayList<BoardDTO> boardList) {
-		if (boardList == null) return;
-		
+		if (boardList == null)
+			return;
+
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		
+
 		for (BoardDTO board : boardList) {
 			convertBoardDate(board);
 		}
 	}
-	
+
 	// 단일 게시글의 날짜 변환을 처리하는 메소드
 	private void convertBoardDate(BoardDTO board) {
-		if (board == null) return;
-		
+		if (board == null)
+			return;
+
 		Object dateObj = board.getBoardWriteDate();
 		if (dateObj instanceof String) {
 			String dateStr = (String) dateObj;
 			// 대괄호 제거 (있는 경우)
 			dateStr = dateStr.replace("[", "").replace("]", "");
-			
+
 			try {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Date date = sdf.parse(dateStr);
