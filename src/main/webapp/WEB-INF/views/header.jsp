@@ -49,7 +49,7 @@
 				</a> <a href="board_view"
 					class="nav-link <%=currentPage.contains("board_view") ? "active" : ""%>">
 					<i class="nav-icon fa-solid fa-clipboard-list"></i> <span>게시판</span>
-				</a> <a href="/search_map"
+				</a> <a href="/search_map?majorRegion=서울&district=강남구&station=강남역"
 					class="nav-link <%=currentPage.contains("search_map") ? "active" : ""%>">
 					<i class="nav-icon fa-solid fa-map"></i> <span>지도</span>
 				</a>

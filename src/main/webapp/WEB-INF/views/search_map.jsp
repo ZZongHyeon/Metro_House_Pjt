@@ -13,6 +13,7 @@
             <link rel="stylesheet" type="text/css" href="/resources/css/main.css">
             <link rel="stylesheet" type="text/css" href="/resources/css/search_map.css">
             <script src="/resources/js/subway_section.js"></script>
+            <script src="/resources/js/main.js"></script>
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
         </head>

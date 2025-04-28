@@ -138,9 +138,9 @@
 										<i class="fas fa-subway"></i>
 									</div>
 									<div class="stat-info">
-										<h3>전체 지하철역</h3>
+										<h3>등록된 지하철역</h3>
 										<div class="number">
-											<fmt:formatNumber value="${totalStations}" type="number" />
+											<fmt:formatNumber value="713" type="number" />
 										</div>
 									</div>
 								</div>
