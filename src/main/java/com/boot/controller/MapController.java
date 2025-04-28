@@ -1,5 +1,6 @@
 package com.boot.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.boot.dto.ApartmentDTO;
 
 @Controller
 public class MapController {
@@ -26,9 +29,11 @@ public class MapController {
 		for (Map.Entry<String, String> entry : param.entrySet()) {
 			System.out.println(entry.getKey() + ": " + entry.getValue());
 		}
-
+//		ArrayList<ApartmentDTO> list = new ArrayList<>(); 
 		// 모델에 파라미터 추가 (뷰에서 사용 가능)
-		request.setAttribute("searchParams", param);
+//		request.setAttribute("searchParams", param);
+//		model.addAttribute("list", list);
+		model.addAttribute("searchParams", param);
 		model.addAttribute("kakaoApiKey", kakaoApiKey);
 		model.addAttribute("stationName", param.get("station"));
 

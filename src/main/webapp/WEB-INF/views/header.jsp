@@ -44,15 +44,14 @@
 			</button>
 
 			<nav class="nav-links" id="navLinks">
-				<a href="admin_notice"
-					class="nav-link <%=currentPage.contains("admin_notice") ? "active" : ""%>">
-					<i class="nav-icon fa-solid fa-bullhorn"></i> <span>공지사항</span>
+				<a href="main" class="nav-link <%=currentPage.contains("main") ? "active" : ""%>">
+					<i class="nav-icon fa-solid fa-house"></i> <span>메인</span>
 				</a> <a href="board_view"
 					class="nav-link <%=currentPage.contains("board_view") ? "active" : ""%>">
 					<i class="nav-icon fa-solid fa-clipboard-list"></i> <span>게시판</span>
-				</a> <a href="/library_info"
-					class="nav-link <%=currentPage.contains("library_info") ? "active" : ""%>">
-					<i class="nav-icon fa-solid fa-circle-info"></i> <span>이용안내</span>
+				</a> <a href="/search_map"
+					class="nav-link <%=currentPage.contains("search_map") ? "active" : ""%>">
+					<i class="nav-icon fa-solid fa-map"></i> <span>지도</span>
 				</a>
 
 				<%
