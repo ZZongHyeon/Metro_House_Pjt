@@ -298,6 +298,7 @@
 														value="${pageMaker.criteriaDTO.pageNum}">
 													<input type="hidden" name="amount"
 														value="${pageMaker.criteriaDTO.amount}">
+														<input type="hidden" name="skipViewCount" value="true">
 												</form>
 								</div>
 							</div>
@@ -404,6 +405,8 @@
 								// actionForm.find("input[name='pageNum']").val(this).attr("href");
 								actionForm.find("input[name='pageNum']").val($(this).attr("href"));
 								// actionForm.submit();
+
+								actionForm.find("input[name='skipViewCount']").val("true");
 
 								// 버그처리(게시글 클릭 후 뒤로가기 누른 후 다른 페 이지 클릭 할 때 content_view2가 작동되는 것을 해결)
 								actionForm.attr("action", "board_detail_view").submit();

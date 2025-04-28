@@ -86,7 +86,7 @@ function fn_submit() {
 				<h1>
 					안녕하세요, <%=user.getUserName()%>님!
 				</h1>
-				<p>메트로하우스 지하철역 주변 아파트 시세 서비스에 오신 것을 환영합니다.</p>
+				<p>메트로하우스 서비스에 오신 것을 환영합니다.</p>
 			</div>
 			<div class="date-display">
 				<i class="fas fa-calendar-alt"></i> <span id="current-date">

@@ -1,13 +1,13 @@
 /* 메트로하우스 로그인 페이지 - 게시판과 일관된 디자인 */
 :root {
-  --primary-color: #5e72e4;
-  --primary-light: #8392f7;
-  --primary-dark: #324cdd;
-  --secondary-color: #11cdef;
-  --success-color: #2dce89;
+  --primary-color: #51bdbd;
+  --primary-light: #a0dbdb;
+  --primary-dark: #3e9a9a;
+  --secondary-color: #5a6878;
+  --success-color: #22c55e;
   --info-color: #6772e5;
   --warning-color: #fb6340;
-  --danger-color: #f5365c;
+  --danger-color: #ef4444;
   --text-color: #32325d;
   --text-light: #8898aa;
   --background: #ffffff;

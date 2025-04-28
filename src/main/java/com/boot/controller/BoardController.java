@@ -137,7 +137,8 @@ public class BoardController {
 	public String commentWriteOk(@RequestParam HashMap<String, String> param) {
 		String boardNumber = param.get("boardNumber");
 		if (param.get("commentContent") == "") {
-			return "redirect:/board_detail_view?boardNumber=" + boardNumber;
+			// 빈 댓글일 경우에도 skipViewCount=true 파라미터 추가
+			return "redirect:/board_detail_view?boardNumber=" + boardNumber + "&skipViewCount=true";
 		}
 		bcService.bcWrite(param);
 

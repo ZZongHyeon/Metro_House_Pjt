@@ -1,23 +1,35 @@
-/* 메트로하우스 커뮤니티 게시판 - 프리미엄 디자인 */
 :root {
-  --primary-color: #5e72e4;
-  --primary-light: #8392f7;
-  --primary-dark: #324cdd;
-  --secondary-color: #11cdef;
-  --success-color: #2dce89;
-  --info-color: #6772e5;
-  --warning-color: #fb6340;
-  --danger-color: #f5365c;
-  --text-color: #32325d;
+  /* Primary Colors - Softer teal theme */
+  --primary-color: #51bdbd;
+  --primary-light: #a0dbdb;
+  --primary-dark: #55a8a8;
+
+  /* Secondary Colors - More muted */
+  --secondary-color: #5a6878;
+  --secondary-light: #8896a6;
+  --secondary-dark: #3d4852;
+
+  /* Functional Colors - More subdued */
+  --success-color: #22c55e; /* Softer green */
+  --info-color: #4299c9; /* Softer blue */
+  --warning-color: #e9c46a; /* Softer gold */
+  --danger-color: #e76f6f; /* Softer red */
+
+  /* Text Colors - Slightly warmer */
+  --text-color: #3a4049;
   --text-light: #8898aa;
+
+  /* Background Colors */
   --background: #ffffff;
   --background-alt: #f7fafc;
+
+  /* Border & UI Elements */
   --border-color: #e9ecef;
   --border-radius: 8px;
-  --box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
-  --box-shadow-hover: 0 4px 20px rgba(0, 0, 0, 0.1);
-  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  --font-main: 'Noto Sans KR', sans-serif;
+  --box-shadow: 0 1px 6px rgba(0, 0, 0, 0.03);
+  --box-shadow-hover: 0 2px 10px rgba(0, 0, 0, 0.06);
+  --transition: all 0.2s ease;
+  --font-main: "Noto Sans KR", sans-serif;
 }
 
 * {
@@ -56,21 +68,22 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 30px;
-  background: linear-gradient(87deg, var(--primary-color) 0, var(--primary-dark) 100%);
+  background-color: var(--primary-color); /* 그라데이션 대신 단색 사용 */
   color: white;
   position: relative;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.board-header::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 6px;
-  background: linear-gradient(90deg, var(--secondary-color), var(--success-color), var(--info-color), var(--warning-color), var(--danger-color));
-  opacity: 0.7;
-}
+/*.board-header::after {*/
+/*  content: '';*/
+/*  position: absolute;*/
+/*  bottom: 0;*/
+/*  left: 0;*/
+/*  right: 0;*/
+/*  height: 6px;*/
+/*  background: linear-gradient(90deg, var(--secondary-color), var(--success-color), var(--info-color), var(--warning-color), var(--danger-color));*/
+/*  opacity: 0.7;*/
+/*}*/
 
 .board-title {
   font-size: 24px;
@@ -93,7 +106,8 @@ body {
 
 .write-button {
   background-color: white;
-  color: var(--primary-color);
+  color: var(--secondary-dark);
+  /* color: #a8a8a8; */
   border: none;
   padding: 12px 24px;
   border-radius: 50px;
