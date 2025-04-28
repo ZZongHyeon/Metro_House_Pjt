@@ -62,13 +62,13 @@ function fn_submit() {
 					<img src="/resources/images/main2.png" alt="슬라이드 2">
 				</div>
 				<div class="slide">
-					<img src="../resources/images/main3.png" alt="슬라이드 3">
+					<img src="/resources/images/main3.png" alt="슬라이드 3">
 				</div>
 				<div class="slide">
-					<img src="../resources/images/main4.png" alt="슬라이드 4">
+					<img src="/resources/images/main4.png" alt="슬라이드 4">
 				</div>
 				<div class="slide">
-					<img src="../resources/images/main5.png" alt="슬라이드 5">
+					<img src="/resources/images/main5.png" alt="슬라이드 5">
 				</div>
 			</div>
 			<!-- 슬라이더 인디케이터 추가 -->
@@ -209,7 +209,7 @@ function fn_submit() {
 					<i class="fas fa-search-location"></i>
 				</div>
 				<div class="stat-info">
-					<h3>오늘 조회수</h3>
+					<h3>오늘 방문자 수</h3>
 					<div class="number">
 						<fmt:formatNumber value="${todayViews}" type="number" />
 					</div>
