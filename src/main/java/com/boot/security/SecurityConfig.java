@@ -53,7 +53,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests()
                 .antMatchers("/", "/auth/**", "/resources/**", "/js/**", "/css/**", "/images/**", 
-                        "/checkExistingSession", "/loginForm", "/joinForm", "/joinProc")
+                        "/checkExistingSession", "/loginForm", "/joinForm", "/joinProc", "/mailConfirm")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
