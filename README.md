@@ -67,6 +67,61 @@
 
 </pre></details>
 
+<details><summary><b>📝 패치 (2025-04-28)</b></summary>
+
+<pre><b>카카오맵api:</b>
+• 카카오맵 api이용하여 지도 표현
+
+<b>검색 & 지도:</b>
+• 시, 구/군, 지하철역 검색 시 해당 지하철역 포커싱되고 마커등록
+• 주변 아파트 마커등록, 데이터표현(현재 임시데이터)
+  
+</pre></details>
+
+<details><summary><b>📝 패치 (2025-04-29)</b></summary>
+
+<pre><b>Spring Security:</b>
+• 서버쪽 보안 강화
+• 비로그인시 필요한 로그인&회원가입&이메일인증, 필요한 뷰들 제외
+• 비밀번호 암호화&복호화
+
+<b>이메일 인증:</b>
+• 네이버 SMTP서버이용하여 이메일전송
+• 서버에 저장하여 검증
+
+</pre></details>
+
+
+<details><summary><b>application.properties</b></summary>
+
+<pre>spring.application.name=Metro_House_Pjt
+server.port=8485
+
+#Spring MVC
+spring.mvc.view.prefix=/WEB-INF/views/
+spring.mvc.view.suffix=.jsp
+
+#Database config
+spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
+spring.datasource.url=jdbc:oracle:thin:@localhost:1521:xe
+spring.datasource.username=metro_house
+spring.datasource.password=1234
+
+#mybatis config
+mybatis.config-location=classpath:mybatis-config.xml
+
+#kakao.api.key=${KAKAO_API_KEY}
+kakao.api.key=카카오 api 등록해주세요.
+
+#naver email
+smtp_id=네이버 아이디 등록해주세요.
+smtp_pw=네이버 비밀번호 등록해주세요.
+
+
+</pre></details>
+
+
+
 <details>
   <summary>게시글 더미값 삽입</summary>
   <pre><code>
