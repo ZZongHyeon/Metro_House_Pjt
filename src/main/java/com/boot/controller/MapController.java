@@ -30,7 +30,7 @@ public class MapController {
 			System.out.println(entry.getKey() + ": " + entry.getValue());
 		}
 		
-		model.addAttribute("currentPage", "search_map"); // 헤더 빅별용
+		model.addAttribute("currentPage", "search_map"); // 헤더 식별용
 		model.addAttribute("searchParams", param);
 		model.addAttribute("kakaoApiKey", kakaoApiKey);
 		model.addAttribute("stationName", param.get("station"));
