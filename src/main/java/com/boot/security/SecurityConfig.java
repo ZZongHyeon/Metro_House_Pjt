@@ -45,29 +45,30 @@ public class SecurityConfig {
         authenticationManagerBuilder
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder); // 메서드 내에서 직접 passwordEncoder() 호출
+        
         AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
         
         httpSecurity
                 .authenticationManager(authenticationManager)
                 .csrf().disable()
                 .authorizeHttpRequests()
-                    .antMatchers("/", "/auth/**", "/resources/**", "/js/**", "/css/**", "/images/**",
-                            "/checkExistingSession", "/loginForm", "/joinForm", "/adminjoinForm")
-                    .permitAll()
-                    .anyRequest()
-                    .authenticated()
+                .antMatchers("/", "/auth/**", "/resources/**", "/js/**", "/css/**", "/images/**", 
+                        "/checkExistingSession", "/loginForm", "/joinForm", "/joinProc")
+                .permitAll()
+                .anyRequest()
+                .authenticated()
                 .and()
                 .formLogin()
-                    .loginPage("/loginForm")
-                    .loginProcessingUrl("/login") // 폼의 action과 일치
-                    .usernameParameter("userId") // 폼의 아이디 필드명
-                    .passwordParameter("userPw") // 폼의 비밀번호 필드명
-                    .successHandler(successHandler) // 커스텀 성공 핸들러
-                    .failureHandler(failureHandler) // 커스텀 실패 핸들러
+                .loginPage("/loginForm")
+                .loginProcessingUrl("/login") // 폼의 action과 일치
+                .usernameParameter("userId") // 폼의 아이디 필드명
+                .passwordParameter("userPw") // 폼의 비밀번호 필드명
+                .successHandler(successHandler) // 커스텀 성공 핸들러
+                .failureHandler(failureHandler) // 커스텀 실패 핸들러
                 .and()
                 .logout()
-                    .logoutSuccessUrl("/loginForm");
-                    
+                .logoutSuccessUrl("/loginForm");
+        
         return httpSecurity.build();
     }
 }
