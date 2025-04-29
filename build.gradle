@@ -26,7 +26,8 @@ repositories {
 
 dependencies {
 
-	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-security' // 스프링시큐리티
+	implementation 'org.springframework.boot:spring-boot-starter-mail:2.7.1' // 이메일인증관련
 
 	implementation 'me.paulschwarz:spring-dotenv:2.5.4'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
