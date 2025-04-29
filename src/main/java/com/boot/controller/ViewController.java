@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class ViewController {
 	private int todayViews = 0;
-	@RequestMapping("/main")
+	@RequestMapping("/")
 	public String getMainBookInfo(Model model, HttpSession session) {
 	    // 세션에서 방문 여부 확인
 	    Boolean hasVisited = (Boolean) session.getAttribute("hasVisitedToday");
@@ -34,13 +34,15 @@ public class ViewController {
 	    return "main";
 	}
 
-	@RequestMapping("/loginView")
+//	@RequestMapping("/loginView")
+	@RequestMapping("/auth/loginForm")
 	public String loginPage(HttpServletRequest request) {
 
 		return "login";
 	}
 
-	@RequestMapping("/joinView")
+//	@RequestMapping("/joinView")
+	@RequestMapping("/auth/joinForm")
 	public String join() {
 		return "join";
 	}

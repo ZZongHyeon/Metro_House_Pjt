@@ -8,7 +8,7 @@
 <title>메트로하우스 - 회원가입</title>
 <link rel="stylesheet" type="text/css" href="/resources/css/joinview.css">
 <script src="/resources/js/join.js"></script>
-<script src="${pageContext.request.contextPath}/js/jquery.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
 function fn_submit() {
     const form = document.getElementById("joinForm"); 
@@ -21,10 +21,10 @@ function fn_submit() {
     $.ajax({
         type: "post",
         data: formData,
-        url: "join",
+        url: "joinProc",
         success: function(data) {
             alert("회원가입이 정상적으로 처리되었습니다.");
-            location.href = "loginView";
+            location.href = "loginForm";
         },
         error: function(xhr) {
             if (xhr.status === 409) {

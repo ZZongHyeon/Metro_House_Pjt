@@ -56,5 +56,9 @@
 		select userId from userinfo
 		where userId=#{userId}
 	</select>
+	
+	<select id="findByUserId" parameterType="string" resultType="com.boot.dto.UserDTO">
+    	SELECT * FROM users WHERE userId = #{userId}
+	</select>
 </mapper>
 

@@ -31,7 +31,7 @@
 	<header class="top-header">
 		<div class="header-container">
 			<div class="logo-section">
-				<a href="/main" class="logo-link"> <img
+				<a href="/" class="logo-link"> <img
 					src="/resources/images/logo_2.png" alt="MetroHouse"
 					class="logo-img"
 					onerror="this.src='/resources/images/default-logo.png'; this.onerror=null;">
