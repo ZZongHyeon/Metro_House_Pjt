@@ -49,11 +49,10 @@
 
 				<div class="form-group">
 					<label>비밀번호 <span class="required-mark">*</span></label>
-					<input type="password" name="userPw" id="userPw" required placeholder="영문, 숫자, 특수문자 포함 8~16자">
-					<!-- 실제 할 때 풀어주세요 -->
-					<!-- pattern="^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*]).{6,16}$"
-				oninvalid="this.setCustomValidity('비밀번호는 영문, 숫자, 특수문자를 포함하여 6~16자로 입력해주세요.')"
-				oninput="checkPasswordStrength(this); setCustomValidity('')"> -->
+					<input type="password" name="userPw" id="userPw" required placeholder="영문, 숫자, 특수문자 포함 8~16자"
+					pattern="^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*]).{6,16}$"
+					oninvalid="this.setCustomValidity('비밀번호는 영문, 숫자, 특수문자를 포함하여 6~16자로 입력해주세요.')"
+					oninput="checkPasswordStrength(this); setCustomValidity('')">
 					<div class="password-strength">
 						<div class="password-strength-bar" id="passwordStrengthBar"></div>
 					</div>
@@ -192,6 +191,9 @@
 		</div>
 
 
+	</body>
+
+	</html>
 	</body>
 
 	</html>
