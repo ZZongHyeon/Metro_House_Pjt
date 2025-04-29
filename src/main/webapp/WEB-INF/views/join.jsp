@@ -82,10 +82,11 @@ function fn_submit() {
 				<label>비밀번호 <span class="required-mark">*</span></label>
 				<input type="password" name="userPw" id="userPw"
 				required
-				placeholder="영문, 숫자, 특수문자 포함 8~16자"
-				pattern="^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*]).{6,16}$"
+				placeholder="영문, 숫자, 특수문자 포함 8~16자">
+				<!-- 실제 할 때 풀어주세요 -->
+				<!-- pattern="^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*]).{6,16}$"
 				oninvalid="this.setCustomValidity('비밀번호는 영문, 숫자, 특수문자를 포함하여 6~16자로 입력해주세요.')"
-				oninput="checkPasswordStrength(this); setCustomValidity('')">
+				oninput="checkPasswordStrength(this); setCustomValidity('')"> -->
 				<div class="password-strength">
 				    <div class="password-strength-bar" id="passwordStrengthBar"></div>
 				</div>
@@ -164,7 +165,7 @@ function fn_submit() {
 			<div class="form-group full-width">
 				<label>상세 주소</label>
 				<input type="text" name="userDetailAddress" placeholder="상세 주소 입력 (선택사항)">
-				<span class="input-hint">아파트, ���/호수 등 상세 주소를 입력해주세요.</span>
+				<span class="input-hint">아파트/호수 등 상세 주소를 입력해주세요.</span>
 			</div>
 			
 			<div class="terms-container">

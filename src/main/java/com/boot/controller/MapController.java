@@ -29,10 +29,8 @@ public class MapController {
 		for (Map.Entry<String, String> entry : param.entrySet()) {
 			System.out.println(entry.getKey() + ": " + entry.getValue());
 		}
-//		ArrayList<ApartmentDTO> list = new ArrayList<>(); 
-		// 모델에 파라미터 추가 (뷰에서 사용 가능)
-//		request.setAttribute("searchParams", param);
-//		model.addAttribute("list", list);
+		
+		model.addAttribute("currentPage", "search_map"); // 헤더 빅별용
 		model.addAttribute("searchParams", param);
 		model.addAttribute("kakaoApiKey", kakaoApiKey);
 		model.addAttribute("stationName", param.get("station"));

@@ -13,36 +13,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
-
 @Controller
 public class ViewController {
 	private int todayViews = 0;
+
 	@RequestMapping("/")
 	public String getMainBookInfo(Model model, HttpSession session) {
-	    // 세션에서 방문 여부 확인
-	    Boolean hasVisited = (Boolean) session.getAttribute("hasVisitedToday");
-	    
-	    // 방문 기록이 없는 경우에만 카운트 증가
-	    if (hasVisited == null || !hasVisited) {
-	        todayViews += 1;
-	        // 방문 기록을 세션에 저장
-	        session.setAttribute("hasVisitedToday", true);
-	    }
-	    
-	    model.addAttribute("todayViews", todayViews);
-	    return "main";
+		// 세션에서 방문 여부 확인
+		Boolean hasVisited = (Boolean) session.getAttribute("hasVisitedToday");
+
+		// 방문 기록이 없는 경우에만 카운트 증가
+		if (hasVisited == null || !hasVisited) {
+			todayViews += 1;
+			// 방문 기록을 세션에 저장
+			session.setAttribute("hasVisitedToday", true);
+		}
+		model.addAttribute("currentPage", "main"); // 헤더 식별용
+		model.addAttribute("todayViews", todayViews);
+		return "main";
 	}
 
 //	@RequestMapping("/loginView")
-	@RequestMapping("/auth/loginForm")
+	@RequestMapping("/loginForm")
 	public String loginPage(HttpServletRequest request) {
 
 		return "login";
 	}
 
 //	@RequestMapping("/joinView")
-	@RequestMapping("/auth/joinForm")
+	@RequestMapping("/joinForm")
 	public String join() {
 		return "join";
 	}

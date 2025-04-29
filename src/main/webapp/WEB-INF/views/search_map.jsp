@@ -90,26 +90,29 @@
                         <p><strong>지하철역 :</strong> ${searchParams.station}</p>
                     </div>
 
-                    <div class="map-container">
-                        <div id="map"></div>
-                        <div class="map-loading" id="mapLoading">
-                            <p style="text-align: center; color: var(--gray-500);">
-                                <i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i> 지도를 불러오는 중입니다...
-                            </p>
+                    <div class="map-apartment-container">
+                        <div class="map-container">
+                            <div id="map"></div>
+                            <div class="map-loading" id="mapLoading">
+                                <p style="text-align: center; color: var(--gray-500);">
+                                    <i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i> 지도를 불러오는 중입니다...
+                                </p>
+                            </div>
                         </div>
-                    </div>
-
-                    <h2 style="margin-bottom: 20px; font-size: 18px;">
-                        <i class="fas fa-building" style="color: var(--primary); margin-right: 8px;"></i>
-                        주변 아파트 목록
-                    </h2>
-
-                    <div class="apartment-list" id="apartmentList">
-                        <!-- 아파트 목록이 여기에 표시됩니다 -->
-                        <p style="grid-column: 1 / -1; text-align: center; padding: 50px 0; color: var(--gray-500);"
-                            id="noResultsMessage">
-                            검색 결과가 없습니다. 다른 지하철역을 검색해보세요.
-                        </p>
+                        
+                        <div class="apartment-list-container">
+                            <div class="apartment-list-header">
+                                <i class="fas fa-building"></i>
+                                주변 아파트 목록
+                            </div>
+                            <div class="apartment-list" id="apartmentList">
+                                <!-- 아파트 목록이 여기에 표시됩니다 -->
+                                <p style="text-align: center; padding: 50px 0; color: var(--gray-500);"
+                                    id="noResultsMessage">
+                                    검색 결과가 없습니다. 다른 지하철역을 검색해보세요.
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -255,6 +258,27 @@
                                     // 실제로는 서버에서 데이터를 가져와야 합니다
                                     const apartments = [
                                         {
+                                            id: 1,
+                                            name: "래미안 아파트",
+                                            location: "강남구 역삼동",
+                                            address: "서울특별시 강남구 역삼동 123-45",
+                                            distance: "350m",
+                                            price: 120000,
+                                            size: 84.5,
+                                            rooms: "3",
+                                            bathrooms: "2",
+                                            floor: "12/15",
+                                            buildYear: 2015,
+                                            households: 248,
+                                            parkingRatio: "1.2대/세대",
+                                            heatingType: "지역난방",
+                                            maintenanceFee: 25,
+                                            schools: "역삼초(도보 5분), 역삼중(도보 10분)",
+                                            amenities: "편의점, 카페, 마트, 공원",
+                                            transport: "2호선 역삼역(5분), 146번 버스(3분)",
+                                            lat: parseFloat(stationPlace.y) + 0.002,
+                                            lng: parseFloat(stationPlace.x) + 0.001
+                                        },                                        {
                                             id: 1,
                                             name: "래미안 아파트",
                                             location: "강남구 역삼동",

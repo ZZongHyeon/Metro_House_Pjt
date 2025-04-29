@@ -35,15 +35,15 @@
 				<!-- 			<strong>알림:</strong> 다른 기기에서 이미 로그인된 계정입니다. -->
 				<!-- 		</div> -->
 
-				<form method="post" action="/login_ok" class="login-form" id="loginForm">
+				<form method="post" action="/login" class="login-form" id="loginForm">
 					<div class="form-group">
-						<label for="userId">아이디</label> <input type="text" id="userId" name="userId"
-							placeholder="아이디를 입력하세요" required>
+						<label for="userId">아이디</label>
+						<input type="text" id="userId" name="userId" placeholder="아이디를 입력하세요" required>
 					</div>
 
 					<div class="form-group">
-						<label for="userPw">비밀번호</label> <input type="password" id="userPw" name="userPw"
-							placeholder="비밀번호를 입력하세요" required>
+						<label for="userPw">비밀번호</label>
+						<input type="password" id="userPw" name="userPw" placeholder="비밀번호를 입력하세요" required>
 					</div>
 
 					<div class="forgot-password">
@@ -52,9 +52,6 @@
 
 					<div class="button-group">
 						<input type="submit" value="로그인" class="btn btn-primary">
-						<!-- <input
-					type="button" value="회원가입" onclick="location='/auth/joinForm'"
-					class="btn btn-secondary"> -->
 					</div>
 				</form>
 
@@ -74,7 +71,7 @@
 					</div>
 
 					<p>
-						메트로하우스 회원이 아니신가요? <a href="/auth/joinForm"
+						메트로하우스 회원이 아니신가요? <a href="/joinForm"
 							style="color: #1e3a8a; text-decoration: none;">회원가입</a>
 					</p>
 				</div>
@@ -91,6 +88,8 @@
 						var urlParams = new URLSearchParams(window.location.search);
 						if (urlParams.has('error')) {
 							$('#loginErrorAlert').addClass('show');
+						} else {
+							$('#loginErrorAlert').removeClass('show');
 						}
 					}
 

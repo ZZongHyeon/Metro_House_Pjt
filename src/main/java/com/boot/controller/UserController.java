@@ -36,38 +36,38 @@ public class UserController {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
-	@RequestMapping("/login_ok")
-	public String login(HttpServletRequest request, @RequestParam HashMap<String, String> param) {
-		ArrayList<UserDTO> dtos = service.userLogin(param);
+//	@RequestMapping("/login_ok")
+//	public String login(HttpServletRequest request, @RequestParam HashMap<String, String> param) {
+//		ArrayList<UserDTO> dtos = service.userLogin(param);
+//
+//		if (dtos.isEmpty()) {
+//			// 사용자가 존재하지 않는 경우
+//			return "redirect:loginView?error=invalid";
+//		} else {
+////	        if (param.get("userPw").equals(dtos.get(0).getUserPw())) {
+//			if (passwordEncoder.matches(param.get("userPw"), dtos.get(0).getUserPw())) {
+//				UserDTO dto = service.getUserInfo(param);
+//
+//				// 사용자 ID 가져오기
+//				String userId = dto.getUserId();
+//
+//				// 새 세션 생성
+//				HttpSession session = request.getSession(true);
+//				session.setAttribute("loginUser", dto);
+//
+//				// 세션 정보 저장
+//				HashMap<String, String> sessionParam = new HashMap<>();
+//				sessionParam.put("userId", userId);
+//				sessionParam.put("sessionId", session.getId());
+//
+//				return "redirect:";
+//			}
+//			// 비밀번호가 일치하지 않는 경우
+//			return "redirect:loginView?error=invalid";
+//		}
+//	}
 
-		if (dtos.isEmpty()) {
-			// 사용자가 존재하지 않는 경우
-			return "redirect:loginView?error=invalid";
-		} else {
-//	        if (param.get("userPw").equals(dtos.get(0).getUserPw())) {
-			if (passwordEncoder.matches(param.get("userPw"), dtos.get(0).getUserPw())) {
-				UserDTO dto = service.getUserInfo(param);
-
-				// 사용자 ID 가져오기
-				String userId = dto.getUserId();
-
-				// 새 세션 생성
-				HttpSession session = request.getSession(true);
-				session.setAttribute("loginUser", dto);
-
-				// 세션 정보 저장
-				HashMap<String, String> sessionParam = new HashMap<>();
-				sessionParam.put("userId", userId);
-				sessionParam.put("sessionId", session.getId());
-
-				return "redirect:";
-			}
-			// 비밀번호가 일치하지 않는 경우
-			return "redirect:loginView?error=invalid";
-		}
-	}
-
-	@RequestMapping("/auth/joinProc")
+	@RequestMapping("/joinProc")
 	public ResponseEntity<String> join(HttpServletRequest request, @RequestParam HashMap<String, String> param) {
 
 		if (service.checkId(param) != null) {
@@ -166,5 +166,24 @@ public class UserController {
 		}
 
 		return "redirect:loginView";
+	}
+	
+	@RequestMapping(value = "/checkExistingSession", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> checkExistingSession(@RequestParam("userId") String userId) {
+	    Map<String, Object> response = new HashMap<>();
+	    
+	    try {
+	        log.info("세션 확인 요청: userId={}", userId);
+	        
+	        // 간단한 구현: 항상 세션이 없다고 응답
+	        response.put("exists", false);
+	        
+	        return ResponseEntity.ok(response);
+	    } catch (Exception e) {
+	        log.error("세션 확인 중 오류 발생: " + e.getMessage(), e);
+	        response.put("error", "세션 확인 중 오류가 발생했습니다.");
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+	    }
 	}
 }

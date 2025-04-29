@@ -50,6 +50,7 @@ public class BoardController {
 		ArrayList<BoardDTO> list = service.boardView(criteriaDTO);
 		int total = service.getTotalCount(criteriaDTO);
 
+		model.addAttribute("currentPage", "board_view"); // 헤더 식별용
 		model.addAttribute("boardList", list);
 		model.addAttribute("pageMaker", new PageDTO(total, criteriaDTO));
 

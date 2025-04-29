@@ -1,7 +1,10 @@
 package com.boot.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -9,33 +12,62 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@EnableWebSecurity // Security Filter를 등록
-@EnableGlobalMethodSecurity(prePostEnabled = true) // 특정 주소로 접근시 권한 및 인증을 미리 체크
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
+    
+    @Autowired
+    private CustomUserDetailsService userDetailsService;
+    
+    @Autowired
+    private CustomAuthenticationSuccessHandler successHandler;
+    
+    @Autowired
+    private CustomAuthenticationFailureHandler failureHandler;
+    
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+    
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .csrf().disable() // csrf 토큰 비활성화
-                .authorizeHttpRequests() // 어떤 request 요청이 온다면 ->
-                    .antMatchers("/","/auth/**","/resources/js/**", "/resources/css/**", "/resources/images/**",
-                    		"/checkExistingSession") // 해당 경로들은 인증없이 이용 가능
-                    .permitAll() // 접근 허용
-                    .anyRequest() // 다른 요청들의 경우
-                    .authenticated() // 인증이 필요함 - 없는 경우 접근 제한 페이지를 보여줌
-                .and() // and
-                .formLogin() // 로그인 폼 설정
-                    .loginPage("/auth/loginForm") // 로그인 경로 설정
-                    .defaultSuccessUrl("/") // 로그인 성공시 리다이렉션 경로 설정
-        		.and()
-                .logout()
-                	.logoutSuccessUrl("/"); // 로그아웃 성공시 리다이렉션 경로 설정
-                    
-
-        return httpSecurity.build();
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        // 메서드 내에서 직접 passwordEncoder() 호출
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder)
+                .and()
+                .build();
     }
     
-    @Bean // password를 해쉬 함수를 적용해줌 - 암호화
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        // AuthenticationManager 설정
+        AuthenticationManagerBuilder authenticationManagerBuilder = httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder); // 메서드 내에서 직접 passwordEncoder() 호출
+        AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
+        
+        httpSecurity
+                .authenticationManager(authenticationManager)
+                .csrf().disable()
+                .authorizeHttpRequests()
+                    .antMatchers("/", "/auth/**", "/resources/**", "/js/**", "/css/**", "/images/**",
+                            "/checkExistingSession", "/loginForm", "/joinForm", "/adminjoinForm")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()
+                .and()
+                .formLogin()
+                    .loginPage("/loginForm")
+                    .loginProcessingUrl("/login") // 폼의 action과 일치
+                    .usernameParameter("userId") // 폼의 아이디 필드명
+                    .passwordParameter("userPw") // 폼의 비밀번호 필드명
+                    .successHandler(successHandler) // 커스텀 성공 핸들러
+                    .failureHandler(failureHandler) // 커스텀 실패 핸들러
+                .and()
+                .logout()
+                    .logoutSuccessUrl("/loginForm");
+                    
+        return httpSecurity.build();
     }
 }

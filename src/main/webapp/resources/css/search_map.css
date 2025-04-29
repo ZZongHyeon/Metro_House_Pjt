@@ -1,346 +1,429 @@
+.container,
+.container-fluid,
+.wrapper,
+body > .content-wrapper,
+main.content {
+  max-width: 1600px !important; /* 최대 너비 증가 */
+  width: 95% !important; /* 화면의 95% 너비 사용 */
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
 .search-result-container {
-    background-color: white;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    padding: 25px;
-    margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  padding: 25px;
+  margin-bottom: 30px;
 }
 
 .search-result-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid var(--gray-200);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--gray-200);
 }
 
 .search-result-title {
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--primary);
-    display: flex;
-    align-items: center;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
 }
 
 .search-result-title i {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
 .search-info {
-    background-color: var(--gray-100);
-    border-radius: var(--border-radius);
-    padding: 15px;
-    margin-bottom: 20px;
+  background-color: var(--gray-100);
+  border-radius: var(--border-radius);
+  padding: 15px;
+  margin-bottom: 20px;
 }
 
 .search-info p {
-    margin: 5px 0;
-    font-size: 15px;
+  margin: 5px 0;
+  font-size: 15px;
 }
 
 .search-info strong {
-    color: var(--primary);
+  color: var(--primary);
 }
 
+/* 지도와 아파트 목록을 감싸는 컨테이너 */
+.map-apartment-container {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* 지도 컨테이너 스타일 수정 */
 .map-container {
-    width: 100%;
-    height: 500px;
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    margin-bottom: 30px;
-    position: relative;
+  flex: 1;
+  width: auto;
+  height: 800px;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  margin-bottom: 0;
+  position: relative;
+  border: 1px solid var(--gray-200);
+  box-shadow: var(--box-shadow);
 }
 
 #map {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .map-loading {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(255, 255, 255, 0.8);
-    z-index: 10;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 10;
+}
+.apartment-list-container {
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  background-color: white;
+  padding: 15px;
 }
 
+.apartment-list-header {
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--dark);
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.apartment-list-header i {
+  color: var(--primary);
+  margin-right: 8px;
+}
+
+/* 아파트 목록 스크롤 가능한 컨테이너 */
 .apartment-list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-}
-
-.apartment-card {
-    background-color: white;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    overflow: hidden;
-    transition: var(--transition);
-    border: 1px solid var(--gray-200);
-}
-
-.apartment-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--box-shadow-hover);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  overflow-y: auto;
+  max-height: 730px;
+  padding-right: 10px;
 }
 
 .apartment-image {
-    height: 150px;
-    background-color: var(--gray-100);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  height: 120px;
+  background-color: var(--gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 12px 12px 0 0;
+}
+
+/* .apartment-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--box-shadow-hover);
+} */
+
+.apartment-image {
+  height: 150px;
+  background-color: var(--gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .apartment-image i {
-    font-size: 40px;
-    color: var(--primary);
+  font-size: 40px;
+  color: var(--primary);
 }
 
 .apartment-info {
-    padding: 15px;
+  padding: 15px;
+  min-height: 80px; /* 최소 높이 설정 */
 }
 
 .apartment-name {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 8px;
-    color: var(--dark);
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--dark);
 }
 
 .apartment-location {
-    font-size: 14px;
-    color: var(--gray-500);
-    margin-bottom: 5px;
+  font-size: 14px;
+  color: var(--gray-500);
+  margin-bottom: 5px;
 }
 
 .apartment-details {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-    font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 14px;
 }
 
 .apartment-price {
-    font-weight: 600;
-    color: var(--primary);
+  font-weight: 600;
+  color: var(--primary);
 }
 
 .custom-overlay {
-    position: relative;
-    bottom: 85px;
-    border-radius: 6px;
-    float: left;
-    background: #fff;
-    padding: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  position: relative;
+  bottom: 85px;
+  border-radius: 6px;
+  float: left;
+  background: #fff;
+  padding: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 .custom-overlay:after {
-    content: '';
-    position: absolute;
-    bottom: -8px;
-    left: 50%;
-    margin-left: -8px;
-    width: 0;
-    height: 0;
-    border-width: 8px 8px 0 8px;
-    border-style: solid;
-    border-color: #fff transparent transparent transparent;
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  margin-left: -8px;
+  width: 0;
+  height: 0;
+  border-width: 8px 8px 0 8px;
+  border-style: solid;
+  border-color: #fff transparent transparent transparent;
 }
 
 .custom-overlay .title {
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--primary);
-    margin-bottom: 5px;
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 5px;
 }
 
 .custom-overlay .close {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    color: #888;
-    width: 17px;
-    height: 17px;
-    background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: #888;
+  width: 17px;
+  height: 17px;
+  background: url("https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png");
 }
 
 .apartment-sub-details {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 5px;
-    font-size: 12px;
-    color: var(--gray-500);
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+  font-size: 12px;
+  color: var(--gray-500);
 }
 
 /* 향상된 오버레이 스타일 */
 .apartment-overlay {
-    width: 320px;
-    padding: 0;
-    border-radius: 8px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
+  width: 320px;
+  padding: 0;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
 }
 
 .overlay-header {
-    background-color: var(--primary);
-    color: white;
-    padding: 12px 15px;
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  background-color: var(--primary);
+  color: white;
+  padding: 12px 15px;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .overlay-header .title {
-    font-size: 16px;
-    font-weight: 600;
-    color: white;
-    margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  margin: 0;
 }
 
 .overlay-header .close {
-    position: relative;
-    top: 0;
-    right: 0;
-    width: 20px;
-    height: 20px;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    color: white;
-    border: none;
-    cursor: pointer;
+  position: relative;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: white;
+  border: none;
+  cursor: pointer;
 }
 
 .overlay-header .close:after {
-    content: '×';
+  content: "×";
 }
 
 .overlay-body {
-    padding: 15px;
-    background-color: white;
+  padding: 15px;
+  background-color: white;
 }
 
 .overlay-section {
-    margin-bottom: 12px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--gray-200);
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--gray-200);
 }
 
 .overlay-section:last-child {
-    margin-bottom: 0;
-    padding-bottom: 0;
-    border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
 }
 
 .overlay-price {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--primary);
-    margin-bottom: 5px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 5px;
 }
 
 .overlay-size {
-    font-size: 14px;
-    color: var(--dark);
+  font-size: 14px;
+  color: var(--dark);
 }
 
 .overlay-address {
-    font-size: 14px;
-    color: var(--dark);
-    margin-bottom: 5px;
+  font-size: 14px;
+  color: var(--dark);
+  margin-bottom: 5px;
 }
 
 .overlay-distance {
-    font-size: 13px;
-    color: var(--gray-500);
+  font-size: 13px;
+  color: var(--gray-500);
 }
 
 .overlay-details {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
 }
 
 .detail-item {
-    font-size: 13px;
-    color: var(--dark);
+  font-size: 13px;
+  color: var(--dark);
 }
 
 .detail-item span {
-    color: var(--gray-500);
-    margin-right: 5px;
+  color: var(--gray-500);
+  margin-right: 5px;
 }
 
 .overlay-footer {
-    display: flex;
-    gap: 10px;
-    padding: 12px 15px;
-    background-color: var(--gray-100);
+  display: flex;
+  gap: 10px;
+  padding: 12px 15px;
+  background-color: var(--gray-100);
 }
 
 .overlay-button {
-    flex: 1;
-    padding: 8px 0;
-    border: none;
-    border-radius: 4px;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: var(--transition);
+  flex: 1;
+  padding: 8px 0;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
 }
 
 .overlay-button.favorite {
-    background-color: white;
-    color: var(--primary);
-    border: 1px solid var(--primary);
+  background-color: white;
+  color: var(--primary);
+  border: 1px solid var(--primary);
 }
 
 .overlay-button.favorite:hover {
-    background-color: var(--primary-light);
+  background-color: var(--primary-light);
 }
 
 .overlay-button.contact {
-    background-color: var(--primary);
-    color: white;
+  background-color: var(--primary);
+  color: white;
 }
 
 .overlay-button.contact:hover {
-    background-color: var(--primary-dark);
+  background-color: var(--primary-dark);
 }
 
 /* 아파트 카드 스타일 개선 */
 .apartment-card {
-    cursor: pointer;
+    margin-top: 10px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px  rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1),
+    0 10px 15px -5px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid var(--gray-200);
+  width: 100%;
+  min-height: 200px; /* 최소 높이 설정 */
+  flex-shrink: 0; /* 크기가 줄어들지 않도록 설정 */
+  cursor: pointer;
 }
-
+.apartment-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08),
+    0 15px 20px -10px rgba(0, 0, 0, 0.1);
+  border-color: var(--gray-300);
+}
 .apartment-sub-details {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 5px;
-    font-size: 12px;
-    color: var(--gray-500);
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+  font-size: 12px;
+  color: var(--gray-500);
 }
 
 /* 반응형 스타일 */
 @media (max-width: 576px) {
-    .apartment-overlay {
-        width: 280px;
-    }
-    
-    .overlay-details {
-        grid-template-columns: 1fr;
-    }
+  .apartment-overlay {
+    width: 280px;
+  }
+
+  .overlay-details {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 992px) {
+  .map-apartment-container {
+    flex-direction: column;
+  }
+
+  .apartment-list-container {
+    width: 100%;
+  }
+
+  .apartment-list {
+    max-height: 500px;
+  }
 }

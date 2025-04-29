@@ -268,10 +268,10 @@
 										메트로하우스는 지하철역 주변 아파트 시세를 확인할 수 있는 서비스를 제공합니다.<br>서비스를
 										이용하시려면 로그인이 필요합니다.
 									</p>
-									<a href="/loginView" class="btn"> <i class="fas fa-sign-in-alt"></i> 로그인 하러 가기
+									<a href="/loginForm" class="btn"> <i class="fas fa-sign-in-alt"></i> 로그인 하러 가기
 									</a>
 									<p style="margin-top: 20px;">
-										계정이 없으신가요? <a href="joinView">회원가입</a>
+										계정이 없으신가요? <a href="joinForm">회원가입</a>
 									</p>
 								</div>
 								<% } %>

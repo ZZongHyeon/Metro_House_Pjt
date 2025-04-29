@@ -44,13 +44,14 @@
 			</button>
 
 			<nav class="nav-links" id="navLinks">
-				<a href="main" class="nav-link <%=currentPage.contains("main") ? "active" : ""%>">
+				<a href="/" class="nav-link ${currentPage == 'main' ? 'active' : ''}">
 					<i class="nav-icon fa-solid fa-house"></i> <span>메인</span>
-				</a> <a href="board_view"
-					class="nav-link <%=currentPage.contains("board_view") ? "active" : ""%>">
+				</a>
+				<a href="/board_view" class="nav-link ${currentPage == 'board_view' ? 'active' : ''}">
 					<i class="nav-icon fa-solid fa-clipboard-list"></i> <span>게시판</span>
-				</a> <a href="/search_map?majorRegion=서울&district=강남구&station=강남역"
-					class="nav-link <%=currentPage.contains("search_map") ? "active" : ""%>">
+				</a>
+				<a href="/search_map?majorRegion=서울&district=강남구&station=강남역" 
+				   class="nav-link ${currentPage == 'search_map' ? 'active' : ''}">
 					<i class="nav-icon fa-solid fa-map"></i> <span>지도</span>
 				</a>
 
@@ -69,9 +70,9 @@
 					<%
 					if (user == null) {
 					%>
-					<a href="/loginView" class="auth-link login-link"> <i
+					<a href="/loginForm" class="auth-link login-link"> <i
 						class="fa-solid fa-right-to-bracket"></i> 로그인
-					</a> <a href="/joinView" class="auth-link register-link">
+					</a> <a href="/joinForm" class="auth-link register-link">
 						<i class="fa-solid fa-user-plus"></i> 회원가입
 					</a>
 					<%
@@ -136,9 +137,9 @@
 				} else {
 				%>
 				<div class="auth-buttons">
-					<a href="/loginView" class="auth-link login-link"> <i
+					<a href="/loginForm" class="auth-link login-link"> <i
 						class="fa-solid fa-right-to-bracket"></i> 로그인
-					</a> <a href="/joinView" class="auth-link register-link">
+					</a> <a href="/joinForm" class="auth-link register-link">
 						<i class="fa-solid fa-user-plus"></i> 회원가입
 					</a>
 				</div>
