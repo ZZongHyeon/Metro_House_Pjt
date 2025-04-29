@@ -11,9 +11,9 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 @Configuration
 public class MailConfig {
 
-	@Value("${smtp.id}")
+	@Value("${smtp_id}")
     private String smtpID;
-	@Value("${smtp.pw}")
+	@Value("${smtp_pw}")
 	private String smtpPW;
 	
 	

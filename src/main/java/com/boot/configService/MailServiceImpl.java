@@ -33,18 +33,43 @@ public class MailServiceImpl implements MailService {
 		message.setSubject("Metro_House 회원가입 이메일 인증");// 제목
 
 		String msgg = "";
-		msgg += "<div style='margin:100px;'>";
-		msgg += "<h1> 안녕하세요</h1>";
-		msgg += "<h1> 메트로하우스입니다</h1>";
-		msgg += "<br>";
-		msgg += "<p>아래 코드를 회원가입 창으로 돌아가 입력해주세요<p>";
-		msgg += "<br>";
-		msgg += "<div align='center' style='border:1px solid black; font-family:verdana';>";
-		msgg += "<h3 style='color:blue;'>회원가입 인증 코드입니다.</h3>";
-		msgg += "<div style='font-size:130%'>";
-		msgg += "CODE : <strong>";
-		msgg += ePw + "</strong><div><br/> "; // 메일에 인증번호 넣기
-		msgg += "</div>";
+		msgg += "<!DOCTYPE html>";
+		msgg += "<html lang='ko'>";
+		msgg += "<head>";
+		msgg += "  <meta charset='UTF-8'>";
+		msgg += "  <meta name='viewport' content='width=device-width, initial-scale=1.0'>";
+		msgg += "  <title>메트로하우스 회원가입 인증</title>";
+		msgg += "</head>";
+		msgg += "<body style='margin: 0; padding: 0; font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; background-color: #f4f4f4;'>";
+		msgg += "  <table role='presentation' cellspacing='0' cellpadding='0' border='0' align='center' width='100%' style='max-width: 600px; margin: auto; background-color: #ffffff; border-radius: 8px; box-shadow:0 4px 8px rgba(0, 0, 0, 0.05); border: 1px solid lightgray;'>";
+		msgg += "    <tr>";
+		msgg += "      <td style='padding: 40px 30px 20px 30px; text-align: center;'>";
+		msgg += "        <h1 style='color: #333333; font-size: 28px; margin: 0; font-weight: 600;'>안녕하세요</h1>";
+		msgg += "        <h2 style='color: #333333; font-size: 24px; margin: 10px 0 30px 0; font-weight: 500;'>메트로하우스입니다</h2>";
+		msgg += "        <div style='height: 3px; width: 80px; background-color: #4A90E2; margin: 0 auto 30px auto;'></div>";
+		msgg += "        <p style='color: #666666; font-size: 16px; line-height: 1.5; margin-bottom: 30px;'>아래 코드를 회원가입 창으로 돌아가 입력해주세요</p>";
+		msgg += "      </td>";
+		msgg += "    </tr>";
+		msgg += "    <tr>";
+		msgg += "      <td style='padding: 0 30px;'>";
+		msgg += "        <div style='background-color: #f8f9fa; border-radius: 6px; padding: 30px; text-align: center; border-left: 4px solid #4A90E2;'>";
+		msgg += "          <h3 style='color: #4A90E2; font-size: 18px; margin: 0 0 15px 0;'>회원가입 인증 코드입니다</h3>";
+		msgg += "          <div style='font-size: 24px; letter-spacing: 2px; margin: 15px 0;'>";
+		msgg += "            <strong style='color: #333333; background-color: #e9ecef; padding: 8px 15px; border-radius: 4px;'>" + ePw + "</strong>";
+		msgg += "          </div>";
+		msgg += "        </div>";
+		msgg += "      </td>";
+		msgg += "    </tr>";
+		msgg += "    <tr>";
+		msgg += "      <td style='padding: 30px; text-align: center;'>";
+		msgg += "        <p style='color: #999999; font-size: 14px; margin: 0;'>본 메일은 발신 전용이며, 문의사항은 고객센터를 이용해 주세요.</p>";
+		msgg += "        <p style='color: #999999; font-size: 14px; margin: 10px 0 0 0;'>© 2025 메트로하우스. All rights reserved.</p>";
+		msgg += "      </td>";
+		msgg += "    </tr>";
+		msgg += "  </table>";
+		msgg += "</body>";
+		msgg += "</html>";
+
 		message.setText(msgg, "utf-8", "html");// 내용, charset 타입, subtype
 		// 보내는 사람의 이메일 주소, 보내는 사람 이름
 		message.setFrom(new InternetAddress("nskynet5374@naver.com", "Metro_House"));// 보내는 사람
