@@ -91,7 +91,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         // 비밀번호가 BCrypt 형식이 아닌 경우 (개발 환경에서만 사용)
         // 주의: 실제 운영 환경에서는 모든 비밀번호가 이미 암호화되어 있어야 함
         if (password != null && !password.startsWith("$2")) {
-//            log.warn("비밀번호가 암호화되어 있지 않습니다. 개발 환경에서만 사용하세요.");
+            log.warn("비밀번호가 암호화되어 있지 않습니다. 개발 환경에서만 사용하세요.");
             // 실제 운영 환경에서는 이 부분을 제거하고 모든 비밀번호를 미리 암호화해야 함
             // password = passwordEncoder.encode(password);
         }

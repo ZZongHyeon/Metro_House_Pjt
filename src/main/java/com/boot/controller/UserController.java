@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.boot.dto.UserDTO;
 import com.boot.service.UserService;
@@ -69,7 +70,7 @@ public class UserController {
 
 	@RequestMapping("/joinProc")
 	public ResponseEntity<String> join(HttpServletRequest request, @RequestParam HashMap<String, String> param) {
-		System.out.println("@#param => "+ param);
+		System.out.println("@#param => " + param);
 		if (service.checkId(param) != null) {
 
 		} else {
@@ -100,41 +101,70 @@ public class UserController {
 		return "user_update";
 	}
 
+//	@RequestMapping("/userUpdate")
+//	public String updateUserInfo(@RequestParam HashMap<String, String> param, HttpSession session) {
+//		int result = service.updateUserInfo(param);
+//		if (result > 0) {
+//			session.invalidate(); // 세션 초기화 → 자동 로그아웃
+//			return "redirect:/loginView"; // 로그인 페이지로
+//		} else {
+//			return "redirect:/mypage"; // 실패 시 다시 수정 화면
+//		}
+//
+//	}
 	@RequestMapping("/userUpdate")
-	public String updateUserInfo(@RequestParam HashMap<String, String> param, HttpSession session) {
+	@ResponseBody
+	public Map<String, Object> updateUserInfo(@RequestParam HashMap<String, String> param, HttpSession session) {
+		Map<String, Object> response = new HashMap<>();
+
 		int result = service.updateUserInfo(param);
 		if (result > 0) {
+			response.put("success", true);
+			response.put("message", "회원 정보가 성공적으로 수정되었습니다.");
 			session.invalidate(); // 세션 초기화 → 자동 로그아웃
-			return "redirect:/loginView"; // 로그인 페이지로
 		} else {
-			return "redirect:/user_update_view"; // 실패 시 다시 수정 화면
+			response.put("success", false);
+			response.put("message", "회원 정보 수정에 실패했습니다.");
 		}
 
+		return response;
 	}
 
 	@RequestMapping("/userPwUpdate")
-	public String updateUserPwInfo(@RequestParam HashMap<String, String> param, HttpSession session, Model model) {
-		UserDTO user = (UserDTO) session.getAttribute("loginUser");
-		int result = -1;
+	@ResponseBody // JSON 응답을 반환하기 위해 추가
+	public Map<String, Object> updateUserPwInfo(@RequestParam HashMap<String, String> param, HttpSession session) {
+	    Map<String, Object> response = new HashMap<>();
+	    UserDTO user = (UserDTO) session.getAttribute("loginUser");
+	    int result = -1;
 
-		String inputPw = param.get("userPw");
-		String newPw = param.get("userNewPw");
-		String confirmPw = param.get("userNewPwCheck");
+	    String inputPw = param.get("userPw");
+	    String newPw = param.get("userNewPw");
 
-		if (user.getUserPw().equals(param.get("userPw"))) {
-			result = service.updateUserPwInfo(param);
-		}
+	    // 사용자 ID 추가
+	    param.put("userId", user.getUserId());
 
-		if (result > 0) {
-			session.invalidate(); // 세션 초기화 → 자동 로그아웃
-			return "redirect:/loginView"; // 로그인 페이지로
-		} else {
-			model.addAttribute("errorMsg", "현재 비밀번호가 일치하지 않습니다.");
-			model.addAttribute("userPw", inputPw);
-			model.addAttribute("userNewPw", newPw);
-			model.addAttribute("userNewPwCheck", confirmPw);
-			return "mypage"; // 이 JSP가 위 코드와 같은 JSP라고 가정
-		}
+	    // BCryptPasswordEncoder를 사용하여 비밀번호 검증
+	    if (service.verifyPassword(param)) {
+	        // 비밀번호가 일치하면 새 비밀번호로 암호화하여 업데이트
+	        param.put("userNumber", String.valueOf(user.getUserNumber())); // 사용자 번호 추가
+
+	        // 새 비밀번호 암호화 - 명시적으로 추가
+	        String encodedPassword = passwordEncoder.encode(newPw);
+	        param.put("encodedPassword", encodedPassword);
+
+	        result = service.updateUserPwInfo(param);
+	    }
+
+	    if (result > 0) {
+	        response.put("success", true);
+	        response.put("message", "비밀번호가 성공적으로 변경되었습니다. 다시 로그인해주세요.");
+	        session.invalidate(); // 세션 초기화 → 자동 로그아웃
+	    } else {
+	        response.put("success", false);
+	        response.put("message", "현재 비밀번호가 일치하지 않습니다.");
+	    }
+
+	    return response;
 	}
 
 	@RequestMapping("/logout")
@@ -167,23 +197,40 @@ public class UserController {
 
 		return "redirect:loginView";
 	}
-	
+
 	@RequestMapping(value = "/checkExistingSession", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> checkExistingSession(@RequestParam("userId") String userId) {
-	    Map<String, Object> response = new HashMap<>();
-	    
-	    try {
+		Map<String, Object> response = new HashMap<>();
+
+		try {
 //	        log.info("세션 확인 요청: userId={}", userId);
-	        
-	        // 간단한 구현: 항상 세션이 없다고 응답
-	        response.put("exists", false);
-	        
-	        return ResponseEntity.ok(response);
-	    } catch (Exception e) {
-	        log.error("세션 확인 중 오류 발생: " + e.getMessage(), e);
-	        response.put("error", "세션 확인 중 오류가 발생했습니다.");
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-	    }
+
+			// 간단한 구현: 항상 세션이 없다고 응답
+			response.put("exists", false);
+
+			return ResponseEntity.ok(response);
+		} catch (Exception e) {
+			log.error("세션 확인 중 오류 발생: " + e.getMessage(), e);
+			response.put("error", "세션 확인 중 오류가 발생했습니다.");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+	}
+
+	// 사용자 비밀번호 검증위한것
+	@RequestMapping("/verifyPassword")
+	@ResponseBody
+	public Map<String, Object> verifyPassword(@RequestParam HashMap<String, String> param) {
+		Map<String, Object> response = new HashMap<>();
+
+		// 사용자 ID와 비밀번호로 검증
+		boolean isValid = service.verifyPassword(param);
+		log.info("@#test=>" + param);
+		response.put("success", isValid);
+		if (!isValid) {
+			response.put("message", "비밀번호가 일치하지 않습니다.");
+		}
+
+		return response;
 	}
 }

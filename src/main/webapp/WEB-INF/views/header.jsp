@@ -48,17 +48,7 @@
                     <span>지도</span>
                 </a>
 
-                <%
-                if (user != null) {
-                %>
-                <a href="favorite_apartment"
-                    class="nav-link <%=currentPage.contains("user_favorite_apartments") ? "active" : ""%>">
-                    <i class="nav-icon fa-solid fa-heart"></i>
-                    <span>관심아파트</span>
-                </a>
-                <%
-                }
-                %>
+
             </nav>
 
             <div class="user-menu">
@@ -99,20 +89,20 @@
                                         <div class="dropdown-item-description">계정 정보 및 활동 내역 확인</div>
                                     </div>
                                 </a>
-                                <a href="/user_update_view" class="dropdown-item">
-                                    <div class="dropdown-icon-wrapper">
-                                        <i class="dropdown-icon fa-solid fa-pen-to-square"></i>
-                                    </div>
-                                    <div class="dropdown-item-content">
-                                        <div class="dropdown-item-title">내정보수정</div>
-                                        <div class="dropdown-item-description">개인정보 및 설정 변경</div>
-                                    </div>
-                                </a>
+<!--                                <a href="/user_update_view" class="dropdown-item">-->
+<!--                                    <div class="dropdown-icon-wrapper">-->
+<!--                                        <i class="dropdown-icon fa-solid fa-pen-to-square"></i>-->
+<!--                                    </div>-->
+<!--                                    <div class="dropdown-item-content">-->
+<!--                                        <div class="dropdown-item-title">내정보수정</div>-->
+<!--                                        <div class="dropdown-item-description">개인정보 및 설정 변경</div>-->
+<!--                                    </div>-->
+<!--                                </a>-->
                             </div>
 
                             <div class="dropdown-section">
                                 <div class="dropdown-section-title">서비스</div>
-                                <a href="/user_favorite_apartments" class="dropdown-item">
+                                <a href="/favorite_apartment" class="dropdown-item">
                                     <div class="dropdown-icon-wrapper">
                                         <i class="dropdown-icon fa-solid fa-heart"></i>
                                     </div>

@@ -16,31 +16,16 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="/resources/js/mypage.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
-<script type="text/javascript">
-	function return_submit(button) {
-		const form = button.closest("form"); // 해당 버튼의 form
-		if (!form.checkValidity()) {
-			form.reportValidity();
-			return;
-		}
-
-		const formData = $(form).serialize(); // 개별 form 기준으로 serialize
-
-		$.ajax({
-			type : "post",
-			data : formData,
-			url : "apartment_favorite_remove",
-			success : function(data) {
-				alert("정상적으로 처리되었습니다.");
-				location.href = "mypage"; // 새로고침
-			},
-			error : function() {
-				alert("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-			}
-		});
-	}
-</script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+			<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+			<script>
+			    // 페이지 로드 시 성공 메시지 표시
+			    window.onload = function() {
+			        <c:if test="${not empty successMsg}">
+			            alert("${successMsg}");
+			        </c:if>
+			    };
+			</script>
 </head>
 <body>
 	<jsp:include page="header.jsp" />
@@ -99,23 +84,23 @@
 				</div>
 
 				<div class="profile-menu">
-					<div class="menu-item active" onclick="showTab('profile')">
+					<div class="menu-item" onclick="showTab('profile', event)">
 						<i class="fas fa-user"></i> <span>내 정보</span>
 					</div>
-					<div class="menu-item" onclick="showTab('favorites')">
+					<div class="menu-item" onclick="showTab('favorites', event)">
 						<i class="fas fa-heart"></i> <span>관심 아파트</span>
 					</div>
-					<a href="user_update_view" class="menu-item"> <i
-						class="fas fa-pen-to-square"></i> <span>정보 수정</span>
-					</a>
-					<div class="menu-item" onclick="showTab('password')">
+					<div class="menu-item" onclick="showTab('update', event)">
+						<i class="fas fa-pen-to-square"></i> <span>정보 수정</span>
+					</div>
+					<div class="menu-item" onclick="showTab('password', event)">
 						<i class="fas fa-lock"></i> <span>비밀번호 변경</span>
 					</div>
 				</div>
 			</div>
 
 			<div class="content-section">
-				<div id="profile-tab" class="tab-content active">
+				<div id="profile-tab" class="tab-content">
 					<div class="section-header">
 						<h2 class="section-title">내 정보</h2>
 					</div>
@@ -188,9 +173,9 @@
 					</div>
 
 					<div class="action-buttons">
-						<a href="/edit_profile" class="btn btn-primary"> <i
-							class="fas fa-pen-to-square"></i> 정보 수정
-						</a>
+						<button onclick="showTab('update', event)" class="btn btn-primary">
+							<i class="fas fa-pen-to-square"></i> 정보 수정
+						</button>
 					</div>
 				</div>
 
@@ -201,13 +186,13 @@
 
 					<div class="tab-container">
 						<div class="tab-buttons">
-							<button class="tab-button active"
+							<button class="tab-button"
 								onclick="showHistoryTab('current', event)">관심 목록</button>
 							<button class="tab-button"
 								onclick="showHistoryTab('history', event)">조회 기록</button>
 						</div>
 
-						<div id="current" class="tab-content active">
+						<div id="current" class="tab-content">
 							<%
 							if (favoriteCount > 0) {
 							%>
@@ -285,59 +270,184 @@
 						</div>
 					</div>
 				</div>
+				
+				<!-- 정보 수정 탭 추가 -->
+				<div id="update-tab" class="tab-content">
+					<div class="section-header">
+						<h2 class="section-title">정보 수정</h2>
+						<div class="section-subtitle">회원 정보를 수정하려면 현재 비밀번호를 입력해주세요.</div>
+					</div>
+					
+					<form id="updateUserForm" method="post" action="userUpdate">
+					    <input type="hidden" name="userNumber" value="<%=user.getUserNumber()%>">
+					    <input type="hidden" name="userId" value="<%=user.getUserId()%>">
+						
+						<!-- 비밀번호 확인 섹션 추가 -->
+						<div class="password-verification" style="margin-bottom: 30px; padding: 20px; background-color: var(--primary-lighter); border-radius: var(--border-radius); border: 1px solid var(--primary-light);">
+						    <div class="info-label" style="margin-bottom: 15px; color: var(--primary-dark); font-weight: 600;">
+						        <i class="fas fa-shield-alt" style="margin-right: 8px;"></i> 보안 확인
+						    </div>
+						    <div style="background-color: white; padding: 15px; border-radius: var(--border-radius-sm);">
+						        <div class="info-label">현재 비밀번호</div>
+						        <input type="password" id="updateCurrentPassword" name="userPw" class="form-input" placeholder="현재 비밀번호를 입력해주세요" required>
+						        <div class="info-description" style="font-size: 13px; color: var(--gray-500); margin-top: 8px;">
+						            * 회원 정보 보호를 위해 현재 비밀번호를 확인합니다.
+						        </div>
+						    </div>
+						</div>
+						
+						<div class="info-grid">
+							<div class="info-item">
+								<div class="info-label">이름</div>
+								<input type="text" name="userName" class="form-input" value="<%=user.getUserName()%>" required>
+							</div>
+							
+							<div class="info-item">
+								<div class="info-label">아이디</div>
+								<div class="info-value"><%=user.getUserId()%></div>
+							</div>
+							
+							<div class="info-item">
+								<div class="info-label">이메일</div>
+								<input type="email" name="userEmail" class="form-input" value="<%=user.getUserEmail()%>" required>
+							</div>
+							
+							<div class="info-item">
+								<div class="info-label">전화번호</div>
+								<input type="tel" name="userTel" class="form-input" value="<%=user.getUserTel()%>" 
+									pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-0000-0000" required>
+							</div>
+							
+							<div class="info-item">
+								<div class="info-label">생년월일</div>
+								<input type="date" name="userBirth" class="form-input" value="<%=user.getUserBirth()%>" required>
+							</div>
+							
+							<div class="info-item">
+								<div class="info-label">가입일</div>
+								<div class="info-value"><%=user.getUserRegdate()%></div>
+							</div>
+						</div>
+						
+						<div class="address-section" style="margin-top: 20px;">
+							<div class="info-item" style="grid-column: span 2;">
+								<div class="info-label">우편번호</div>
+								<div style="display: flex; gap: 10px;">
+									<input type="text" name="userZipCode" id="userZipCode" class="form-input" 
+										value="<%=user.getUserZipCode()%>" style="flex: 1;" readonly>
+									<button type="button" onclick="execDaumPostcode()" class="btn btn-outline" style="white-space: nowrap;">
+										<i class="fas fa-search"></i> 주소 찾기
+									</button>
+								</div>
+							</div>
+							
+							<div class="info-item" style="grid-column: span 2;">
+								<div class="info-label">주소</div>
+								<input type="text" name="userAddress" id="userAddress" class="form-input" 
+									value="<%=user.getUserAddress()%>" readonly>
+							</div>
+							
+							<div class="info-item" style="grid-column: span 2;">
+								<div class="info-label">상세주소</div>
+								<input type="text" name="userDetailAddress" id="userDetailAddress" class="form-input" 
+									value="<%=user.getUserDetailAddress()%>">
+							</div>
+						</div>
+						
+						<div class="action-buttons">
+						    <button type="submit" class="btn btn-primary">
+						        <i class="fas fa-check"></i> 정보 수정 완료
+						    </button>
+						    <button type="button" onclick="showTab('profile', event)" class="btn btn-outline">
+						        <i class="fas fa-times"></i> 취소
+						    </button>
+						</div>
+					</form>
+				</div>
 
 				<div id="password-tab" class="tab-content">
 					<div class="section-header">
 						<h2 class="section-title">비밀번호 변경</h2>
 					</div>
+					<form id="passwordChangeForm" onsubmit="return false;">
+					    <input type="hidden" name="userNumber" value="<%=user.getUserNumber()%>">
+					    <div class="info-grid" style="grid-template-columns: 1fr;">
+					        <div class="info-item">
+					            <div class="info-label">현재 비밀번호</div>
+					            <input type="password" id="currentPassword" name="userPw" class="form-input" required>
+					            <div id="passwordError" style="color: var(--danger); font-size: 13px; margin-top: 5px;"></div>
+					        </div>
 
-					<form action="userPwUpdate" method="post"
-						onsubmit="return validatePasswordForm()">
-						<input type="hidden" name="userNumber"
-							value="<%=user.getUserNumber()%>">
-						<div class="info-grid" style="grid-template-columns: 1fr;">
-							<div class="info-item">
-								<div class="info-label">현재 비밀번호</div>
+					        <div class="info-item">
+					            <div class="info-label">새 비밀번호</div>
+					            <input type="password" id="newPassword" name="userNewPw" class="form-input" required>
+					            <div class="info-label" style="margin-top: 5px; font-size: 12px; color: var(--gray-500);">*
+					                8자 이상, 영문, 숫자, 특수문자 조합</div>
+					        </div>
 
-								<input type="password" id="currentPassword" name="userPw"
-									class="form-input" value="${userPw}"
-									style="width: 100%; padding: 12px; border: 1px solid var(--gray-200); border-radius: var(--border-radius);"
-									required>
-								<div id="passwordError"
-									style="color: var(--danger); font-size: 13px; margin-top: 5px;"></div>
-							</div>
+					        <div class="info-item">
+					            <div class="info-label">새 비밀번호 확인</div>
+					            <input type="password" id="confirmPassword" name="userNewPwCheck" class="form-input" required>
+					            <div id="passwordError" style="color: var(--danger); font-size: 13px; margin-top: 5px;"></div>
+					        </div>
+					    </div>
 
-							<div class="info-item">
-								<div class="info-label">새 비밀번호</div>
-
-								<input type="password" id="newPassword" name="userNewPw"
-									class="form-input" value="${userNewPw}"
-									style="width: 100%; padding: 12px; border: 1px solid var(--gray-200); border-radius: var(--border-radius);"
-									required>
-								<div class="info-label"
-									style="margin-top: 5px; font-size: 12px; color: var(--gray-500);">*
-									8자 이상, 영문, 숫자, 특수문자 조합</div>
-							</div>
-
-							<div class="info-item">
-								<div class="info-label">새 비밀번호 확인</div>
-
-								<input type="password" id="confirmPassword"
-									name="userNewPwCheck" class="form-input"
-									value="${userNewPwCheck}"
-									style="width: 100%; padding: 12px; border: 1px solid var(--gray-200); border-radius: var(--border-radius);"
-									required>
-								<div id="passwordError"
-									style="color: var(--danger); font-size: 13px; margin-top: 5px;"></div>
-							</div>
-						</div>
-
-						<div class="action-buttons">
-							<button type="submit" class="btn btn-primary">
-								<i class="fas fa-check"></i> 비밀번호 변경
-							</button>
-						</div>
+					    <div class="action-buttons">
+					        <button type="button" onclick="changePassword()" class="btn btn-primary">
+					            <i class="fas fa-check"></i> 비밀번호 변경
+					        </button>
+					        <button type="button" onclick="showTab('profile', event)" class="btn btn-outline">
+					            <i class="fas fa-times"></i> 취소
+					        </button>
+					    </div>
 					</form>
+<!--					<form action="userPwUpdate" method="post"-->
+<!--						onsubmit="return validatePasswordForm()">-->
+<!--						<input type="hidden" name="userNumber"-->
+<!--							value="<%=user.getUserNumber()%>">-->
+<!--						<div class="info-grid" style="grid-template-columns: 1fr;">-->
+<!--							<div class="info-item">-->
+<!--								<div class="info-label">현재 비밀번호</div>-->
+
+<!--								<input type="password" id="currentPassword" name="userPw"-->
+<!--									class="form-input" value="${userPw}"-->
+<!--									required>-->
+<!--								<div id="passwordError"-->
+<!--									style="color: var(--danger); font-size: 13px; margin-top: 5px;"></div>-->
+<!--							</div>-->
+
+<!--							<div class="info-item">-->
+<!--								<div class="info-label">새 비밀번호</div>-->
+
+<!--								<input type="password" id="newPassword" name="userNewPw"-->
+<!--									class="form-input" value="${userNewPw}"-->
+<!--									required>-->
+<!--								<div class="info-label"-->
+<!--									style="margin-top: 5px; font-size: 12px; color: var(--gray-500);">*-->
+<!--									8자 이상, 영문, 숫자, 특수문자 조합</div>-->
+<!--							</div>-->
+
+<!--							<div class="info-item">-->
+<!--								<div class="info-label">새 비밀번호 확인</div>-->
+
+<!--								<input type="password" id="confirmPassword"-->
+<!--									name="userNewPwCheck" class="form-input"-->
+<!--									value="${userNewPwCheck}"-->
+<!--									required>-->
+<!--								<div id="passwordError"-->
+<!--									style="color: var(--danger); font-size: 13px; margin-top: 5px;"></div>-->
+<!--							</div>-->
+<!--						</div>-->
+
+<!--						<div class="action-buttons">-->
+<!--							<button type="submit" class="btn btn-primary">-->
+<!--								<i class="fas fa-check"></i> 비밀번호 변경-->
+<!--							</button>-->
+<!--							<button type="button" onclick="showTab('profile', event)" class="btn btn-outline">-->
+<!--								<i class="fas fa-times"></i> 취소-->
+<!--							</button>-->
+<!--						</div>-->
+<!--					</form>-->
 				</div>
 			</div>
 		</div>
@@ -352,66 +462,6 @@
 			alert("${successMsg}");
 		</script>
 	</c:if>
-
-	<script>
-		// 탭 전환 함수
-		function showTab(tabId) {
-			// 모든 탭 컨텐츠 숨기기
-			document.querySelectorAll('.content-section .tab-content').forEach(tab => {
-				tab.classList.remove('active');
-			});
-			
-			// 모든 메뉴 아이템 비활성화
-			document.querySelectorAll('.menu-item').forEach(item => {
-				item.classList.remove('active');
-			});
-			
-			// 선택한 탭 컨텐츠 표시
-			document.getElementById(tabId + '-tab').classList.add('active');
-			
-			// 선택한 메뉴 아이템 활성화
-			event.currentTarget.classList.add('active');
-		}
-		
-		// 히스토리 탭 전환 함수
-		function showHistoryTab(tabId, event) {
-			// 모든 탭 컨텐츠 숨기기
-			document.querySelectorAll('.tab-container .tab-content').forEach(tab => {
-				tab.classList.remove('active');
-			});
-			
-			// 모든 탭 버튼 비활성화
-			document.querySelectorAll('.tab-button').forEach(button => {
-				button.classList.remove('active');
-			});
-			
-			// 선택한 탭 컨텐츠 표시
-			document.getElementById(tabId).classList.add('active');
-			
-			// 선택한 탭 버튼 활성화
-			event.currentTarget.classList.add('active');
-		}
-		
-		// 비밀번호 유효성 검사
-		function validatePasswordForm() {
-			const newPassword = document.getElementById('newPassword').value;
-			const confirmPassword = document.getElementById('confirmPassword').value;
-			
-			// 비밀번호 일치 여부 확인
-			if (newPassword !== confirmPassword) {
-				alert('새 비밀번호와 확인 비밀번호가 일치하지 않습니다.');
-				return false;
-			}
-			
-			// 비밀번호 복잡성 검사
-			const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-			if (!passwordRegex.test(newPassword)) {
-				alert('비밀번호는 8자 이상, 영문, 숫자, 특수문자를 포함해야 합니다.');
-				return false;
-			}
-			
-			return true;
-		}
-	</script>
+	
 </body>
 </html>

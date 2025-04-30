@@ -55,5 +55,9 @@ public class ViewController {
 	public String favorite_apartment() {
 		return "favorite_apartment";
 	}
+	@RequestMapping("/privacy")
+	public String privacy() {
+		return "privacy";
+	}
 
 }

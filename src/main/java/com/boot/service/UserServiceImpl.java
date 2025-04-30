@@ -62,11 +62,51 @@ public class UserServiceImpl implements UserService {
 		return re;
 	}
 
+//	@Override
+//	public int updateUserPwInfo(HashMap<String, String> param) {
+//		UserDAO dao = sqlSession.getMapper(UserDAO.class);
+//		int re = dao.updateUserPwInfo(param);
+//		return re;
+//	}
 	@Override
 	public int updateUserPwInfo(HashMap<String, String> param) {
 		UserDAO dao = sqlSession.getMapper(UserDAO.class);
-		int re = dao.updateUserPwInfo(param);
-		return re;
+	    // 새 비밀번호 암호화 - 명시적으로 확인
+	    if (!param.containsKey("encodedPassword")) {
+	        String newPassword = param.get("userNewPw");
+	        String encodedPassword = passwordEncoder.encode(newPassword);
+	        param.put("encodedPassword", encodedPassword);
+	    }
+	    
+	    return dao.updateUserPwInfo(param);
+	}
+
+	@Override
+	public boolean verifyPassword(HashMap<String, String> param) {
+	    try {
+	        // 필요한 파라미터 검증
+	        if (!param.containsKey("userId") || !param.containsKey("userPw")) {
+	            return false;
+	        }
+	        
+	        UserDAO dao = sqlSession.getMapper(UserDAO.class);
+	        // 1. 사용자 ID로 사용자 정보 조회 (암호화된 비밀번호 포함)
+	        UserDTO user = dao.getUserInfo(param);
+	        
+	        // 2. 사용자가 존재하지 않으면 false 반환
+	        if (user == null) {
+	            return false;
+	        }
+	        
+	        String rawPassword = param.get("userPw");
+	        // 3. BCryptPasswordEncoder를 사용하여 비밀번호 일치 여부 확인
+	        // matches 메서드는 평문 비밀번호와 암호화된 비밀번호를 비교
+	        return passwordEncoder.matches(rawPassword, user.getUserPw());
+	    } catch (Exception e) {
+	        // 로깅 추가
+	        e.printStackTrace();
+	        return false;
+	    }
 	}
 
 }

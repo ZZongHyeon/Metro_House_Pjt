@@ -18,4 +18,5 @@ public interface UserService {
 	public int updateUserInfo(HashMap<String, String> param);
 
 	public int updateUserPwInfo(HashMap<String, String> param);
+	public boolean verifyPassword(HashMap<String, String> param);
 }
