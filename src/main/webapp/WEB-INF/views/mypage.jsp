@@ -241,7 +241,7 @@
 									<i class="fas fa-heart"></i>
 								</div>
 								<div class="empty-message">관심 등록된 아파트가 없습니다.</div>
-								<a href="apartment_search_view" class="btn btn-outline"> <i
+								<a href="search_map?majorRegion=서울&district=강남구&station=강남역" class="btn btn-outline"> <i
 									class="fas fa-search"></i> 아파트 검색하기
 								</a>
 							</div>
@@ -275,7 +275,7 @@
 									<i class="fas fa-eye"></i>
 								</div>
 								<div class="empty-message">최근 조회한 아파트가 없습니다.</div>
-								<a href="apartment_search_view" class="btn btn-outline"> <i
+								<a href="search_map?majorRegion=서울&district=강남구&station=강남역" class="btn btn-outline"> <i
 									class="fas fa-search"></i> 아파트 검색하기
 								</a>
 							</div>
