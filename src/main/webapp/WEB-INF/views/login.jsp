@@ -18,6 +18,9 @@
 				<div class="library-logo">
 					<img src="/resources/images/logo_2.png" alt="MetroHouse"
 						onerror="this.src='/resources/images/default-logo.png'; this.onerror=null;">
+<!--<div class="logo-icon">-->
+<!--    <i class="fa-solid fa-train-subway"></i>-->
+<!--</div>-->
 				</div>
 
 				<div class="welcome-text">

@@ -174,7 +174,7 @@ public class UserController {
 	    Map<String, Object> response = new HashMap<>();
 	    
 	    try {
-	        log.info("세션 확인 요청: userId={}", userId);
+//	        log.info("세션 확인 요청: userId={}", userId);
 	        
 	        // 간단한 구현: 항상 세션이 없다고 응답
 	        response.put("exists", false);

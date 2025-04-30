@@ -63,7 +63,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             
             // Spring Security User 객체 생성 및 반환
             UserDetails userDetails = createUserDetails(user);
-            log.info("생성된 UserDetails: {}", userDetails);
+//            log.info("생성된 UserDetails: {}", userDetails);
             return userDetails;
         } catch (Exception e) {
             log.error("인증 처리 중 오류 발생: {}", e.getMessage(), e);
@@ -91,12 +91,12 @@ public class CustomUserDetailsService implements UserDetailsService {
         // 비밀번호가 BCrypt 형식이 아닌 경우 (개발 환경에서만 사용)
         // 주의: 실제 운영 환경에서는 모든 비밀번호가 이미 암호화되어 있어야 함
         if (password != null && !password.startsWith("$2")) {
-            log.warn("비밀번호가 암호화되어 있지 않습니다. 개발 환경에서만 사용하세요.");
+//            log.warn("비밀번호가 암호화되어 있지 않습니다. 개발 환경에서만 사용하세요.");
             // 실제 운영 환경에서는 이 부분을 제거하고 모든 비밀번호를 미리 암호화해야 함
             // password = passwordEncoder.encode(password);
         }
         
-        log.info("사용자 인증 정보 생성 완료: {}", user.getUserId());
+//        log.info("사용자 인증 정보 생성 완료: {}", user.getUserId());
         
         // Spring Security의 User 객체 생성
         // 매개변수: username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities
