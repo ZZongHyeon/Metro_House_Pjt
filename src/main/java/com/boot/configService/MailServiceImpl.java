@@ -72,7 +72,7 @@ public class MailServiceImpl implements MailService {
 
 		message.setText(msgg, "utf-8", "html");// 내용, charset 타입, subtype
 		// 보내는 사람의 이메일 주소, 보내는 사람 이름
-		message.setFrom(new InternetAddress("nskynet5374@naver.com", "Metro_House"));// 보내는 사람
+		message.setFrom(new InternetAddress("tjrdlchlrh00@naver.com", "Metro_House"));// 보내는 사람
 
 		return message;
 	}

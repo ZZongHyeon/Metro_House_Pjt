@@ -120,6 +120,7 @@
             <script type="text/javascript"
                 src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoApiKey}&libraries=services"></script>
             <script>
+                let map;
                 document.addEventListener('DOMContentLoaded', function () {
                     // 현재 열려있는 오버레이를 추적하는 변수
                     let currentOverlay = null;
@@ -143,10 +144,10 @@
                     const container = document.getElementById('map');
                     const options = {
                         center: new kakao.maps.LatLng(37.566826, 126.9786567), // 서울 시청 (기본값)
-                        level: 3 // 지도 확대 레벨
+                        level: 6 // 지도 확대 레벨
                     };
 
-                    const map = new kakao.maps.Map(container, options);
+                    map = new kakao.maps.Map(container, options);
 
                     // 지도 확대/축소 컨트롤 추가
                     const zoomControl = new kakao.maps.ZoomControl();
@@ -191,6 +192,34 @@
                                 // 지하철역 위치로 지도 중심 이동
                                 const stationPosition = new kakao.maps.LatLng(stationPlace.y, stationPlace.x);
                                 map.setCenter(stationPosition);
+
+                                // 시군구 코드 가져오기
+                                const geocoder = new kakao.maps.services.Geocoder();
+
+                                function getAddressInfo(lat, lng) { // lat 위도, lng 경도
+                                    geocoder.coord2RegionCode(lng, lat, function(result, status) { // 비동기 처리를 위한 콜백 함수
+                                        if (status === kakao.maps.services.Status.OK) { // api 호출 성공 여부
+                                            const region = result.find(item => item.region_type === 'H');
+                                            if (region) {
+                                                const sigunguCode = region.code.substring(0, 5);
+                                                console.log('시군구 코드:', sigunguCode);
+                                                getApartmentData(sigunguCode);
+                                            }
+                                        }
+                                    });
+                                }
+
+                                // 초기 위치의 시군구 코드 가져오기
+                                getAddressInfo(stationPlace.y, stationPlace.x);
+
+                                // 지도 클릭 이벤트에서도 시군구 코드 확인
+                                kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+
+                                    const latlng = mouseEvent.latLng;
+                                    getAddressInfo(latlng.getLat(), latlng.getLng());
+
+
+                                });
 
                                 // 기본 마커 대신 지하철역 커스텀 마커 생성 (크기 증가)
                                 const stationMarker = new kakao.maps.CustomOverlay({
@@ -257,93 +286,7 @@
                                 // 주변 아파트 데이터 (예시 데이터)
                                 // 실제로는 서버에서 데이터를 가져와야 합니다
                                 const apartments = [
-                                    {
-                                        id: 1,
-                                        name: "래미안 아파트",
-                                        location: "강남구 역삼동",
-                                        address: "서울특별시 강남구 역삼동 123-45",
-                                        distance: "350m",
-                                        price: 120000,
-                                        size: 84.5,
-                                        rooms: "3",
-                                        bathrooms: "2",
-                                        floor: "12/15",
-                                        buildYear: 2015,
-                                        households: 248,
-                                        parkingRatio: "1.2대/세대",
-                                        heatingType: "지역난방",
-                                        maintenanceFee: 25,
-                                        schools: "역삼초(도보 5분), 역삼중(도보 10분)",
-                                        amenities: "편의점, 카페, 마트, 공원",
-                                        transport: "2호선 역삼역(5분), 146번 버스(3분)",
-                                        lat: parseFloat(stationPlace.y) + 0.002,
-                                        lng: parseFloat(stationPlace.x) + 0.001
-                                    }, {
-                                        id: 1,
-                                        name: "래미안 아파트",
-                                        location: "강남구 역삼동",
-                                        address: "서울특별시 강남구 역삼동 123-45",
-                                        distance: "350m",
-                                        price: 120000,
-                                        size: 84.5,
-                                        rooms: "3",
-                                        bathrooms: "2",
-                                        floor: "12/15",
-                                        buildYear: 2015,
-                                        households: 248,
-                                        parkingRatio: "1.2대/세대",
-                                        heatingType: "지역난방",
-                                        maintenanceFee: 25,
-                                        schools: "역삼초(도보 5분), 역삼중(도보 10분)",
-                                        amenities: "편의점, 카페, 마트, 공원",
-                                        transport: "2호선 역삼역(5분), 146번 버스(3분)",
-                                        lat: parseFloat(stationPlace.y) + 0.002,
-                                        lng: parseFloat(stationPlace.x) + 0.001
-                                    },
-                                    {
-                                        id: 2,
-                                        name: "힐스테이트",
-                                        location: "강남구 역삼동",
-                                        address: "서울특별시 강남구 역삼동 456-78",
-                                        distance: "450m",
-                                        price: 115000,
-                                        size: 76.8,
-                                        rooms: "2",
-                                        bathrooms: "1",
-                                        floor: "8/20",
-                                        buildYear: 2018,
-                                        households: 320,
-                                        parkingRatio: "1.5대/세대",
-                                        heatingType: "개별난방",
-                                        maintenanceFee: 22,
-                                        schools: "역삼초(도보 8분), 역삼중(도보 15분)",
-                                        amenities: "편의점, 헬스장, 어린이집, 도서관",
-                                        transport: "2호선 역삼역(8분), 147번 버스(2분)",
-                                        lat: parseFloat(stationPlace.y) - 0.001,
-                                        lng: parseFloat(stationPlace.x) + 0.002
-                                    },
-                                    {
-                                        id: 3,
-                                        name: "푸르지오",
-                                        location: "강남구 역삼동",
-                                        address: "서울특별시 강남구 역삼동 789-10",
-                                        distance: "500m",
-                                        price: 95000,
-                                        size: 59.8,
-                                        rooms: "2",
-                                        bathrooms: "1",
-                                        floor: "5/15",
-                                        buildYear: 2010,
-                                        households: 180,
-                                        parkingRatio: "1.0대/세대",
-                                        heatingType: "중앙난방",
-                                        maintenanceFee: 18,
-                                        schools: "역삼초(도보 10분), 역삼중(도보 20분)",
-                                        amenities: "편의점, 은행, 약국, 놀이터",
-                                        transport: "2호선 역삼역(10분), 148번 버스(5분)",
-                                        lat: parseFloat(stationPlace.y) + 0.001,
-                                        lng: parseFloat(stationPlace.x) - 0.002
-                                    }
+
                                 ];
 
                                 // 아파트 마커 생성 및 목록 표시
@@ -642,6 +585,182 @@
                         }
                     });
                 });
+            </script>
+            <script>
+                function getApartmentData(sigunguCode) {
+                    // 현재 날짜 객체 생성
+                    const now = new Date();
+                    // yyyyMM 형식으로 변환
+                    const yearMonth = now.getFullYear().toString() +
+                        String(now.getMonth() + 1).padStart(2, '0');
+                    console.log('API 호출 파라미터:', {sigunguCode, yearMonth});
+
+                    $.ajax({
+                        url: '/api/apartments/trade',
+                        method: 'GET',
+                        data: {
+                            sigunguCode: sigunguCode,
+                            yearMonth: yearMonth
+                        },
+                        success: function(response) {
+                            console.log('API 응답 데이터:', response); // 응답 데이터 로깅
+                            displayApartments(response);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('아파트 데이터 조회 실패:', error);
+                            console.error('상태 코드:', xhr.status);
+                            console.error('응답 텍스트:', xhr.responseText);
+                        }
+                    });
+
+                }
+            </script>
+            <script>
+                let apartmentMarkers = [];
+                let currentOverlay = null;
+
+                function displayApartments(apartments) {
+                    // 기존 마커/오버레이 제거
+                    apartmentMarkers.forEach(marker => marker.setMap(null));
+                    apartmentMarkers = [];
+
+                    const apartmentListContainer = document.getElementById('apartmentList');
+                    apartmentListContainer.innerHTML = '';
+
+                    if (!apartments || apartments.length === 0) {
+                        apartmentListContainer.innerHTML = `
+        <p style="grid-column: 1 / -1; text-align: center; padding: 50px 0; color: var(--gray-500);" id="noResultsMessage">
+            검색 결과가 없습니다.
+        </p>`;
+                        return;
+                    }
+
+                    apartments.forEach((apt, idx) => {
+                        if (apt.lat && apt.lng) {
+                            const position = new kakao.maps.LatLng(parseFloat(apt.lat), parseFloat(apt.lng));
+
+                            // 마커 생성
+                            const marker = new kakao.maps.Marker({
+                                position: position,
+                                map: map,
+                                clickable: true
+                            });
+                            apartmentMarkers.push(marker);
+
+                            // 값 준비
+                            const aptName = apt.aptNm || "이름 없음";
+                            const excluUseAr = apt.excluUseAr ? apt.excluUseAr + "㎡" : "면적 없음";
+                            const dealAmount = apt.dealAmount ? apt.dealAmount.toLocaleString() + "만원" : "가격 없음";
+                            const locationContent = apt.estateAgentSggNm || "위치 없음";
+                            const addressText = locationContent + " " + aptName;
+
+                            // 필요에 따라 추가 정보 처리
+                            const floorText = apt.floor || "-";
+                            const buildYearText = apt.buildYear ? apt.buildYear + "년" : "-";
+                            const roomsText = apt.rooms || "-";
+                            const bathroomsText = apt.bathrooms || "-";
+                            const maintenanceFeeText = apt.maintenanceFee ? "월 " + apt.maintenanceFee + "만원" : "-";
+                            const distanceText = apt.distance ? "지하철역에서 " + apt.distance : "-";
+
+                            // 커스텀 오버레이용 HTML 템플릿
+                            const overlayContent = `
+                <div class="custom-overlay apartment-overlay">
+                    <div class="overlay-header">
+                        <div class="title">`+aptName+`</div>
+                        <button class="close" onclick="this.parentElement.parentElement.parentElement.style.display='none'; if(window.currentOverlay){window.currentOverlay.setMap(null);window.currentOverlay=null;}"></button>
+                    </div>
+                    <div class="overlay-body">
+                        <div class="overlay-section">
+                            <div class="overlay-price">`+dealAmount+`</div>
+                            <div class="overlay-size">`+excluUseAr+`</div>
+                        </div>
+                        <div class="overlay-section">
+                            <div class="overlay-address">`+addressText+`</div>
+                            <div class="overlay-distance">`+distanceText+`</div>
+                        </div>
+                        <div class="overlay-section overlay-details">
+                            <div class="detail-item"><span>방/욕실:</span> `+roomsText+`/`+bathroomsText+`</div>
+                            <div class="detail-item"><span>층수:</span> `+floorText+`</div>
+                            <div class="detail-item"><span>건축년도:</span> `+buildYearText+`</div>
+                            <div class="detail-item"><span>관리비:</span> `+maintenanceFeeText+`</div>
+                        </div>
+                    </div>
+                    <div class="overlay-footer">
+                        <button class="overlay-button favorite" style="width: 100%;">관심 등록</button>
+                    </div>
+                </div>
+            `;
+                            // 커스텀 오버레이 생성 (초기에는 지도에 표시하지 않음)
+                            const apartmentOverlay = new kakao.maps.CustomOverlay({
+                                position: position,
+                                content: overlayContent,
+                                map: null,
+                                yAnchor: 1
+                            });
+                            apartmentOverlay.apartmentId = apt.id;
+
+                            // 마커 클릭 시 오버레이 열기
+                            kakao.maps.event.addListener(marker, 'click', function () {
+                                // 이미 열려있는 오버레이가 같은 아파트라면 닫기
+                                if (currentOverlay && currentOverlay.apartmentId === apt.id) {
+                                    currentOverlay.setMap(null);
+                                    currentOverlay = null;
+                                    return;
+                                }
+                                // 다른 오버레이가 열려있으면 닫기
+                                if (currentOverlay) {
+                                    currentOverlay.setMap(null);
+                                }
+                                apartmentOverlay.setMap(map);
+                                currentOverlay = apartmentOverlay;
+                            });
+
+                            // 아파트 카드 생성
+                            const apartmentCard = document.createElement('div');
+                            apartmentCard.className = 'apartment-card';
+                            apartmentCard.innerHTML = `
+                <div class="apartment-image">
+                    <i class="fas fa-building"></i>
+                </div>
+                <div class="apartment-info">
+                    <h3 class="apartment-name">${aptName}</h3>
+                    <div class="apartment-location">${locationContent}</div>
+                    <div class="apartment-details">
+                        <span>${excluUseAr}</span>
+                        <span class="apartment-price">${dealAmount}</span>
+                    </div>
+                </div>
+            `;
+                            const nameH3 = apartmentCard.querySelector('.apartment-name');
+                            nameH3.textContent = aptName;
+                            const bonbun3 = apartmentCard.querySelector('.apartment-location');
+                            bonbun3.textContent = locationContent;
+                            const excluUseArSpan = apartmentCard.querySelector('.apartment-details span:nth-child(1)');excluUseArSpan.textContent = excluUseAr + "㎡";
+                            const dealAmountSpan = apartmentCard.querySelector('.apartment-price');
+                            dealAmountSpan.textContent = dealAmount.toLocaleString();
+                            apartmentListContainer.appendChild(apartmentCard);
+
+                            // 카드 클릭 시 해당 마커로 지도 이동 및 오버레이 오픈
+                            apartmentCard.addEventListener('click', function () {
+                                map.setCenter(position);
+                                map.setLevel(3);
+
+                                if (currentOverlay && currentOverlay.apartmentId === apt.id) {
+                                    currentOverlay.setMap(null);
+                                    currentOverlay = null;
+                                    return;
+                                }
+                                if (currentOverlay) {
+                                    currentOverlay.setMap(null);
+                                }
+                                apartmentOverlay.setMap(map);
+                                currentOverlay = apartmentOverlay;
+                            });
+
+                            apartmentListContainer.appendChild(apartmentCard);
+                        }
+                    });
+                }
             </script>
         </body>
 
