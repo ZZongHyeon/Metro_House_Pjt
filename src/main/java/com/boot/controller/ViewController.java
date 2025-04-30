@@ -51,5 +51,9 @@ public class ViewController {
 	public String boardViewWrite() {
 		return "board_write";
 	}
+	@RequestMapping("/favorite_apartment")
+	public String favorite_apartment() {
+		return "favorite_apartment";
+	}
 
 }

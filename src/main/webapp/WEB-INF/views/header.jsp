@@ -51,7 +51,7 @@
                 <%
                 if (user != null) {
                 %>
-                <a href="user_favorite_apartments"
+                <a href="favorite_apartment"
                     class="nav-link <%=currentPage.contains("user_favorite_apartments") ? "active" : ""%>">
                     <i class="nav-icon fa-solid fa-heart"></i>
                     <span>관심아파트</span>
