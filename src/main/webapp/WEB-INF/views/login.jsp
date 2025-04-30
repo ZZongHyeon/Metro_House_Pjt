@@ -15,12 +15,11 @@
 			<jsp:include page="header.jsp" />
 
 			<div class="container">
-				<div class="library-logo">
-					<img src="/resources/images/logo_2.png" alt="MetroHouse"
-						onerror="this.src='/resources/images/default-logo.png'; this.onerror=null;">
-<!--<div class="logo-icon">-->
-<!--    <i class="fa-solid fa-train-subway"></i>-->
-<!--</div>-->
+				<div class="login-logo">
+					<!-- 이미지 로고 대신 아이콘 로고로 변경 -->
+					<div class="login-logo-icon">
+						<i class="fa-solid fa-train-subway"></i>
+					</div>
 				</div>
 
 				<div class="welcome-text">
