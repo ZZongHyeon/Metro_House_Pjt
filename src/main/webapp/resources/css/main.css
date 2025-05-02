@@ -672,12 +672,14 @@ body {
     transform: translateX(3px);
 }
 
+/* 추천 아파트 카드 갯수 수정 4 -> 3*/
 .books-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 24px;
 }
 
+/* 2025-05-02 파일 통합 수정*/
 .book-card {
     background-color: white;
     border-radius: var(--border-radius);

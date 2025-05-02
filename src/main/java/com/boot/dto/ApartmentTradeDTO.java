@@ -44,4 +44,11 @@ public class ApartmentTradeDTO {
     // 카카오 api를 통해 받을 위도 경도
     private Double lat;  // 위도
     private Double lng;  // 경도
+
+    // 근처 지하철역 & 거리
+    private String subwayStation; // 지하철역 이름
+    private String subwayDistance; // 거리
+
+    // favoriteList를 위한 유저 정보
+    private String userId; // 유저 아이디
 }

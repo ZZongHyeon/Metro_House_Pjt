@@ -36,7 +36,8 @@ dependencies {
 
 	implementation 'me.paulschwarz:spring-dotenv:2.5.4' // .env
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml' // 다중 xml 데이터 처리
-	implementation 'org.json:json:20210307' // json 데이터 처리용
+	implementation 'org.json:json:20210307'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'// json 데이터 처리용
 
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'

@@ -223,59 +223,64 @@
                 </div>
             </div>
 
-            <!-- Recommended Apartments -->
-            <div class="recommended-books">
-                <div class="section-header">
-                    <h2 class="section-title">
-                        <i class="fas fa-thumbs-up"></i> 추천 아파트
-                    </h2>
-                    <a href="/recommended_apartments" class="action-link"> 더보기
-                        <i class="fas fa-chevron-right"></i>
-                    </a>
-                </div>
+        <!-- Recommended Apartments -->
+        <div class="recommended-books">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-thumbs-up"></i> 추천 아파트
+                </h2>
+                <a href="/recommended_apartments" class="action-link"> 더보기
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </div>
 
-                <div class="books-grid">
-                    <c:forEach var="apartment" items="${apartmentList}" varStatus="status">
-                        <c:if test="${status.index <4}">
-                            <div class="book-card">
-                                <div class="book-cover">
-                                    <div class="book-cover-placeholder">
-                                        <i class="fas fa-building"></i>
-                                    </div>
-                                </div>
-                                <div class="book-info">
-                                    <h3 class="book-title">${apartment.apartmentName}</h3>
-                                    <div class="book-author">지역: ${apartment.district} ${apartment.dong}
-                                    </div>
-                                    <div class="book-publisher">가까운 역: ${apartment.nearestStation}</div>
-                                    <div class="book-date">
-                                        건축년도:
-                                        <fmt:formatDate value="${apartment.builtDate}"
-                                            pattern="yyyy년" />
-                                    </div>
-
-                                    <div class="book-categories">
-                                        <span class="book-category">${apartment.size}㎡</span>
-                                        <c:if test="${not empty apartment.floor}">
-                                            <span class="book-category">${apartment.floor}층</span>
-                                        </c:if>
-                                    </div>
-
-                                    <div class="book-status">
-                                        <div class="book-availability available">
-                                            <i class="fas fa-won-sign"></i>
-                                            <fmt:formatNumber value="${apartment.price}"
-                                                type="number" />만원
-                                        </div>
-                                        <a href="/apartment_detail?apartmentId=${apartment.apartmentId}"
-                                            class="book-detail-button">상세보기</a>
-                                    </div>
+            <div class="books-grid">
+                <c:forEach var="apartment" items="${apartmentList}" varStatus="status">
+                    <c:if test="${status.index <3}">
+                        <div class="book-card">
+                            <div class="book-cover">
+                                <div class="book-cover-placeholder">
+                                    <i class="fas fa-building"></i>
                                 </div>
                             </div>
-                        </c:if>
-                    </c:forEach>
-                </div>
+                            <div class="book-info">
+                                    <%--                                    <h3 class="book-title">${apartment.apartmentName}</h3>--%>
+                                <h3 class="book-title">${apartment.aptNm}</h3>
+                                    <%--                                    <div class="book-author">지역: ${apartment.district} ${apartment.dong}--%>
+                                <div class="book-author">지역: ${apartment.estateAgentSggNm}
+                                </div>
+                                    <%--                                    <div class="book-publisher">가까운 역: ${apartment.nearestStation}</div>--%>
+                                <div class="book-date">
+                                    건축년도:${apartment.buildYear}
+                                        <%--                                        <fmt:formatDate value="${apartment.builtDate}"--%>
+                                </div>
+
+                                <div class="book-categories">
+                                        <%--                                        <span class="book-category">${apartment.size}㎡</span>--%>
+                                    <span class="book-category">${apartment.excluUseAr}㎡</span>
+                                    <c:if test="${not empty apartment.floor}">
+                                        <span class="book-category">${apartment.floor}층</span>
+                                    </c:if>
+                                </div>
+
+                                <div class="book-status">
+                                    <div class="book-availability available">
+                                        <i class="fas fa-won-sign"></i>
+                                            <%--                                            <fmt:formatNumber value="${apartment.price}"--%>
+                                            ${apartment.dealAmount}만원
+                                    </div>
+                                        <%--                                        <a href="/apartment_detail?apartmentId=${apartment.apartmentId}"--%>
+
+                                        <%--                                            상세보기 구현 할지말지 몰?루?                                        --%>
+                                    <a href="/apartment_detail?apartmentId=${apartment.aptSeq}"
+                                       class="book-detail-button">상세보기</a>
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
+                </c:forEach>
             </div>
+        </div>
 
             <% } else { %>
                 <div class="login-section">

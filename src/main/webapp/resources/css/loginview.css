@@ -224,8 +224,8 @@ input[type="password"]:focus {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 70px;
-	height: 70px;
+	width: 200px;
+	height: 60px;
 	background: var(--primary-gradient);
 	color: white;
 	border-radius: 12px;
