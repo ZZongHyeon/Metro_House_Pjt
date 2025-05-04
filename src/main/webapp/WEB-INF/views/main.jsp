@@ -37,7 +37,7 @@
                         <div class="slide-content">
                             <h2>관심 아파트 등록하고 시세 변동 확인</h2>
                             <p>관심있는 아파트를 등록하고 시세 변동을 실시간으로 확인하세요.</p>
-                            <a href="/user_favorite_apartments" class="slide-button">관심 아파트 보기</a>
+                            <a href="/favorite_apartment" class="slide-button">관심 아파트 보기</a>
                         </div>
                     </div>
                     <div class="slide">
@@ -188,40 +188,40 @@
             </div>
 
             <!-- Feature Cards -->
-            <div class="feature-section">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-heart"></i>
-                    </div>
-                    <div class="feature-content">
-                        <h3>관심 아파트</h3>
-                        <p>관심 있는 아파트의 시세 변동을 확인하고 실시간 알림을 받아보세요.</p>
-                        <a href="user_favorite_apartments" class="btn-sm">바로가기</a>
-                    </div>
-                </div>
+<!--            <div class="feature-section">-->
+<!--                <div class="feature-card">-->
+<!--                    <div class="feature-icon">-->
+<!--                        <i class="fas fa-heart"></i>-->
+<!--                    </div>-->
+<!--                    <div class="feature-content">-->
+<!--                        <h3>관심 아파트</h3>-->
+<!--                        <p>관심 있는 아파트의 시세 변동을 확인하고 실시간 알림을 받아보세요.</p>-->
+<!--						<a href="favorite_apartment" class="btn-sm">바로가기</a>-->
+<!--                    </div>-->
+<!--                </div>-->
 
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-map-marked-alt"></i>
-                    </div>
-                    <div class="feature-content">
-                        <h3>지도 검색</h3>
-                        <p>지도에서 원하는 지역의 아파트 시세를 확인하고 주변 시설도 함께 살펴보세요.</p>
-                        <a href="map_search_view" class="btn-sm">바로가기</a>
-                    </div>
-                </div>
+<!--                <div class="feature-card">-->
+<!--                    <div class="feature-icon">-->
+<!--                        <i class="fas fa-map-marked-alt"></i>-->
+<!--                    </div>-->
+<!--                    <div class="feature-content">-->
+<!--                        <h3>지도 검색</h3>-->
+<!--                        <p>지도에서 원하는 지역의 아파트 시세를 확인하고 주변 시설도 함께 살펴보세요.</p>-->
+<!--                        <a href="map_search_view" class="btn-sm">바로가기</a>-->
+<!--                    </div>-->
+<!--                </div>-->
 
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <div class="feature-content">
-                        <h3>추천 아파트</h3>
-                        <p>회원님의 관심사와 검색 패턴에 맞는 맞춤형 아파트를 추천해 드립니다.</p>
-                        <a href="user_apartment_recommend" class="btn-sm">바로가기</a>
-                    </div>
-                </div>
-            </div>
+<!--                <div class="feature-card">-->
+<!--                    <div class="feature-icon">-->
+<!--                        <i class="fas fa-star"></i>-->
+<!--                    </div>-->
+<!--                    <div class="feature-content">-->
+<!--                        <h3>추천 아파트</h3>-->
+<!--                        <p>회원님의 관심사와 검색 패턴에 맞는 맞춤형 아파트를 추천해 드립니다.</p>-->
+<!--                        <a href="user_apartment_recommend" class="btn-sm">바로가기</a>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
 
         <!-- Recommended Apartments -->
         <div class="recommended-books">

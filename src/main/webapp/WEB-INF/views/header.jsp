@@ -42,13 +42,20 @@
                     <i class="nav-icon fa-solid fa-clipboard-list"></i>
                     <span>게시판</span>
                 </a>
-                <a href="/search_map?majorRegion=서울&district=강남구&station=강남역" 
-                   class="nav-link ${currentPage == 'search_map' ? 'active' : ''}">
+                <a href="/search_map?majorRegion=서울&district=강남구&station=강남역" class="nav-link ${currentPage == 'search_map' ? 'active' : ''}">
                     <i class="nav-icon fa-solid fa-map-location-dot"></i>
                     <span>지도</span>
                 </a>
-
-
+				<%
+				if(user != null){
+				%>
+				<a href="/favorite_apartment" class="nav-link ${currentPage == 'favorite_apartment' ? 'active' : ''}">
+				    <i class="nav-icon fa-solid fa-heart"></i>
+				    <span>관심아파트</span>
+				</a>
+				<%
+				}
+				%>
             </nav>
 
             <div class="user-menu">
@@ -102,22 +109,31 @@
 
                             <div class="dropdown-section">
                                 <div class="dropdown-section-title">서비스</div>
-                                <a href="/favorite_apartment" class="dropdown-item">
-                                    <div class="dropdown-icon-wrapper">
-                                        <i class="dropdown-icon fa-solid fa-heart"></i>
-                                    </div>
-                                    <div class="dropdown-item-content">
-                                        <div class="dropdown-item-title">관심아파트</div>
-                                        <div class="dropdown-item-description">저장한 아파트 목록 관리</div>
-                                    </div>
-                                </a>
+<!--                                <a href="/favorite_apartment" class="dropdown-item">-->
+<!--                                    <div class="dropdown-icon-wrapper">-->
+<!--                                        <i class="dropdown-icon fa-solid fa-heart"></i>-->
+<!--                                    </div>-->
+<!--                                    <div class="dropdown-item-content">-->
+<!--                                        <div class="dropdown-item-title">관심아파트</div>-->
+<!--                                        <div class="dropdown-item-description">저장한 아파트 목록 관리</div>-->
+<!--                                    </div>-->
+<!--                                </a>-->
+<!--                                <a href="/search_history" class="dropdown-item">-->
+<!--                                    <div class="dropdown-icon-wrapper">-->
+<!--                                        <i class="dropdown-icon fa-solid fa-clock-rotate-left"></i>-->
+<!--                                    </div>-->
+<!--                                    <div class="dropdown-item-content">-->
+<!--                                        <div class="dropdown-item-title">검색 기록</div>-->
+<!--                                        <div class="dropdown-item-description">최근 검색한 아파트 및 지역</div>-->
+<!--                                    </div>-->
+<!--                                </a>-->
                                 <a href="/search_history" class="dropdown-item">
                                     <div class="dropdown-icon-wrapper">
                                         <i class="dropdown-icon fa-solid fa-clock-rotate-left"></i>
                                     </div>
                                     <div class="dropdown-item-content">
-                                        <div class="dropdown-item-title">검색 기록</div>
-                                        <div class="dropdown-item-description">최근 검색한 아파트 및 지역</div>
+                                        <div class="dropdown-item-title">서비스 뭐 넣지</div>
+                                        <div class="dropdown-item-description">아이디어구상중</div>
                                     </div>
                                 </a>
                             </div>

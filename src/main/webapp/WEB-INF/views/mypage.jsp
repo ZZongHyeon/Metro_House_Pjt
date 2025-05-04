@@ -87,9 +87,9 @@
 					<div class="menu-item" onclick="showTab('profile', event)">
 						<i class="fas fa-user"></i> <span>내 정보</span>
 					</div>
-					<div class="menu-item" onclick="showTab('favorites', event)">
-						<i class="fas fa-heart"></i> <span>관심 아파트</span>
-					</div>
+<!--					<div class="menu-item" onclick="showTab('favorites', event)">-->
+<!--						<i class="fas fa-heart"></i> <span>관심 아파트</span>-->
+<!--					</div>-->
 					<div class="menu-item" onclick="showTab('update', event)">
 						<i class="fas fa-pen-to-square"></i> <span>정보 수정</span>
 					</div>
@@ -172,11 +172,11 @@
 						</div>
 					</div>
 
-					<div class="action-buttons">
-						<button onclick="showTab('update', event)" class="btn btn-primary">
-							<i class="fas fa-pen-to-square"></i> 정보 수정
-						</button>
-					</div>
+<!--					<div class="action-buttons">-->
+<!--						<button onclick="showTab('update', event)" class="btn btn-primary">-->
+<!--							<i class="fas fa-pen-to-square"></i> 정보 수정-->
+<!--						</button>-->
+<!--					</div>-->
 				</div>
 
 				<div id="favorites-tab" class="tab-content">
@@ -358,9 +358,9 @@
 						    <button type="submit" class="btn btn-primary">
 						        <i class="fas fa-check"></i> 정보 수정 완료
 						    </button>
-						    <button type="button" onclick="showTab('profile', event)" class="btn btn-outline">
-						        <i class="fas fa-times"></i> 취소
-						    </button>
+<!--						    <button type="button" onclick="showTab('profile', event)" class="btn btn-outline">-->
+<!--						        <i class="fas fa-times"></i> 취소-->
+<!--						    </button>-->
 						</div>
 					</form>
 				</div>
@@ -396,9 +396,9 @@
 					        <button type="button" onclick="changePassword()" class="btn btn-primary">
 					            <i class="fas fa-check"></i> 비밀번호 변경
 					        </button>
-					        <button type="button" onclick="showTab('profile', event)" class="btn btn-outline">
-					            <i class="fas fa-times"></i> 취소
-					        </button>
+<!--					        <button type="button" onclick="showTab('profile', event)" class="btn btn-outline">-->
+<!--					            <i class="fas fa-times"></i> 취소-->
+<!--					        </button>-->
 					    </div>
 					</form>
 <!--					<form action="userPwUpdate" method="post"-->

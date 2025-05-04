@@ -70,7 +70,8 @@ public class ViewController {
 		return "board_write";
 	}
 	@RequestMapping("/favorite_apartment")
-	public String favorite_apartment() {
+	public String favorite_apartment(Model model) {
+		model.addAttribute("currentPage", "favorite_apartment"); // 헤더식별용
 		return "favorite_apartment";
 	}
 	@RequestMapping("/privacy")

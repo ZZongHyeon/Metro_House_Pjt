@@ -620,7 +620,7 @@
                             </tr>
                             <tr>
                                 <td>연락처</td>
-                                <td>privacy@metrohouse.com<br>02-123-4567</td>
+                                <td>이메일뭘로 하징 ㅋㅋ<br>전화번호 뭘로하징 ㅋㅋ</td>
                             </tr>
                         </table>
 
