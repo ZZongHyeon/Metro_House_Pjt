@@ -108,14 +108,13 @@
                                                             <!-- <td class="board-number">${status.count}</td> -->
                                                             <td class="board-number">${board.boardNumber}</td>
                                                             <td class="board-title-col">
-                                                                <a href="board_detail_view?boardNumber=${board.boardNumber}"
-                                                                    class="title-link">
-                                                                    ${board.boardTitle}
-                                                                    <c:if test="${board.commentCount > 0}">
-                                                                        <span
-                                                                            class="comment-count">[${board.commentCount}]</span>
-                                                                    </c:if>
-                                                                </a>
+																<a href="board_detail_view?boardNumber=${board.boardNumber}&pageNum=${pageMaker.criteriaDTO.pageNum}&amount=${pageMaker.criteriaDTO.amount}${not empty pageMaker.criteriaDTO.type ? '&type='.concat(pageMaker.criteriaDTO.type) : ''}${not empty pageMaker.criteriaDTO.keyword ? '&keyword='.concat(pageMaker.criteriaDTO.keyword) : ''}"
+																   class="title-link">
+																   	${board.boardTitle}
+																   	<c:if test="${commentCounts[board.boardNumber] > 0}">
+																    	<span class="comment-count">[${commentCounts[board.boardNumber]}]</span>
+																	</c:if>
+																</a>
                                                             </td>
                                                             <td class="board-author">${board.userName}</td>
                                                             <td class="board-date">
@@ -169,11 +168,16 @@
                                                 </c:if>
                                             </ul>
                                         </div>
-                                        <form id="actionForm" action="board_view" method="get">
-                                            <input type="hidden" name="pageNum"
-                                                value="${pageMaker.criteriaDTO.pageNum}">
-                                            <input type="hidden" name="amount" value="${pageMaker.criteriaDTO.amount}">
-                                        </form>
+										<form id="actionForm" action="board_view" method="get">
+										    <input type="hidden" name="pageNum" value="${pageMaker.criteriaDTO.pageNum}">
+										    <input type="hidden" name="amount" value="${pageMaker.criteriaDTO.amount}">
+										    <c:if test="${not empty pageMaker.criteriaDTO.type}">
+										        <input type="hidden" name="type" value="${pageMaker.criteriaDTO.type}">
+										    </c:if>
+										    <c:if test="${not empty pageMaker.criteriaDTO.keyword}">
+										        <input type="hidden" name="keyword" value="${pageMaker.criteriaDTO.keyword}">
+										    </c:if>
+										</form>
                                     </div>
 
                                     <script>

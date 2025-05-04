@@ -33,5 +33,6 @@ public interface BoardDAO {
 
 	public int getTotalCount(CriteriaDTO criteriaDTO);
 
+	public int getCommentCountByBoardNumber(int boardNumber);
 
 }

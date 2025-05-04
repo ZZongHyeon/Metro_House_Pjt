@@ -87,4 +87,10 @@ public class BoardServiceImpl implements BoardService {
 		dao.boardDecrementLike(param);
 	}
 
+	@Override
+    public int getCommentCountByBoardNumber(int boardNumber) {
+		BoardDAO dao = sqlSession.getMapper(BoardDAO.class);
+        return dao.getCommentCountByBoardNumber(boardNumber);
+    }
+
 }

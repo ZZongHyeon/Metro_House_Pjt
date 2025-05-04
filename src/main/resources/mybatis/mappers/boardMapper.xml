@@ -111,4 +111,9 @@
 		board
 		WHERE boardNumber = #{boardNumber}
 	</select>
+	
+	<select id="getCommentCountByBoardNumber" resultType="int" parameterType="int">
+    SELECT COUNT(*) FROM board_comment 
+    WHERE boardNumber = #{boardNumber}
+</select>
 </mapper>

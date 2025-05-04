@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.boot.dto.BoardCommentDTO;
 import com.boot.dto.BoardDTO;
+import com.boot.dto.CommentPageDTO;
 import com.boot.dto.CriteriaDTO;
 import com.boot.dto.PageDTO;
 import com.boot.dto.UserDTO;
@@ -45,16 +47,40 @@ public class BoardController {
 		this.boardCommentServiceImpl = boardCommentServiceImpl;
 	}
 
+//	@RequestMapping("/board_view")
+//	public String boardView(CriteriaDTO criteriaDTO, Model model) {
+//		ArrayList<BoardDTO> list = service.boardView(criteriaDTO);
+//		int total = service.getTotalCount(criteriaDTO);
+//
+//		model.addAttribute("currentPage", "board_view"); // 헤더 식별용
+//		model.addAttribute("boardList", list);
+//		model.addAttribute("pageMaker", new PageDTO(total, criteriaDTO));
+//
+//		return "board_view";
+//	}
+	
 	@RequestMapping("/board_view")
-	public String boardView(CriteriaDTO criteriaDTO, Model model) {
-		ArrayList<BoardDTO> list = service.boardView(criteriaDTO);
-		int total = service.getTotalCount(criteriaDTO);
-
-		model.addAttribute("currentPage", "board_view"); // 헤더 식별용
-		model.addAttribute("boardList", list);
-		model.addAttribute("pageMaker", new PageDTO(total, criteriaDTO));
-
-		return "board_view";
+	public String boardList(Model model, CriteriaDTO criteriaDTO) {
+	    // 게시글 목록 조회
+	    ArrayList<BoardDTO> list = service.boardView(criteriaDTO);
+	    
+	    // 각 게시글의 댓글 수 조회
+	    Map<Integer, Integer> commentCounts = new HashMap<>();
+	    for (BoardDTO board : list) {
+	        int boardNumber = board.getBoardNumber();
+	        int commentCount = service.getCommentCountByBoardNumber(boardNumber);
+	        commentCounts.put(boardNumber, commentCount);
+	    }
+	    
+	    // 모델에 추가
+	    model.addAttribute("commentCounts", commentCounts);
+	    model.addAttribute("boardList", list);
+	    
+	    // 페이징 처리
+	    int total = service.getTotalCount(criteriaDTO);
+	    model.addAttribute("pageMaker", new PageDTO(total, criteriaDTO));
+	    
+	    return "board_view";
 	}
 
 	@RequestMapping("/board_write_ok")
@@ -90,22 +116,30 @@ public class BoardController {
 	}
 
 	@RequestMapping("/board_detail_view")
-	public String boardViewDetail(@RequestParam HashMap<String, String> param, Model model, CriteriaDTO criteriaDTO,
-			@RequestParam(value = "skipViewCount", required = false) Boolean skipViewCount) {
-		if (skipViewCount == null || !skipViewCount) {
-			// 조회수 증가 로직
-			service.boardHit(param);
-		}
-		BoardDTO dto = service.boardDetailView(param);
-		ArrayList<BoardCommentDTO> commentList = bcService.bcView(param, criteriaDTO);
-		int total = bcService.getTotalCount(param);
-		int allTotal = bcService.getAllCount(param);
+	public String boardViewDetail(@RequestParam HashMap<String, String> param, Model model,
+	        CriteriaDTO criteriaDTO,
+	        @RequestParam(value = "skipViewCount", required = false) Boolean skipViewCount,
+	        @RequestParam(value = "commentPageNum", required = false, defaultValue = "1") int commentPageNum) {
+	    
+	    // 댓글 페이지 번호 설정
+	    criteriaDTO.setCommentPageNum(commentPageNum);
+	    
+	    if (skipViewCount == null || !skipViewCount) {
+	        // 조회수 증가 로직
+	        service.boardHit(param);
+	    }
+	    
+	    BoardDTO dto = service.boardDetailView(param);
+	    ArrayList<BoardCommentDTO> commentList = bcService.bcView(param, criteriaDTO);
+	    int total = bcService.getTotalCount(param);
+	    int allTotal = bcService.getAllCount(param);
 
-		model.addAttribute("allCount", allTotal);
-		model.addAttribute("board", dto);
-		model.addAttribute("commentList", commentList);
-		model.addAttribute("pageMaker", new PageDTO(total, criteriaDTO));
-		return "board_detail";
+	    model.addAttribute("allCount", allTotal);
+	    model.addAttribute("board", dto);
+	    model.addAttribute("commentList", commentList);
+	    model.addAttribute("pageMaker", new CommentPageDTO(total, criteriaDTO));
+	    
+	    return "board_detail";
 	}
 
 	@RequestMapping("/boardLikes")

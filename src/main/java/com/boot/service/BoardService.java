@@ -26,5 +26,5 @@ public interface BoardService {
 	public void boardRemoveLike(HashMap<String, String> param);
 
 	public int getTotalCount(CriteriaDTO criteriaDTO);
-
+	public int getCommentCountByBoardNumber(int boardNumber);
 }
