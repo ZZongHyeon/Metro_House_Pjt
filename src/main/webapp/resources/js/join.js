@@ -257,8 +257,7 @@ $(document).ready(() => {
       return
     }
     
-    $("#userEmail").prop("readonly", true).css("opacity", "0.7")
-    $("#checkEmail").off("click").css("opacity", "0.7")
+
 
     // 이메일 형식 검증
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
@@ -267,31 +266,47 @@ $(document).ready(() => {
       return
     }
 
-    // 서버에 이메일 인증 요청
-    $.ajax({
-      type: "POST",
-      url: "/mailConfirm",
-      dataType: "text",
-      data: {
-        email: email,
-      },
-      success: (data) => {
-        alert("해당 이메일로 인증번호 발송이 완료되었습니다.")
-        console.log("받은 인증코드: " + data)
+	// 서버에 이메일 인증 요청
+	$.ajax({
+	  type: "POST",
+	  url: "/mailConfirm",
+	  dataType: "json", // 응답 형식을 JSON으로 변경
+	  data: {
+	    email: email,
+	  },
+	  success: (response) => {
+	    if (response.success) {
+	      alert("해당 이메일로 인증번호 발송이 완료되었습니다.");
+	      console.log("받은 인증코드: " + response.code);
+		  
+		  // 인증번호 발송 버튼 완전히 비활성화 (클릭 이벤트 제거)
+		  $("#checkEmail").off("click")
+		  $("#userEmail").off("input")
+		  $("#userEmail").prop("readonly", true).css("opacity", "0.7")
+		  $("#checkEmail").off("click").css("opacity", "0.7")
+		  
+	      // 인증번호 입력 필드 표시
+	      $("#verificationCodeGroup").show();
+	      emailVerificationSent = true;
 
-        // 인증번호 입력 필드 표시
-        $("#verificationCodeGroup").show()
-        emailVerificationSent = true
-
-        // 서버에서 받은 인증번호 저장
-        serverCode = data.trim()
-      },
-      error: (xhr, status, error) => {
-        alert("이메일 발송 중 오류가 발생했습니다. 다시 시도해주세요.")
-        console.error("이메일 발송 오류:", xhr.status, error)
-        console.log("응답 텍스트:", xhr.responseText)
-      },
-    })
+	      // 서버에서 받은 인증번호 저장
+	      serverCode = response.code;
+	    } else {
+	      alert(response.message); // 서버에서 보낸 오류 메시지 표시
+	      $("#email").focus(); // 이메일 입력 필드에 포커스
+	    }
+	  },
+	  error: (xhr, status, error) => {
+	    if (xhr.status === 409) { // 409 Conflict - 이메일 중복
+	      const response = JSON.parse(xhr.responseText);
+	      alert(response.message);
+	    } else {
+	      alert("이메일 발송 중 오류가 발생했습니다. 다시 시도해주세요.");
+	      console.error("이메일 발송 오류:", xhr.status, error);
+	      console.log("응답 텍스트:", xhr.responseText);
+	    }
+	  },
+	});
   })
 
   // 인증 확인 버튼 클릭 이벤트
@@ -336,9 +351,7 @@ $(document).ready(() => {
       $("#checkEmail").prop("disabled", true).css("opacity", "0.5")
       $("#verifyEmailBtn").prop("disabled", true).css("opacity", "0.5")
 
-      // 인증번호 발송 버튼 완전히 비활성화 (클릭 이벤트 제거)
-      $("#checkEmail").off("click")
-      $("#userEmail").off("input")
+
     }
   }
 

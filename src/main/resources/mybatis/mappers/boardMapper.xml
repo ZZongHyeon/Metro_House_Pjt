@@ -3,7 +3,7 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.boot.dao.BoardDAO">
+<mapper namespace="com.boot.board.dao.BoardDAO">
 	<sql id="criteriaDTO">
 	   <if test='type == "T"'>
 	      where boardTitle like '%' || #{keyword} || '%'
@@ -17,7 +17,7 @@
 	</sql>
 	<!-- 게시판 전체 보기 -->
 	<select id="boardView"
-		resultType="com.boot.dto.BoardDTO">
+		resultType="com.boot.board.dto.BoardDTO">
 		<![CDATA[
 		    SELECT boardNumber, userNumber, userName, boardTitle, boardWriteDate, boardHit, boardViews, boardLikes
 		    FROM (
@@ -52,7 +52,7 @@
 
 	<!-- 게시글 디테일 -->
 	<select id="boardDetailView"
-		resultType="com.boot.dto.BoardDTO">
+		resultType="com.boot.board.dto.BoardDTO">
 		select boardNumber, userNumber, userName, boardTitle,
 		boardContent, boardWriteDate, boardHit, boardViews, boardLikes
 		from
@@ -115,5 +115,5 @@
 	<select id="getCommentCountByBoardNumber" resultType="int" parameterType="int">
     SELECT COUNT(*) FROM board_comment 
     WHERE boardNumber = #{boardNumber}
-</select>
+	</select>
 </mapper>

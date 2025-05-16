@@ -1,4 +1,4 @@
-<%@page import="com.boot.dto.UserDTO" %>
+<%@page import="com.boot.user.dto.UserDTO" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -289,7 +289,7 @@
                         메트로하우스는 지하철역 주변 아파트 시세를 확인할 수 있는 서비스를 제공합니다.<br>서비스를
                         이용하시려면 로그인이 필요합니다.
                     </p>
-                    <a href="/loginForm" class="btn"> <i class="fas fa-sign-in-alt"></i> 로그인 하러 가기
+                    <a href="user/loginForm" class="btn"> <i class="fas fa-sign-in-alt"></i> 로그인 하러 가기
                     </a>
                     <p style="margin-top: 20px;">
                         계정이 없으신가요? <a href="joinForm">회원가입</a>

@@ -25,6 +25,10 @@ repositories {
 }
 
 dependencies {
+// 소셜로그인
+implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+
 
 	implementation 'org.springframework.boot:spring-boot-starter-security' // 스프링시큐리티
 	implementation 'org.springframework.boot:spring-boot-starter-mail:2.7.1' // 이메일인증관련
