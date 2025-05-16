@@ -8,12 +8,13 @@
 
 | 구분 | 내용
 |-----|-----
-| 개발 언어 | Java (JDK 17), JavaScript
-| 프레임워크 | Spring Boot 2.7.13
-| DB | Oracle 11g 이상
-| 빌드 도구 | Maven/Gradle
-| 형상관리 | Git / GitHub
-| 협업 도구 | Jira, Notion
+| **개발 언어** | Java (JDK 8 이상), JavaScript
+| **프레임워크** | Spring Boot + MyBatis
+| **DB** | Oracle 11g 이상
+| **빌드 도구** | Gradle
+| **내장 WAS** | Spring Boot 내장 Tomcat
+| **형상관리** | Git / GitHub
+| **협업 도구** | Jira, Notion
 
 
 ## 기술 스택 (Tech Stack)
