@@ -1,5 +1,7 @@
 package com.boot.user.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class UserDTO {
 	private int userNumber;
 	private String userId;
+	@JsonIgnore
 	private String userPw;
 	private String userName;
 	private String userEmail;
@@ -17,7 +20,24 @@ public class UserDTO {
 	private String userBirth;
 	private String userZipCode;
 	private String userAddress;
+	@JsonIgnore
 	private String userDetailAddress = "";
 	private int userAdmin;
 	private String userRegdate;
+	
+	@Override
+	public String toString() {
+	    return "UserDTO(userNumber=" + userNumber + 
+	           ", userId=" + userId + 
+	           ", userPw=[PROTECTED]" + // 비밀번호 해시 숨김
+	           ", userName=" + userName + 
+	           ", userEmail=" + userEmail + 
+	           ", userTel=" + userTel + 
+	           ", userBirth=" + userBirth + 
+	           ", userZipCode=" + userZipCode + 
+	           ", userAddress=" + userAddress + 
+	           ", userDetailAddress=[PROTECTED]"+
+	           ", userAdmin=" + userAdmin + 
+	           ", userRegdate=" + userRegdate + ")";
+	}
 }

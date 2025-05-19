@@ -1,18 +1,16 @@
 package com.boot.z_config.security.jwt;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
 public class JwtAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
@@ -20,22 +18,34 @@ public class JwtAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucc
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+//    @Autowired
+//    private JwtTokenCache tokenCache;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
         // JWT 토큰 생성
         String token = jwtTokenUtil.generateToken(authentication);
 
-        // 응답 설정
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setStatus(HttpServletResponse.SC_OK);
+        // 사용자 정보를 캐시에 저장
+//        if (authentication.getPrincipal() instanceof UserDetails) {
+//            tokenCache.putUserInCache(token, (UserDetails) authentication.getPrincipal());
+//        }
 
-        Map<String, Object> body = new HashMap<>();
-        body.put("status", HttpServletResponse.SC_OK);
-        body.put("message", "Authentication successful");
-        body.put("token", token);
+        // JWT 토큰을 쿠키에 저장
+        Cookie jwtCookie = new Cookie("jwt_token", token);
+        jwtCookie.setPath("/"); // 모든 경로에서 접근 가능
+        jwtCookie.setHttpOnly(true); // JavaScript에서 접근 불가능하게 설정
+        jwtCookie.setMaxAge(1 * 24 * 60 * 60); // 1일 유효기간
 
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(response.getOutputStream(), body);
+        // HTTPS 환경에서는 Secure 플래그 추가
+        if (request.isSecure()) {
+            jwtCookie.setSecure(true);
+        }
+
+        response.addCookie(jwtCookie);
+
+        // 홈 페이지로 리다이렉트
+        getRedirectStrategy().sendRedirect(request, response, "/");
     }
 }

@@ -22,21 +22,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
+import com.boot.board.service.BoardCommentServiceImpl;
+import com.boot.user.dto.BasicUserDTO;
 import com.boot.user.dto.UserDTO;
 import com.boot.user.service.UserService;
+import com.boot.z_util.UserUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
 public class UserController {
+
+    private final BoardCommentServiceImpl boardCommentServiceImpl;
 	@Autowired
 	private UserService service;
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+//	@Autowired
+//	private UserUtils userUtils;
 
+    UserController(BoardCommentServiceImpl boardCommentServiceImpl) {
+        this.boardCommentServiceImpl = boardCommentServiceImpl;
+    }
 //	@RequestMapping("/login_ok")
 //	public String login(HttpServletRequest request, @RequestParam HashMap<String, String> param) {
 //		ArrayList<UserDTO> dtos = service.userLogin(param);
@@ -70,6 +79,7 @@ public class UserController {
 
 	@RequestMapping("/joinProc")
 	public ResponseEntity<String> join(HttpServletRequest request, @RequestParam HashMap<String, String> param) {
+
 		System.out.println("@#param => " + param);
 		if (service.checkId(param) != null) {
 
@@ -88,12 +98,49 @@ public class UserController {
 	}
 
 	@RequestMapping("/mypage")
-	public String mypage(HttpServletRequest request, @RequestParam HashMap<String, String> param, Model model) {
-		UserDTO dto = (UserDTO) request.getSession().getAttribute("loginUser");
-
-		param.put("userNumber", String.valueOf(dto.getUserNumber()));
-
-		return "user/mypage";
+	public String myPage(HttpServletRequest request, Model model) {
+	    // request에서 사용자 정보 추출 (SafeUserDTO 또는 UserDTO)
+	    Object userObj = request.getAttribute("user");
+	    
+	    // 사용자 정보가 없으면 로그인 페이지로 리다이렉트
+	    if (userObj == null) {
+	        return "redirect:/loginForm";
+	    }
+	    
+	    // 사용자 ID 추출
+	    String userId = null;
+	    if (userObj instanceof BasicUserDTO) {
+	        userId = ((BasicUserDTO) userObj).getUserId();
+	    } else if (userObj instanceof UserDTO) {
+	        userId = ((UserDTO) userObj).getUserId();
+	    } else {
+	        return "redirect:/loginForm";
+	    }
+	    
+	    // 사용자 ID로 데이터베이스에서 전체 사용자 정보 조회
+	    HashMap<String, String> param = new HashMap<>();
+	    param.put("userId", userId);
+	    UserDTO user = service.getUserInfo(param);
+	    
+	    if (user == null) {
+	        return "redirect:/loginForm";
+	    }
+	    
+	    // 사용자 정보를 모델에 추가
+	    model.addAttribute("user", user);
+	    
+	    // 사용자 통계 정보 조회
+//	    int userFavoriteCount = service.getUserFavoriteCount(user.getUserNumber());
+//	    int userViewCount = service.getUserViewCount(user.getUserNumber());
+//	    int userSearchCount = service.getUserSearchCount(user.getUserNumber());
+	    
+//	    model.addAttribute("userFavoriteCount", userFavoriteCount);
+//	    model.addAttribute("userViewCount", userViewCount);
+//	    model.addAttribute("userSearchCount", userSearchCount);
+	    
+	    System.out.println("userObj : " + userObj);
+	    System.out.println("user : " + user);
+	    return "user/mypage";
 	}
 
 	@RequestMapping("/user_update_view")
@@ -133,67 +180,67 @@ public class UserController {
 	@RequestMapping("/userPwUpdate")
 	@ResponseBody // JSON 응답을 반환하기 위해 추가
 	public Map<String, Object> updateUserPwInfo(@RequestParam HashMap<String, String> param, HttpSession session) {
-	    Map<String, Object> response = new HashMap<>();
-	    UserDTO user = (UserDTO) session.getAttribute("loginUser");
-	    int result = -1;
+		Map<String, Object> response = new HashMap<>();
+		UserDTO user = (UserDTO) session.getAttribute("loginUser");
+		int result = -1;
 
-	    String inputPw = param.get("userPw");
-	    String newPw = param.get("userNewPw");
+		String inputPw = param.get("userPw");
+		String newPw = param.get("userNewPw");
 
-	    // 사용자 ID 추가
-	    param.put("userId", user.getUserId());
+		// 사용자 ID 추가
+		param.put("userId", user.getUserId());
 
-	    // BCryptPasswordEncoder를 사용하여 비밀번호 검증
-	    if (service.verifyPassword(param)) {
-	        // 비밀번호가 일치하면 새 비밀번호로 암호화하여 업데이트
-	        param.put("userNumber", String.valueOf(user.getUserNumber())); // 사용자 번호 추가
+		// BCryptPasswordEncoder를 사용하여 비밀번호 검증
+		if (service.verifyPassword(param)) {
+			// 비밀번호가 일치하면 새 비밀번호로 암호화하여 업데이트
+			param.put("userNumber", String.valueOf(user.getUserNumber())); // 사용자 번호 추가
 
-	        // 새 비밀번호 암호화 - 명시적으로 추가
-	        String encodedPassword = passwordEncoder.encode(newPw);
-	        param.put("encodedPassword", encodedPassword);
+			// 새 비밀번호 암호화 - 명시적으로 추가
+			String encodedPassword = passwordEncoder.encode(newPw);
+			param.put("encodedPassword", encodedPassword);
 
-	        result = service.updateUserPwInfo(param);
-	    }
+			result = service.updateUserPwInfo(param);
+		}
 
-	    if (result > 0) {
-	        response.put("success", true);
-	        response.put("message", "비밀번호가 성공적으로 변경되었습니다. 다시 로그인해주세요.");
-	        session.invalidate(); // 세션 초기화 → 자동 로그아웃
-	    } else {
-	        response.put("success", false);
-	        response.put("message", "현재 비밀번호가 일치하지 않습니다.");
-	    }
+		if (result > 0) {
+			response.put("success", true);
+			response.put("message", "비밀번호가 성공적으로 변경되었습니다. 다시 로그인해주세요.");
+			session.invalidate(); // 세션 초기화 → 자동 로그아웃
+		} else {
+			response.put("success", false);
+			response.put("message", "현재 비밀번호가 일치하지 않습니다.");
+		}
 
-	    return response;
+		return response;
 	}
 
 	@RequestMapping("/logout")
 	public String logout(HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-
-		if (session != null) {
-			// 세션에서 사용자 정보 가져오기
-			UserDTO user = (UserDTO) session.getAttribute("loginUser");
-
-//	        if (user != null) {
-//	            // 데이터베이스에서 세션 정보 삭제
-//	            String userId = user.getUserId();
-//	            HashMap<String, String> param = new HashMap<>();
-//	            param.put("userId", userId);
-//	            
-//	            try {
-//	                // 세션 정보 삭제
-//	                System.out.println("로그아웃: 사용자 " + userId + "의 세션 정보가 데이터베이스에서 삭제됨");
-//	            } catch (Exception e) {
-//	                System.out.println("세션 정보 삭제 중 오류 발생: " + e.getMessage());
-//	                e.printStackTrace();
-//	            }
-//	        }
-
-			// 세션 무효화
-			session.invalidate();
-//	        System.out.println("로그아웃: 세션이 무효화됨");
-		}
+//		HttpSession session = request.getSession(false);
+//
+//		if (session != null) {
+//			// 세션에서 사용자 정보 가져오기
+//			UserDTO user = (UserDTO) session.getAttribute("loginUser");
+//
+////	        if (user != null) {
+////	            // 데이터베이스에서 세션 정보 삭제
+////	            String userId = user.getUserId();
+////	            HashMap<String, String> param = new HashMap<>();
+////	            param.put("userId", userId);
+////	            
+////	            try {
+////	                // 세션 정보 삭제
+////	                System.out.println("로그아웃: 사용자 " + userId + "의 세션 정보가 데이터베이스에서 삭제됨");
+////	            } catch (Exception e) {
+////	                System.out.println("세션 정보 삭제 중 오류 발생: " + e.getMessage());
+////	                e.printStackTrace();
+////	            }
+////	        }
+//
+//			// 세션 무효화
+//			session.invalidate();
+////	        System.out.println("로그아웃: 세션이 무효화됨");
+//		}
 
 		return "redirect:loginForm";
 	}

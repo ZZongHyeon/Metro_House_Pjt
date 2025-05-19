@@ -18,34 +18,32 @@ import java.util.List;
 @RequestMapping("/api/apartments")
 @RequiredArgsConstructor
 public class ApiController {
-    private final ApartmentTradeService apartmentTradeService;
+	private final ApartmentTradeService apartmentTradeService;
 
-    @GetMapping("/trade")
-    public ResponseEntity<List<ApartmentTradeDTO>> getApartmentTrades(
-            @RequestParam String sigunguCode,
-            @RequestParam String yearMonth) {
-        log.info("Controller API 호출 - sigunguCode: {}, yearMonth: {}", sigunguCode, yearMonth);
+	@GetMapping("/trade")
+	public ResponseEntity<List<ApartmentTradeDTO>> getApartmentTrades(@RequestParam String sigunguCode,
+			@RequestParam String yearMonth) {
+		log.info("Controller API 호출 - sigunguCode: {}, yearMonth: {}", sigunguCode, yearMonth);
 
-        try {
-            List<ApartmentTradeDTO> trades = apartmentTradeService.getTradeData(sigunguCode, yearMonth);
-            log.info("C - s조회된 거래 데이터 수: {}", trades.size());
+		try {
+			List<ApartmentTradeDTO> trades = apartmentTradeService.getTradeData(sigunguCode, yearMonth);
+			log.info("C - s조회된 거래 데이터 수: {}", trades.size());
 
-            return ResponseEntity.ok(trades);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.internalServerError().build();
-        }
-    }
+			return ResponseEntity.ok(trades);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.internalServerError().build();
+		}
+	}
 
-    @PostMapping("/FavoriteListadd")
-    public ResponseEntity<?> addToFavorites(@RequestParam("apartmentId") int apartmentId,
-                                            HttpSession session) {
-        Integer userNumber = (Integer) session.getAttribute("userNumber");
+	@PostMapping("/FavoriteListadd")
+	public ResponseEntity<?> addToFavorites(@RequestParam("apartmentId") int apartmentId, HttpSession session) {
+		Integer userNumber = (Integer) session.getAttribute("userNumber");
 
-        if (userNumber == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
-        }
-        return null;
+		if (userNumber == null) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+		}
+		return null;
 
-    }
+	}
 }

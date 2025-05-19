@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -20,8 +21,8 @@
 <body>
     <jsp:include page="header.jsp" />
     <div class="container">
-        <% UserDTO user=(UserDTO) session.getAttribute("loginUser"); if (user !=null) { %>
-
+	<c:choose>
+	    <c:when test="${not empty user}">
             <div class="slider-container">
                 <div class="image-slider">
                     <div class="slide active">
@@ -77,13 +78,13 @@
 
             <div class="welcome-banner">
                 <div class="welcome-text">
-                    <h1>안녕하세요, <span><%=user.getUserName()%></span>님!</h1>
+					<h1>안녕하세요, <span>${user.userName}</span>님!</h1>
                     <p>메트로하우스 서비스에 오신 것을 환영합니다. 오늘도 좋은 하루 되세요.</p>
                 </div>
                 <div class="date-display">
                     <i class="fas fa-calendar-alt"></i> <span id="current-date">
-                        <%=new java.text.SimpleDateFormat("yyyy년 MM월 dd일 EEEE",
-                            java.util.Locale.KOREAN).format(new java.util.Date())%>
+						<jsp:useBean id="now" class="java.util.Date" />
+						    <fmt:formatDate value="${now}" pattern="yyyy년 MM월 dd일 EEEE" />
                     </span>
                 </div>
             </div>
@@ -282,7 +283,8 @@
             </div>
         </div>
 
-            <% } else { %>
+	</c:when>
+	    <c:otherwise>
                 <div class="login-section">
                     <h2>메트로하우스에 오신 것을 환영합니다</h2>
                     <p>
@@ -295,7 +297,8 @@
                         계정이 없으신가요? <a href="joinForm">회원가입</a>
                     </p>
                 </div>
-                <% } %>
+</c:otherwise>
+</c:choose>
     </div>
 
     <script>
