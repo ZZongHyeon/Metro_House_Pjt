@@ -61,9 +61,7 @@
                 f.FAVORITEID as favoriteId,
                 f.USERNUMBER as userNumber,
                 f.CREATEDAT as createdAt,
-                f.LAT as lat,
-                f.LNG as lng,
-                f.DEALAMOUNT as dealAmount,
+                f.APARTMENTID as favoriteApartmentId,
                 MAX(i.APARTMENTID) as apartmentId,
                 MAX(i.APTNM) as aptNm,
                 MAX(i.ESTATEAGENTSGGNM) as estateAgentSggNm,
@@ -75,11 +73,7 @@
             FROM 
                 APARTMENT_FAVORITE f
             LEFT JOIN 
-                APARTMENTINFO i ON (
-                    ABS(f.LAT - i.LAT) &lt; 0.0000001
-                    AND ABS(f.LNG - i.LNG) &lt; 0.0000001
-                    AND f.DEALAMOUNT = i.DEALAMOUNT
-                )
+                APARTMENTINFO i ON f.APARTMENTID = i.APARTMENTID
             WHERE 
                 f.USERNUMBER = #{userNumber}
                 <if test="region != null and region != ''">
@@ -91,32 +85,32 @@
                 <if test="priceRange != null and priceRange != ''">
                     <choose>
                         <when test="priceRange == '0-50000'">
-                            AND TO_NUMBER(REPLACE(f.DEALAMOUNT, ',', '')) &lt;= 50000
+                            AND TO_NUMBER(REPLACE(i.DEALAMOUNT, ',', '')) &lt;= 50000
                         </when>
                         <when test="priceRange == '50000-100000'">
-                            AND TO_NUMBER(REPLACE(f.DEALAMOUNT, ',', '')) > 50000 
-                            AND TO_NUMBER(REPLACE(f.DEALAMOUNT, ',', '')) &lt;= 100000
+                            AND TO_NUMBER(REPLACE(i.DEALAMOUNT, ',', '')) > 50000 
+                            AND TO_NUMBER(REPLACE(i.DEALAMOUNT, ',', '')) &lt;= 100000
                         </when>
                         <when test="priceRange == '100000-150000'">
-                            AND TO_NUMBER(REPLACE(f.DEALAMOUNT, ',', '')) > 100000 
-                            AND TO_NUMBER(REPLACE(f.DEALAMOUNT, ',', '')) &lt;= 150000
+                            AND TO_NUMBER(REPLACE(i.DEALAMOUNT, ',', '')) > 100000 
+                            AND TO_NUMBER(REPLACE(i.DEALAMOUNT, ',', '')) &lt;= 150000
                         </when>
                         <when test="priceRange == '150000+'">
-                            AND TO_NUMBER(REPLACE(f.DEALAMOUNT, ',', '')) > 150000
+                            AND TO_NUMBER(REPLACE(i.DEALAMOUNT, ',', '')) > 150000
                         </when>
                     </choose>
                 </if>
             GROUP BY 
-                f.FAVORITEID, f.USERNUMBER, f.CREATEDAT, f.LAT, f.LNG, f.DEALAMOUNT
+                f.FAVORITEID, f.USERNUMBER, f.CREATEDAT, f.APARTMENTID
             <choose>
                 <when test="sort == 'recent'">
                     ORDER BY f.CREATEDAT DESC
                 </when>
                 <when test="sort == 'price-asc'">
-                    ORDER BY TO_NUMBER(REPLACE(f.DEALAMOUNT, ',', '')) ASC
+                    ORDER BY TO_NUMBER(REPLACE(MAX(i.DEALAMOUNT), ',', '')) ASC
                 </when>
                 <when test="sort == 'price-desc'">
-                    ORDER BY TO_NUMBER(REPLACE(f.DEALAMOUNT, ',', '')) DESC
+                    ORDER BY TO_NUMBER(REPLACE(MAX(i.DEALAMOUNT), ',', '')) DESC
                 </when>
                 <when test="sort == 'size-asc'">
                     ORDER BY TO_NUMBER(MAX(i.EXCLUUSEAR)) ASC

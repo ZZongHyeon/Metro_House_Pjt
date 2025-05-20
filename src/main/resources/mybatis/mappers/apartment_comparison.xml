@@ -1,27 +1,28 @@
-
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.boot.apartment_comparison.dao.ApartmentComparisonDAO">
  
-
-<select id="getFavoriteListByUserNumber" parameterType="map" resultType="com.boot.apartment_comparison.dto.ApartmentComparisonDTO">
+<select id="getFavoriteListByUserNumber" parameterType="Integer" resultType="com.boot.apartment_comparison.dto.ApartmentComparisonDTO">
     SELECT DISTINCT
         f.FAVORITEID as favoriteId,
         f.USERNUMBER as userNumber,
         f.CREATEDAT as createdAt,
-        f.LAT as lat,
-        f.LNG as lng,
-        f.DEALAMOUNT as dealAmount,
-MAX(i.APARTMENTID) as apartmentId,
-        MAX(i.APTNM) as aptNm,
-        MAX(i.ESTATEAGENTSGGNM) as estateAgentSggNm,
-        MAX(i.EXCLUUSEAR) as excluUseAr,
-        MAX(i.FLOOR) as floor,
-        MAX(i.BUILDYEAR) as buildYear,
-        MAX(i.SUBWAYSTATION) as subwayStation,
-        MAX(i.SUBWAYDISTANCE) as subwayDistance
+        i.APARTMENTID as apartmentId,
+        i.APTNM as aptNm,
+        i.ESTATEAGENTSGGNM as estateAgentSggNm,
+        i.EXCLUUSEAR as excluUseAr,
+        i.FLOOR as floor,
+        i.BUILDYEAR as buildYear,
+        i.DEALAMOUNT as dealAmount,
+        i.ROADNM as roadNm,
+        i.JIBUN as jibun,
+        i.UMDNM as umdNm,
+        i.SUBWAYSTATION as subwayStation,
+        i.SUBWAYDISTANCE as subwayDistance,
+        i.LAT as lat,
+        i.LNG as lng
     FROM 
         APARTMENT_FAVORITE f
     LEFT JOIN 
@@ -31,12 +32,9 @@ MAX(i.APARTMENTID) as apartmentId,
             AND f.DEALAMOUNT = i.DEALAMOUNT
         )
     WHERE 
-        f.USERNUMBER = 15
-GROUP BY 
-        f.FAVORITEID, f.USERNUMBER, f.CREATEDAT, f.LAT, f.LNG, f.DEALAMOUNT
+        f.USERNUMBER = #{userNumber}
     ORDER BY 
         f.CREATEDAT DESC
 </select>
 
 </mapper>
-

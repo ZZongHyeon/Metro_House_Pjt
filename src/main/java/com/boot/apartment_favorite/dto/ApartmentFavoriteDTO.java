@@ -8,13 +8,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ApartmentFavoriteDTO {
-	private Long favoriteId; // LISTID (NUMBER, auto-increment)
-	private String userNumber; // USERID
+	private int favoriteId; // LISTID (NUMBER, auto-increment)
+	private int userNumber; // USERID
 	private String createdAt; // 생성날짜
 	private String dealAmount; // DEALAMOUNT
 	private Double lat; // LAT
 	private Double lng; // LNG
-
+	private int favoriteApartmentId;
 	
 	// 아파트 고유번호(디비에만 있는 거 api에 없음)
 	private int apartmentId;

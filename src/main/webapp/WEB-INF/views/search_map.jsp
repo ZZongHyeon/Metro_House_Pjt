@@ -52,7 +52,7 @@
 							        </c:when>
 							        <c:otherwise>
 							            <c:forEach var="apt" items="${interestList}">
-							                <div class="comparison-item" data-apt-id="${apt.id}">
+							                <div class="comparison-item" data-apt-id="${apt.apartmentId}">
 							                    <div class="comparison-apt-info">
 							                        <h3 class="comparison-apt-name">${apt.aptNm}</h3>
 							                        <div class="comparison-apt-location">${apt.estateAgentSggNm}</div>
@@ -176,77 +176,7 @@
 				    
 				    // 초기 카드에 이벤트 리스너 추가
 				    attachEventListenersToCards();
-				    
-				    // 관심목록 불러오기 추가
-				    loadFavorites();
-				    
-				    function attachEventListenersToCards() {
-				        const apartmentCards = document.querySelectorAll('.apartment-card:not(.comparison-item)');
-				        console.log('아파트 카드 개수:', apartmentCards.length);
-				        
-				        apartmentCards.forEach(card => {
-				            // 이미 이벤트 리스너가 추가되었는지 확인
-				            if (card.dataset.hasClickListener === 'true') {
-				                return;
-				            }
-				            
-				            // 데이터 속성 확인
-				            console.log('카드 데이터 속성:', {
-				                floor: card.dataset.floor,
-				                buildYear: card.dataset.buildYear
-				            });
-				            
-				            card.dataset.hasClickListener = 'true';
-				            card.addEventListener('click', function() {
-				                console.log('아파트 카드 클릭됨');
-				                
-				                // 카드에서 아파트 정보 추출
-				                const aptName = this.querySelector('.apartment-name').textContent;
-				                const aptLocation = this.querySelector('.apartment-location').textContent;
-				                const aptPrice = this.querySelector('.apartment-price').textContent;
-				                const aptSize = this.querySelector('.apartment-details span:first-child').textContent;
-				                
-				                // 추가 정보 (데이터 속성에서 가져오거나 기본값 사용)
-				                const aptFloor = this.dataset.floor || '정보 없음';
-				                const aptBuildYear = this.dataset.buildYear || '정보 없음';
-				                
-				                console.log('추출된 정보:', {
-				                    aptName, aptLocation, aptPrice, aptSize, aptFloor, aptBuildYear
-				                });
-				                
-				                // 선택된 아파트 정보 표시
-				                const selectedApartment = document.getElementById('selectedApartment');
-				                selectedApartment.innerHTML = `
-				                    <div class="selected-apt-header">
-				                        <h3 class="selected-apt-name">${aptName}</h3>
-				                        <span class="selected-apt-label">선택됨</span>
-				                    </div>
-				                    <div class="selected-apt-location">${aptLocation}</div>
-				                    <div class="selected-apt-details">
-				                        <div class="selected-detail">
-				                            <span class="detail-label">가격</span>
-				                            <span class="detail-value selected-price">${aptPrice}</span>
-				                        </div>
-				                        <div class="selected-detail">
-				                            <span class="detail-label">평수</span>
-				                            <span class="detail-value selected-size">${aptSize}</span>
-				                        </div>
-				                        <div class="selected-detail">
-				                            <span class="detail-label">층수</span>
-				                            <span class="detail-value selected-floor">${aptFloor}</span>
-				                        </div>
-				                        <div class="selected-detail">
-				                            <span class="detail-label">건축년도</span>
-				                            <span class="detail-value selected-year">${aptBuildYear}</span>
-				                        </div>
-				                    </div>
-				                `;
-				                
-				                // 비교 항목 업데이트
-				                updateComparison(aptPrice, aptSize, aptFloor, aptBuildYear);
-				            });
-				        });
-				    }
+
 				});
 
 				// 아파트 카드에 이벤트 리스너 추가하는 함수
@@ -261,10 +191,10 @@
 				        }
 				        
 				        // 데이터 속성 확인
-				        console.log('카드 데이터 속성:', {
+				        /*console.log('카드 데이터 속성:', {
 				            floor: card.dataset.floor,
 				            buildYear: card.dataset.buildYear
-				        });
+				        });*/
 				        
 				        card.dataset.hasClickListener = 'true';
 				        card.addEventListener('click', function() {
@@ -316,98 +246,6 @@
 				            updateComparison(aptPrice, aptSize, aptFloor, aptBuildYear);
 				        });
 				    });
-				}
-				
-				// 관심목록 불러오기 함수
-				function loadFavorites() {
-				    console.log('관심목록 불러오기 시작');
-				    
-				    // 이미 서버에서 관심목록을 가져왔다면 추가 요청 불필요
-				    const interestList = document.querySelectorAll('.comparison-item');
-				    if (interestList.length > 0) {
-				        console.log('이미 관심목록이 로드되어 있음:', interestList.length);
-				        return;
-				    }
-				    
-				    // AJAX로 관심목록 가져오기
-				    $.ajax({
-				        url: '/api/favorites',
-				        method: 'GET',
-				        success: function(response) {
-				            console.log('관심목록 데이터 수신:', response);
-				            displayFavorites(response);
-				        },
-				        error: function(xhr, status, error) {
-				            console.error('관심목록 가져오기 오류:', error);
-				            console.error('상태 코드:', xhr.status);
-				            console.error('응답 텍스트:', xhr.responseText);
-				            
-				            // 오류 발생 시 빈 목록으로 표시
-				            displayFavorites([]);
-				        }
-				    });
-				}
-
-				// 관심목록 표시 함수
-				function displayFavorites(favorites) {
-				    console.log('관심목록 표시 시작:', favorites?.length || 0);
-				    
-				    const interestComparisonList = document.getElementById('interestComparisonList');
-				    if (!interestComparisonList) {
-				        console.error('interestComparisonList 요소를 찾을 수 없습니다');
-				        return;
-				    }
-				    
-				    if (!favorites || favorites.length === 0) {
-				        interestComparisonList.innerHTML = `
-				            <p class="no-interest-message">
-				                <i class="fas fa-heart"></i> 관심 등록된 아파트가 없습니다.
-				            </p>
-				        `;
-				        return;
-				    }
-				    
-				    let html = '';
-				    favorites.forEach(apt => {
-				        // 데이터 유효성 검사 및 기본값 설정
-				        const aptId = apt.id || '';
-				        const aptName = apt.aptNm || '이름 없음';
-				        const location = apt.estateAgentSggNm || '위치 정보 없음';
-				        const dealAmount = apt.dealAmount ? `${apt.dealAmount.toLocaleString()}만원` : '가격 정보 없음';
-				        const excluUseAr = apt.excluUseAr ? `${apt.excluUseAr}㎡` : '면적 정보 없음';
-				        const floor = apt.floor ? `${apt.floor}층` : '층수 정보 없음';
-				        const buildYear = apt.buildYear ? `${apt.buildYear}년` : '건축년도 정보 없음';
-				        
-				        html += `
-				            <div class="comparison-item" data-apt-id="${aptId}">
-				                <div class="comparison-apt-info">
-				                    <h3 class="comparison-apt-name">${aptName}</h3>
-				                    <div class="comparison-apt-location">${location}</div>
-				                </div>
-				                <div class="comparison-details">
-				                    <div class="comparison-detail">
-				                        <span class="detail-label">가격</span>
-				                        <span class="detail-value">${dealAmount}</span>
-				                    </div>
-				                    <div class="comparison-detail">
-				                        <span class="detail-label">평수</span>
-				                        <span class="detail-value">${excluUseAr}</span>
-				                    </div>
-				                    <div class="comparison-detail">
-				                        <span class="detail-label">층수</span>
-				                        <span class="detail-value">${floor}</span>
-				                    </div>
-				                    <div class="comparison-detail">
-				                        <span class="detail-label">건축년도</span>
-				                        <span class="detail-value">${buildYear}</span>
-				                    </div>
-				                </div>
-				            </div>
-				        `;
-				    });
-				    
-				    interestComparisonList.innerHTML = html;
-				    console.log('관심목록 표시 완료');
 				}
 
 				// 비교 정보 업데이트 함수
