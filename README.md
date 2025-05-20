@@ -195,6 +195,22 @@ CREATE SEQUENCE seq_apartmentinfo
     INCREMENT BY 1
     NOCACHE
     NOCYCLE;
+create table apartment_favorite(
+    favoriteId number primary key,
+    apartmentId number,
+    userNumber number,
+    createdAt date default sysdate,
+    lat NUMBER(12,8),
+    lng NUMBER(12,8),
+    dealamount varchar2(100),
 
+    FOREIGN KEY (apartmentId) REFERENCES APARTMENTINFO(apartmentId)ON DELETE CASCADE,
+    FOREIGN KEY (userNumber) REFERENCES USERINFO(userNumber)ON DELETE CASCADE
+);
+CREATE SEQUENCE seq_apartment_favorite
+START WITH 1
+INCREMENT BY 1
+NOCACHE
+NOCYCLE;
   </code></pre>
 </details>
