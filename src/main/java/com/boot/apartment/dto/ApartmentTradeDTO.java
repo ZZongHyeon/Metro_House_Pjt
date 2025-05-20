@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ApartmentTradeDTO {
+	private int apartmentId;
     private String sggCd;
     private String umdNm;
     private String aptNm;
@@ -49,6 +50,5 @@ public class ApartmentTradeDTO {
     private String subwayStation; // 지하철역 이름
     private String subwayDistance; // 거리
 
-    // favoriteList를 위한 유저 정보
-    private String userId; // 유저 아이디
+
 }

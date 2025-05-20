@@ -35,15 +35,4 @@ public class ApiController {
 			return ResponseEntity.internalServerError().build();
 		}
 	}
-
-	@PostMapping("/FavoriteListadd")
-	public ResponseEntity<?> addToFavorites(@RequestParam("apartmentId") int apartmentId, HttpSession session) {
-		Integer userNumber = (Integer) session.getAttribute("userNumber");
-
-		if (userNumber == null) {
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
-		}
-		return null;
-
-	}
 }

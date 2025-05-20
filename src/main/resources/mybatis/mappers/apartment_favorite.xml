@@ -1,0 +1,58 @@
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boot.apartment.dao.ApartmentFavoriteDAO">
+<!--추가(맵에서 관심등록 눌렀을 때) insert-->
+	<insert id="addFavoriteList">
+		INSERT INTO userinfo (
+		userNumber, userId, userPw,
+		userName, userTel,
+		userEmail, userBirth, userZipCode, userAddress,
+		userDetailAddress
+		)
+		VALUES (
+		(SELECT NVL(MAX(userNumber), 0) + 1 FROM
+		userinfo),
+		#{userId}, #{userPw}, #{userName}, #{userTel},
+		#{userEmail},
+		#{userBirth}, #{userZipCode}, #{userAddress}, #{userDetailAddress}
+		)
+	</insert>
+
+<!--	검증(이미 눌렀으면) select-->
+	<select id="checkFavoriteList" resultType="com.boot.apartment_favorite.dto.ApartmentFavoriteDTO">
+		select userid, userPw from userinfo where userId=#{userId}
+	</select>
+
+<!--관심목록 전체 카운트(갯수) select-->
+	<select id="getFavoriteListCount" resultType="com.boot.apartment_favorite.dto.ApartmentFavoriteDTO">
+		select userNumber, userId, userPw, userName, userTel,
+		userEmail,
+		userBirth, userZipCode, userAddress, userDetailAddress,
+		userAdmin, userRegdate from
+		userinfo where userId=#{userId}
+	</select>
+	
+<!--	유저 전체 관심목록 리스트 사이드바 + 관심아파트 jsp select-->
+	<select id="getFavoriteListByUserNumber" resultType="com.boot.apartment_favorite.dto.ApartmentFavoriteDTO">
+		select userNumber, userId, userPw, userName, userTel,
+		userEmail,
+		userBirth, userZipCode, userAddress, userDetailAddress,
+		userAdmin, userRegdate from
+		userinfo where userId=#{userId}
+	</select>
+
+
+<!--삭제(관심아파트 페이지에서 하트눌렀을 때) delete-->
+	<delete id="removeFavoriteList">
+	update userinfo set userNumber=#{userNumber},
+		userId=#{userId}, userName=#{userName}, userTel=#{userTel} ,
+		userEmail=#{userEmail}, userZipCode=#{userZipCode},
+		userAddress=#{userAddress}, userDetailAddress=#{userDetailAddress}
+		where userNumber=#{userNumber}
+	</delete>
+
+</mapper>
+
