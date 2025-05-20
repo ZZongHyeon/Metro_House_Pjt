@@ -226,8 +226,8 @@ public class ApartmentTradeServiceImpl implements ApartmentTradeService {
                 JSONObject KakaoObject = Response.getJSONObject(0);
                 dto.setSubwayStation(KakaoObject.getString("place_name"));
                 dto.setSubwayDistance(KakaoObject.getString("distance"));
-                System.out.println("지하철역: " + dto.getSubwayStation());
-                System.out.println("거리: " + dto.getSubwayDistance());
+//                System.out.println("지하철역: " + dto.getSubwayStation());
+//                System.out.println("거리: " + dto.getSubwayDistance());
             } else {
                 dto.setSubwayStation("지하철역 없음");
                 dto.setSubwayDistance("0");
@@ -376,7 +376,7 @@ public class ApartmentTradeServiceImpl implements ApartmentTradeService {
 
             if (userAddress != null && !userAddress.isEmpty())
             {
-                System.out.println("주소: " + userAddress);
+//                System.out.println("주소: " + userAddress);
                 String[] addressParts = userAddress.split(" ");
                 if (addressParts.length >= 2)
                 {
@@ -390,7 +390,7 @@ public class ApartmentTradeServiceImpl implements ApartmentTradeService {
                         JSONObject jsonObject = jsonResponse.getJSONObject(0);
                         JSONObject address = jsonObject.getJSONObject("address");
                         String sggcode = address.getString("b_code").substring(0, 5);
-                        System.out.println("추천 시군구 코드: " + sggcode);
+//                        System.out.println("추천 시군구 코드: " + sggcode);
 
                         // 추천 아파트 리스트 가져오기
                         return getTradeData(sggcode, "202504", "3");

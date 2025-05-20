@@ -81,7 +81,7 @@ public class ViewController {
 		
 //		System.out.println("user :" + user);
 		if (user != null) {
-			System.out.println("user != null");
+//			System.out.println("user != null");
 			List<ApartmentTradeDTO> apartmentList = apartmentTradeService.recommend(user);
 			model.addAttribute("apartmentList", apartmentList);
 		}

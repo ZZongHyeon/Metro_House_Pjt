@@ -229,18 +229,18 @@ body {
     overflow: hidden;
 }
 
-.search-header::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 150px;
-    height: 150px;
-    background-color: rgba(59, 130, 246, 0.05);
-    border-radius: 50%;
-    transform: translate(50%, -50%);
-    z-index: 0;
-}
+/*.search-header::after {*/
+/*    content: '';*/
+/*    position: absolute;*/
+/*    top: 0;*/
+/*    right: 0;*/
+/*    width: 150px;*/
+/*    height: 150px;*/
+/*    background-color: rgba(59, 130, 246, 0.05);*/
+/*    border-radius: 50%;*/
+/*    transform: translate(50%, -50%);*/
+/*    z-index: 0;*/
+/*}*/
 
 .search-title {
     font-size: 24px;

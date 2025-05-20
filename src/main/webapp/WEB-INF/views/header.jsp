@@ -24,6 +24,7 @@
     
     <header class="top-header">
         <div class="header-container">
+            <!-- 로고 섹션 -->
             <div class="logo-section">
                 <a href="/" class="logo-link">
                     <div class="logo-icon">
@@ -33,6 +34,7 @@
                 </a>
             </div>
 
+            <!-- 네비게이션 링크 -->
             <nav class="nav-links" id="navLinks">
                 <a href="/" class="nav-link ${currentPage == '/' ? 'active' : ''}">
                     <i class="nav-icon fa-solid fa-house"></i>
@@ -54,6 +56,7 @@
                 </c:if>
             </nav>
 
+            <!-- 사용자 메뉴 -->
             <div class="user-menu">
                 <c:choose>
                     <c:when test="${user != null}">
@@ -65,7 +68,12 @@
                             <span class="user-name">${user.userName} 님</span>
                             <span class="toggle-icon"><i class="fa-solid fa-chevron-down"></i></span>
                         </button>
+                        
+
+                        
+                        <!-- 드롭다운 메뉴 -->
                         <div class="dropdown-menu">
+                            <!-- 드롭다운 헤더 -->
                             <div class="dropdown-header">
                                 <div class="dropdown-header-bg"></div>
                                 <div class="dropdown-header-content">
@@ -79,7 +87,9 @@
                                 </div>
                             </div>
 
+                            <!-- 드롭다운 메뉴 컨테이너 -->
                             <div class="dropdown-menu-container">
+                                <!-- 내 계정 섹션 -->
                                 <div class="dropdown-section">
                                     <div class="dropdown-section-title">내 계정</div>
                                     <a href="mypage" class="dropdown-item">
@@ -93,6 +103,7 @@
                                     </a>
                                 </div>
 
+                                <!-- 서비스 섹션 -->
                                 <div class="dropdown-section">
                                     <div class="dropdown-section-title">서비스</div>
                                     <a href="/search_history" class="dropdown-item">
@@ -106,6 +117,7 @@
                                     </a>
                                 </div>
 
+                                <!-- 관리자 섹션 -->
                                 <c:if test="${user.userAdmin == 1}">
                                 <div class="dropdown-section">
                                     <div class="dropdown-section-title">관리자</div>
@@ -122,6 +134,7 @@
                                 </c:if>
                             </div>
 
+                            <!-- 드롭다운 푸터 -->
                             <div class="dropdown-footer">
                                 <a href="/privacy" class="dropdown-footer-link">개인정보처리방침</a>
                                 <a href="/logout" class="logout-button">
@@ -133,6 +146,7 @@
                     </div>
                     </c:when>
                     <c:otherwise>
+                    <!-- 로그인/회원가입 버튼 -->
                     <div class="auth-buttons">
                         <a href="/loginForm" class="auth-link login-link">
                             <i class="fa-solid fa-right-to-bracket"></i> 로그인
@@ -146,10 +160,51 @@
             </div>
         </div>
     </header>
-
+	<!-- 토큰 만료 시간 관리 컴포넌트 -->
+	<c:if test="${user != null}">
+	<div class="token-expiry-manager" id="tokenExpiryManager">
+	    <div class="token-card">
+	        <div class="token-header">
+	            <div class="token-title">
+	                <i class="fas fa-clock"></i> 세션 만료 시간
+	            </div>
+	            <div class="token-actions">
+	                <button id="extendTokenBtn" class="token-extend-btn">
+	                    <i class="fas fa-sync-alt"></i> 연장하기
+	                </button>
+	                <button id="toggleTokenBtn" class="token-toggle-btn">
+	                    <i class="fas fa-chevron-up"></i>
+	                </button>
+	            </div>
+	        </div>
+	        
+	        <div class="token-body" id="tokenBody">
+	            <div class="token-info">
+	                <span>남은 시간</span>
+	                <span id="remainingTime">--:--</span>
+	            </div>
+	            
+	            <div class="progress-container">
+	                <div id="progressBar" class="progress-bar"></div>
+	            </div>
+	            
+	            <div class="token-expiry">
+	                <span>* 시간이 만료되면 자동으로 로그아웃됩니다.</span>
+	            </div>
+	        </div>
+	    </div>
+	    
+	    <!-- 접힌 상태일 때 표시될 미니 타이머 -->
+	    <div class="token-mini" id="tokenMini">
+	        <i class="fas fa-clock"></i> <span id="miniRemainingTime">--:--</span>
+	    </div>
+	</div>
+	</c:if>
+	
+    <script src="/resources/js/token_manager.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // User dropdown functionality
+            // 사용자 드롭다운 기능
             const dropdownToggle = document.getElementById('dropdownToggle');
             const userDropdown = document.getElementById('userDropdown');
 
@@ -160,7 +215,7 @@
                     userDropdown.classList.toggle('active');
                 });
 
-                // Close dropdown when clicking outside
+                // 외부 클릭 시 드롭다운 닫기
                 document.addEventListener('click', function(e) {
                     if (userDropdown && !userDropdown.contains(e.target)) {
                         userDropdown.classList.remove('active');
@@ -168,7 +223,7 @@
                 });
             }
 
-            // Header scroll effect
+            // 헤더 스크롤 효과
             const header = document.querySelector('.top-header');
             window.addEventListener('scroll', function() {
                 if (window.scrollY > 10) {
@@ -178,7 +233,7 @@
                 }
             });
 
-            // Check initial scroll position
+            // 초기 스크롤 위치 확인
             if (window.scrollY > 10) {
                 header.classList.add('scrolled');
             }

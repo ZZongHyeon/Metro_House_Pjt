@@ -3,7 +3,6 @@
 .wrapper,
 body > .content-wrapper,
 main.content {
-  max-width: 1600px !important; /* 최대 너비 증가 */
   width: 95% !important; /* 화면의 95% 너비 사용 */
   margin-left: auto !important;
   margin-right: auto !important;

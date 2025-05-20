@@ -91,6 +91,8 @@ body {
   justify-content: center;
   width: 50px;
   height: 50px;
+  min-width: 50px;
+  min-height: 50px;
   background: var(--primary-gradient);
   color: white;
   border-radius: 12px;
@@ -619,7 +621,7 @@ body {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 807px) {
   .header-container {
     height: 64px;
   }
@@ -643,7 +645,8 @@ body {
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 735px) {
+
   .nav-link span {
     display: none;
   }
@@ -666,6 +669,11 @@ body {
     padding: 0 16px;
   }
 }
+@media (max-width: 400px){
+	.logo-text {
+		display: none;
+	}
+}
 /* 스크롤바 스타일링 */
 ::-webkit-scrollbar {
   width: 8px;
@@ -682,4 +690,221 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--gray-400);
+}
+
+
+
+.token-expiry-manager {
+    position: fixed;
+    top: 90px;
+    right: 20px;
+    width: 280px;
+    z-index: 99;
+    opacity: 1;
+    visibility: visible;
+    transition: var(--transition);
+}
+
+.user-dropdown.active .token-expiry-manager {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.token-card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    border: 1px solid var(--gray-100);
+    transition: var(--transition);
+}
+
+.token-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-radius: 12px 12px 0 0;
+    border-bottom: 1px solid var(--gray-100);
+    background-color: var(--mint);
+}
+
+.token-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--dark);
+}
+
+.token-title i {
+    color: var(--primary);
+}
+
+.token-extend-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 10px;
+    font-size: 12px;
+    border: 1px solid var(--gray-200);
+    border-radius: 6px;
+    background-color: white;
+    color: var(--dark);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.token-extend-btn:hover {
+    background-color: var(--primary);
+    color: var(--primary-lighter);
+}
+
+.token-extend-btn.refreshing i {
+    animation: spin 1s linear infinite;
+}
+.token-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.token-toggle-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--gray-200);
+    border-radius: 6px;
+    background-color: white;
+    color: var(--gray-500);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.token-toggle-btn:hover {
+    background-color: var(--primary);
+    color: var(--primary-lighter);
+}
+
+.token-toggle-btn i {
+    font-size: 12px;
+    transition: transform 0.3s ease;
+}
+
+/* 접힌 상태 스타일 */
+.token-expiry-manager.collapsed .token-card {
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+}
+
+.token-expiry-manager.collapsed .token-toggle-btn i {
+    transform: rotate(180deg);
+}
+
+/* 미니 타이머 스타일 */
+.token-mini {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--dark);
+    cursor: pointer;
+    border: 1px solid var(--gray-100);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: var(--transition);
+	width: 45%;
+	margin-top:-150px;
+	margin-left: 150px;
+}
+
+.token-mini i {
+    color: var(--primary);
+    margin-right: 8px;
+    font-size: 12px;
+}
+
+.token-expiry-manager.collapsed .token-mini {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+    .token-expiry-manager {
+        right: 10px;
+        width: 250px;
+    }
+	.token-mini {
+		display: none;
+	}
+}
+
+@media (max-width: 576px) {
+
+    .token-expiry-manager {
+        right: 10px;
+        width: 200px;
+    }
+    
+    .token-mini {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.token-body {
+    padding: 16px;
+    border-radius: 0 0 12px 12px;
+}
+.token-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--gray-500);
+    margin-bottom: 8px;
+}
+
+.progress-container {
+    width: 100%;
+    height: 6px;
+    background-color: var(--gray-100);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--primary-gradient);
+    transition: width 1s ease;
+}
+
+.progress-bar.warning {
+    background: linear-gradient(90deg, #fbbf24, #f59e0b);
+}
+
+.progress-bar.danger {
+    background: linear-gradient(90deg, #f87171, #ef4444);
+}
+
+.token-expiry {
+    margin-top: 8px;
+    font-size: 11px;
+    color: var(--gray-400);
 }
