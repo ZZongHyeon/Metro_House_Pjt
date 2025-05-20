@@ -40,7 +40,7 @@ public class ApartmentFavoriteServiceImpl implements ApartmentFavoriteService {
 	@Override
 //	public List<ApartmentFavoriteDTO> getFavoriteListByUserNumber(int userNumber,
 //			ApartmentFavoriteCriteriaDTO apartmentFavoriteCriteriaDTO) {
-		public List<ApartmentFavoriteDTO> getFavoriteListByUserNumber(Map<String, Object> params) {
+	public List<ApartmentFavoriteDTO> getFavoriteListByUserNumber(Map<String, Object> params) {
 		ApartmentFavoriteDAO dao = sqlSession.getMapper(ApartmentFavoriteDAO.class);
 		return dao.getFavoriteListByUserNumber(params);
 	}

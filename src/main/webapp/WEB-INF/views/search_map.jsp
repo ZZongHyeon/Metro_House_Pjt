@@ -23,647 +23,747 @@
 
         <body>
             <jsp:include page="header.jsp" />
+			<div class="container">
+			        <div class="main-content-wrapper">
+			            <div class="comparison-container">
+			                <div class="comparison-header">
+			                    <i class="fas fa-exchange-alt"></i>
+			                    아파트 비교
+			                </div>
+			                
+<!--			                선택된 아파트 정보 -->
+			                <div class="selected-apartment" id="selectedApartment">
+			                    <p class="no-selection-message">
+			                        <i class="fas fa-info-circle"></i> 우측 목록에서 아파트를 선택하세요.
+			                    </p>
+			                </div>
+			                
+			                <div class="comparison-divider">
+			                    <span>관심 목록과 비교</span>
+			                </div>
+			                
+<!--							관심 목록 아파트-->
+							<div class="interest-comparison-list" id="interestComparisonList">
+							    <c:choose>
+							        <c:when test="${empty interestList}">
+							            <p class="no-interest-message">
+							                <i class="fas fa-heart"></i> 관심 등록된 아파트가 없습니다.
+							            </p>
+							        </c:when>
+							        <c:otherwise>
+							            <c:forEach var="apt" items="${interestList}">
+							                <div class="comparison-item" data-apt-id="${apt.id}">
+							                    <div class="comparison-apt-info">
+							                        <h3 class="comparison-apt-name">${apt.aptNm}</h3>
+							                        <div class="comparison-apt-location">${apt.estateAgentSggNm}</div>
+							                    </div>
+							                    <div class="comparison-details">
+							                        <div class="comparison-detail">
+							                            <span class="detail-label">가격</span>
+							                            <span class="detail-value">${apt.dealAmount}만원</span>
+							                        </div>
+							                        <div class="comparison-detail">
+							                            <span class="detail-label">평수</span>
+							                            <span class="detail-value">${apt.excluUseAr}㎡</span>
+							                        </div>
+							                        <div class="comparison-detail">
+							                            <span class="detail-label">층수</span>
+							                            <span class="detail-value">${apt.floor}층</span>
+							                        </div>
+							                        <div class="comparison-detail">
+							                            <span class="detail-label">건축년도</span>
+							                            <span class="detail-value">${apt.buildYear}년</span>
+							                        </div>
+							                    </div>
+							                </div>
+							            </c:forEach>
+							        </c:otherwise>
+							    </c:choose>
+							</div>
+			            </div>
+			            
+			            <div class="search-result-container">
+			                <div class="search-result-header">
+			                    <h1 class="search-result-title">
+			                        <i class="fas fa-subway"></i>검색 결과
+			                    </h1>
 
-            <div class="container">
-                <div class="search-result-container">
-                    <div class="search-result-header">
-                        <h1 class="search-result-title">
-                            <i class="fas fa-subway"></i> 지하철역 주변 아파트 검색 결과
-                        </h1>
-                        <!-- <a href="/" class="btn-sm">
-                    <i class="fas fa-search"></i>
-                </a> -->
+			                    <form class="search-form" id="search-form">
+			                        <!-- 필터 옵션 -->
+			                        <div class="search-filters">
+			                            <div class="search-filter">
+			                                <label class="filter-label" for="majorRegion">지역</label>
+			                                <select class="filter-select" id="majorRegion" name="majorRegion">
+			                                    <option value="">선택하세요</option>
+			                                    <option value="서울" ${param.majorRegion=='서울' ? 'selected' : '' }>서울특별시</option>
+			                                    <option value="부산" ${param.majorRegion=='부산' ? 'selected' : '' }>부산광역시</option>
+			                                    <option value="대구" ${param.majorRegion=='대구' ? 'selected' : '' }>대구광역시</option>
+			                                    <option value="인천" ${param.majorRegion=='인천' ? 'selected' : '' }>인천광역시</option>
+			                                    <option value="광주" ${param.majorRegion=='광주' ? 'selected' : '' }>광주광역시</option>
+			                                    <option value="대전" ${param.majorRegion=='대전' ? 'selected' : '' }>대전광역시</option>
+			                                    <option value="울산" ${param.majorRegion=='울산' ? 'selected' : '' }>울산광역시</option>
+			                                    <option value="경기" ${param.majorRegion=='경기' ? 'selected' : '' }>경기도</option>
+			                                </select>
+			                            </div>
 
+			                            <div class="search-filter">
+			                                <label class="filter-label" for="district">구/군</label>
+			                                <select class="filter-select" id="district" name="district">
+			                                    <option value="">구/군 선택</option>
+			                                    <!-- 대분류에 따라 동적으로 변경됩니다 -->
+			                                </select>
+			                            </div>
 
-                        <form class="search-form" id="search-form">
-                            <!-- 필터 옵션 -->
-                            <div class="search-filters">
-                                <div class="search-filter">
-                                    <label class="filter-label" for="majorRegion">지역</label>
-                                    <select class="filter-select" id="majorRegion" name="majorRegion">
-                                        <option value="">선택하세요</option>
-                                        <option value="서울" ${param.majorRegion=='서울' ? 'selected' : '' }>서울특별시
-                                        </option>
-                                        <option value="부산" ${param.majorRegion=='부산' ? 'selected' : '' }>부산광역시
-                                        </option>
-                                        <option value="대구" ${param.majorRegion=='대구' ? 'selected' : '' }>대구광역시
-                                        </option>
-                                        <option value="인천" ${param.majorRegion=='인천' ? 'selected' : '' }>인천광역시
-                                        </option>
-                                        <option value="광주" ${param.majorRegion=='광주' ? 'selected' : '' }>광주광역시
-                                        </option>
-                                        <option value="대전" ${param.majorRegion=='대전' ? 'selected' : '' }>대전광역시
-                                        </option>
-                                        <option value="울산" ${param.majorRegion=='울산' ? 'selected' : '' }>울산광역시
-                                        </option>
-                                        <option value="경기" ${param.majorRegion=='경기' ? 'selected' : '' }>경기도
-                                        </option>
-                                        <!-- 다른 지역 옵션은 주석 처리됨 -->
-                                    </select>
-                                </div>
+			                            <div class="search-filter">
+			                                <label class="filter-label" for="station">지하철역</label>
+			                                <select class="filter-select" id="station" name="station">
+			                                    <option value="">지하철역 선택</option>
+			                                    <!-- 구/군에 따라 동적으로 변경됩니다 -->
+			                                </select>
+			                            </div>
 
-                                <div class="search-filter">
-                                    <label class="filter-label" for="district">구/군</label>
-                                    <select class="filter-select" id="district" name="district">
-                                        <option value="">구/군 선택</option>
-                                        <!-- 대분류에 따라 동적으로 변경됩니다 -->
-                                    </select>
-                                </div>
+			                            <div class="search-button-container">
+			                                <button type="button" class="search-icon-button" onclick="fn_submit()">
+			                                    <i class="fas fa-search"></i>
+			                                </button>
+			                            </div>
+			                        </div>
+			                    </form>
+			                </div>
 
-                                <div class="search-filter">
-                                    <label class="filter-label" for="station">지하철역</label>
-                                    <select class="filter-select" id="station" name="station">
-                                        <option value="">지하철역 선택</option>
-                                        <!-- 구/군에 따라 동적으로 변경됩니다 -->
-                                    </select>
-                                </div>
-
-                                <div class="search-button-container">
-                                    <button type="button" class="search-icon-button" onclick="fn_submit()">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-
-<%--                    <div class="search-info">--%>
-<%--                        <p><strong>검색 지역 :</strong> ${searchParams.majorRegion}</p>--%>
-<%--                        <p><strong>구/군 :</strong> ${searchParams.district}</p>--%>
-<%--                        <p><strong>지하철역 :</strong> ${searchParams.station}</p>--%>
-<%--                    </div>--%>
-
-                    <div class="map-apartment-container">
-                        <div class="map-container">
-                            <div id="map"></div>
-                            <div class="map-loading" id="mapLoading">
-                                <p style="text-align: center; color: var(--gray-500);">
-                                    <i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i> 지도를 불러오는 중입니다...
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="apartment-list-container">
-                            <div class="apartment-list-header">
-                                <i class="fas fa-building"></i>
-                                주변 아파트 목록
-                            </div>
-                            <div class="apartment-list" id="apartmentList">
-                                <!-- 아파트 목록이 여기에 표시됩니다 -->
-                                <p style="text-align: center; padding: 50px 0; color: var(--gray-500);"
-                                    id="noResultsMessage">
-                                    검색 결과가 없습니다. 다른 지하철역을 검색해보세요.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
+			                <div class="map-container">
+			                    <div id="map"></div>
+			                    <div class="map-loading" id="mapLoading">
+			                        <p style="text-align: center; color: var(--gray-500);">
+			                            <i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i> 지도를 불러오는 중입니다...
+			                        </p>
+			                    </div>
+			                </div>
+			            </div>
+			            
+			            <div class="apartment-list-container">
+			                <div class="apartment-list-header">
+			                    <i class="fas fa-building"></i>
+			                    주변 아파트 목록
+			                </div>
+			                <div class="apartment-list" id="apartmentList">
+			                    <!-- 아파트 목록이 여기에 표시됩니다 -->
+			                    <p style="text-align: center; padding: 50px 0; color: var(--gray-500);" id="noResultsMessage">
+			                        검색 결과가 없습니다. 다른 지하철역을 검색해보세요.
+			                    </p>
+			                </div>
+			            </div>
+			        </div>
+			    </div>
             <script>
-				let map;
-				                document.addEventListener('DOMContentLoaded', function () {
-				                    // 현재 열려있는 오버레이를 추적하는 변수
-				                    let currentOverlay = null;
-
-				                    // 검색 파라미터 확인
-				                    const searchParams = {
-				                        region: "<c:out value='${searchParams.majorRegion}' default='' />",
-				                        district: "<c:out value='${searchParams.district}' default='' />",
-				                        station: "<c:out value='${searchParams.station}' default='' />"
-				                    };
-
-				                    // 지하철역 이름
-				                    const stationName = searchParams.station;
-
-				                    if (!stationName) {
-				                        console.error("지하철역 정보가 없습니다.");
-				                        return;
-				                    }
-
-				                    // 카카오맵 초기화
-				                    const container = document.getElementById('map');
-				                    const options = {
-				                        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 서울 시청 (기본값)
-				                        level: 3 // 지도 확대 레벨
-				                    };
-
-				                    map = new kakao.maps.Map(container, options);
-
-				                    // 지도 확대/축소 컨트롤 추가
-				                    const zoomControl = new kakao.maps.ZoomControl();
-				                    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
-
-				                    // 지도 로딩 완료 시 로딩 화면 숨기기
-				                    kakao.maps.event.addListener(map, 'tilesloaded', function () {
-				                        document.getElementById('mapLoading').style.display = 'none';
-				                    });
-
-				                    // 지도 클릭 시 열려있는 오버레이 닫기
-				                    kakao.maps.event.addListener(map, 'click', function () {
-				                        if (currentOverlay) {
-				                            currentOverlay.setMap(null);
-				                            currentOverlay = null;
-				                        }
-				                    });
-
-				                    // 장소 검색 객체 생성
-				                    const ps = new kakao.maps.services.Places();
-
-				                    // 지하철역 검색
-				                    ps.keywordSearch(stationName, function (data, status) {
-				                        if (status === kakao.maps.services.Status.OK) {
-				                            // 검색된 장소 중 지하철역 찾기
-				                            let stationPlace = null;
-
-				                            for (let i = 0; i < data.length; i++) {
-				                                if (data[i].category_name.includes('교통,수송 > 지하철,전철 > 지하철역')) {
-				                                    stationPlace = data[i];
-				                                    break;
-				                                }
-				                            }
-
-
-				                            if (!stationPlace && data.length > 0) {
-				                                // 지하철역 카테고리가 없으면 첫 번째 결과 사용
-				                                stationPlace = data[0];
-				                            }
-
-				                            if (stationPlace) {
-				                                // 지하철역 위치로 지도 중심 이동
-				                                const stationPosition = new kakao.maps.LatLng(stationPlace.y, stationPlace.x);
-				                                map.setCenter(stationPosition);
-
-				                                // 시군구 코드 가져오기
-				                                const geocoder = new kakao.maps.services.Geocoder();
-
-				                                function getAddressInfo(lat, lng) { // lat 위도, lng 경도
-				                                    geocoder.coord2RegionCode(lng, lat, function(result, status) { // 비동기 처리를 위한 콜백 함수
-				                                        if (status === kakao.maps.services.Status.OK) { // api 호출 성공 여부
-				                                            const region = result.find(item => item.region_type === 'H');
-				                                            if (region) {
-				                                                const sigunguCode = region.code.substring(0, 5);
-				                                                console.log('시군구 코드:', sigunguCode);
-				                                                getApartmentData(sigunguCode);
-				                                            }
-				                                        }
-				                                    });
-				                                }
-
-				                                // 초기 위치의 시군구 코드 가져오기
-				                                getAddressInfo(stationPlace.y, stationPlace.x);
-
-				                                // 지도 클릭 이벤트에서도 시군구 코드 확인
-				                                kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
-
-				                                    const latlng = mouseEvent.latLng;
-				                                    getAddressInfo(latlng.getLat(), latlng.getLng());
-
-
-				                                });
-
-				                                // 기본 마커 대신 지하철역 커스텀 마커 생성 (크기 증가)
-				                                const stationMarker = new kakao.maps.CustomOverlay({
-				                                    position: stationPosition,
-				                                    content: '<div style="' +
-				                                        'padding: 15px;' +
-				                                        'background-color: #51bdbd;' +
-				                                        'color: white;' +
-				                                        'border-radius: 50%;' +
-				                                        'font-size: 24px;' +
-				                                        'font-weight: bold;' +
-				                                        'box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);' +
-				                                        'display: flex;' +
-				                                        'align-items: center;' +
-				                                        'justify-content: center;' +
-				                                        'width: 60px;' +
-				                                        'height: 60px;' +
-				                                        'transform: translate(-50%, -50%);' +
-				                                        '">' +
-				                                        '<i class="fas fa-subway"></i>' +
-				                                        '</div>',
-				                                    map: map,
-				                                    zIndex: 3 // 다른 마커보다 앞에 표시
-				                                });
-
-				                                // 지하철역 정보 오버레이 생성 (위치 조정)
-				                                const stationInfoOverlay = new kakao.maps.CustomOverlay({
-				                                    position: stationPosition,
-				                                    content: '<div class="custom-overlay" style="' +
-				                                        'position: relative;' +
-				                                        'bottom: 95px;' +
-				                                        'border-radius: 6px;' +
-				                                        'float: left;' +
-				                                        'background: #fff;' +
-				                                        'padding: 10px;' +
-				                                        'box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);' +
-				                                        'transform: translateX(-50%);' +
-				                                        'white-space: nowrap;' +
-				                                        '">' +
-				                                        '<div class="title" style="' +
-				                                        'display: block;' +
-				                                        'font-size: 14px;' +
-				                                        'font-weight: 600;' +
-				                                        'color: #51bdbd;' +
-				                                        'text-align: center;' +
-				                                        '">' + stationName + '</div>' +
-				                                        '<div style="' +
-				                                        'content: \'\';' +
-				                                        'position: absolute;' +
-				                                        'bottom: -8px;' +
-				                                        'left: 50%;' +
-				                                        'margin-left: -8px;' +
-				                                        'width: 0;' +
-				                                        'height: 0;' +
-				                                        'border-width: 8px 8px 0 8px;' +
-				                                        'border-style: solid;' +
-				                                        'border-color: #fff transparent transparent transparent;' +
-				                                        '"></div>' +
-				                                        '</div>',
-				                                    map: map,
-				                                    yAnchor: 0.5
-				                                });
-
-				                                // 주변 아파트 데이터 (예시 데이터)
-				                                // 실제로는 서버에서 데이터를 가져와야 합니다
-				                                const apartments = [
-
-				                                ];
-
-				                                // 아파트 마커 생성 및 목록 표시
-				                                if (apartments.length > 0) {
-				                                    // 결과 없음 메시지 숨기기
-				                                    document.getElementById('noResultsMessage').style.display = 'none';
-
-				                                    // 아파트 목록 컨테이너
-				                                    const apartmentListContainer = document.getElementById('apartmentList');
-				                                    apartmentListContainer.innerHTML = ''; // 기존 내용 삭제
-
-				                                    // 아파트 마커 및 목록 생성
-				                                    apartments.forEach(apartment => {
-				                                        // 아파트 마커 생성
-				                                        const apartmentPosition = new kakao.maps.LatLng(apartment.lat, apartment.lng);
-				                                        const apartmentMarker = new kakao.maps.Marker({
-				                                            position: apartmentPosition,
-				                                            map: map
-				                                        });
-
-				                                        // 아파트 마커 클릭 이벤트
-				                                        kakao.maps.event.addListener(apartmentMarker, 'click', function () {
-				                                            // 이미 열려있는 오버레이가 있고, 같은 마커의 오버레이라면 닫기
-				                                            if (currentOverlay && currentOverlay.apartmentId === apartment.id) {
-				                                                currentOverlay.setMap(null);
-				                                                currentOverlay = null;
-				                                                return;
-				                                            }
-
-				                                            // 이미 열려있는 다른 오버레이가 있다면 닫기
-				                                            if (currentOverlay) {
-				                                                currentOverlay.setMap(null);
-				                                            }
-
-				                                            // 값 확인 함수
-				                                            function checkValue(value, defaultValue) {
-				                                                return (value !== undefined && value !== null) ? value : defaultValue;
-				                                            }
-
-				                                            // 아파트 이름
-				                                            const aptName = checkValue(apartment.name, '정보 없음');
-
-				                                            // 아파트 가격
-				                                            let priceText = '가격 정보 없음';
-				                                            if (apartment.price !== undefined && apartment.price !== null) {
-				                                                priceText = apartment.price.toLocaleString() + '만원';
-				                                            }
-
-				                                            // 아파트 크기
-				                                            let sizeText = '면적 정보 없음';
-				                                            if (apartment.size !== undefined && apartment.size !== null) {
-				                                                sizeText = apartment.size + '㎡ (' + Math.floor(apartment.size * 0.3025) + '평)';
-				                                            }
-
-				                                            // 아파트 주소
-				                                            let addressText = '주소 정보 없음';
-				                                            if (apartment.address !== undefined && apartment.address !== null) {
-				                                                addressText = apartment.address;
-				                                            } else if (apartment.location !== undefined && apartment.location !== null) {
-				                                                addressText = apartment.location;
-				                                            }
-
-				                                            // 지하철역과의 거리
-				                                            let distanceText = '거리 정보 없음';
-				                                            if (apartment.distance !== undefined && apartment.distance !== null) {
-				                                                distanceText = '지하철역에서 ' + apartment.distance;
-				                                            }
-
-				                                            // 방/욕실 정보
-				                                            let roomsText = '-';
-				                                            if (apartment.rooms !== undefined && apartment.rooms !== null) {
-				                                                roomsText = apartment.rooms + '개';
-				                                            }
-
-				                                            let bathroomsText = '-';
-				                                            if (apartment.bathrooms !== undefined && apartment.bathrooms !== null) {
-				                                                bathroomsText = apartment.bathrooms + '개';
-				                                            }
-
-				                                            // 층수 정보
-				                                            let floorText = '-';
-				                                            if (apartment.floor !== undefined && apartment.floor !== null) {
-				                                                floorText = apartment.floor;
-				                                            }
-
-				                                            // 건축년도 정보
-				                                            let buildYearText = '-';
-				                                            if (apartment.buildYear !== undefined && apartment.buildYear !== null) {
-				                                                buildYearText = apartment.buildYear + '년';
-				                                            }
-
-				                                            // 관리비 정보
-				                                            let maintenanceFeeText = '-';
-				                                            if (apartment.maintenanceFee !== undefined && apartment.maintenanceFee !== null) {
-				                                                maintenanceFeeText = '월 ' + apartment.maintenanceFee + '만원';
-				                                            }
-
-				                                            // 아파트 정보 오버레이 생성
-				                                            const apartmentOverlay = new kakao.maps.CustomOverlay({
-				                                                position: apartmentPosition,
-				                                                content: '<div class="custom-overlay apartment-overlay">' +
-				                                                    '<div class="overlay-header">' +
-				                                                    '<div class="title">' + aptName + '</div>' +
-				                                                    '<button class="close" onclick="this.parentElement.parentElement.parentElement.style.display=\'none\'; currentOverlay = null;"></button>' +
-				                                                    '</div>' +
-				                                                    '<div class="overlay-body">' +
-				                                                    '<div class="overlay-section">' +
-				                                                    '<div class="overlay-price">' + priceText + '</div>' +
-				                                                    '<div class="overlay-size">' + sizeText + '</div>' +
-				                                                    '</div>' +
-				                                                    '<div class="overlay-section">' +
-				                                                    '<div class="overlay-address">' + addressText + '</div>' +
-				                                                    '<div class="overlay-distance">' + distanceText + '</div>' +
-				                                                    '</div>' +
-				                                                    '<div class="overlay-section overlay-details">' +
-				                                                    '<div class="detail-item"><span>방/욕실:</span> ' + roomsText + '/' + bathroomsText + '</div>' +
-				                                                    '<div class="detail-item"><span>층수:</span> ' + floorText + '</div>' +
-				                                                    '<div class="detail-item"><span>건축년도:</span> ' + buildYearText + '</div>' +
-				                                                    '<div class="detail-item"><span>관리비:</span> ' + maintenanceFeeText + '</div>' +
-				                                                    '</div>' +
-				                                                    '</div>' +
-				                                                    '<div class="overlay-footer">' +
-				                                                    '<button class="overlay-button favorite" style="width: 100%;">관심 등록</button>' +
-				                                                    '</div>' +
-				                                                    '</div>',
-				                                                map: map,
-				                                                yAnchor: 1
-				                                            });
-
-				                                            // 현재 오버레이에 아파트 ID 저장하여 추적
-				                                            apartmentOverlay.apartmentId = apartment.id;
-
-				                                            // 현재 열린 오버레이 업데이트
-				                                            currentOverlay = apartmentOverlay;
-				                                        });
-
-				                                        // 아파트 카드 생성
-				                                        const apartmentCard = document.createElement('div');
-				                                        apartmentCard.className = 'apartment-card';
-				                                        apartmentCard.innerHTML =
-				                                            '<div class="apartment-image">' +
-				                                            '<i class="fas fa-building"></i>' +
-				                                            '</div>' +
-				                                            '<div class="apartment-info">' +
-				                                            '<h3 class="apartment-name">' + apartment.name + '</h3>' +
-				                                            '<div class="apartment-location">' + apartment.location + ' (' + apartment.distance + ')</div>' +
-				                                            '<div class="apartment-details">' +
-				                                            '<span>' + apartment.size + '㎡ (' + Math.floor(apartment.size * 0.3025) + '평)</span>' +
-				                                            '<span class="apartment-price">' + apartment.price.toLocaleString() + '만원</span>' +
-				                                            '</div>' +
-				                                            '<div class="apartment-sub-details">' +
-				                                            '<span>' + apartment.rooms + '방 ' + apartment.bathrooms + '욕실</span>' +
-				                                            '<span>' + apartment.buildYear + '년 건축</span>' +
-				                                            '</div>' +
-				                                            '</div>';
-
-				                                        // 아파트 카드 클릭 이벤트
-				                                        apartmentCard.addEventListener('click', function () {
-				                                            // 해당 아파트 위치로 지도 이동
-				                                            map.setCenter(apartmentPosition);
-				                                            map.setLevel(3); // 확대
-
-				                                            // 이미 열려있는 오버레이가 있고, 같은 아파트의 오버레이라면 닫기
-				                                            if (currentOverlay && currentOverlay.apartmentId === apartment.id) {
-				                                                currentOverlay.setMap(null);
-				                                                currentOverlay = null;
-				                                                return;
-				                                            }
-
-				                                            // 이미 열려있는 다른 오버레이가 있다면 닫기
-				                                            if (currentOverlay) {
-				                                                currentOverlay.setMap(null);
-				                                            }
-
-				                                            // 값 확인 함수
-				                                            function checkValue(value, defaultValue) {
-				                                                return (value !== undefined && value !== null) ? value : defaultValue;
-				                                            }
-
-				                                            // 아파트 이름
-				                                            const aptName = checkValue(apartment.name, '정보 없음');
-
-				                                            // 아파트 가격
-				                                            let priceText = '가격 정보 없음';
-				                                            if (apartment.price !== undefined && apartment.price !== null) {
-				                                                priceText = apartment.price.toLocaleString() + '만원';
-				                                            }
-
-				                                            // 아파트 크기
-				                                            let sizeText = '면적 정보 없음';
-				                                            if (apartment.size !== undefined && apartment.size !== null) {
-				                                                sizeText = apartment.size + '㎡ (' + Math.floor(apartment.size * 0.3025) + '평)';
-				                                            }
-
-				                                            // 아파트 주소
-				                                            let addressText = '주소 정보 없음';
-				                                            if (apartment.address !== undefined && apartment.address !== null) {
-				                                                addressText = apartment.address;
-				                                            } else if (apartment.location !== undefined && apartment.location !== null) {
-				                                                addressText = apartment.location;
-				                                            }
-
-				                                            // 지하철역과의 거리
-				                                            let distanceText = '거리 정보 없음';
-				                                            if (apartment.distance !== undefined && apartment.distance !== null) {
-				                                                distanceText = '지하철역에서 ' + apartment.distance;
-				                                            }
-
-				                                            // 방/욕실 정보
-				                                            let roomsText = '-';
-				                                            if (apartment.rooms !== undefined && apartment.rooms !== null) {
-				                                                roomsText = apartment.rooms + '개';
-				                                            }
-
-				                                            let bathroomsText = '-';
-				                                            if (apartment.bathrooms !== undefined && apartment.bathrooms !== null) {
-				                                                bathroomsText = apartment.bathrooms + '개';
-				                                            }
-
-				                                            // 층수 정보
-				                                            let floorText = '-';
-				                                            if (apartment.floor !== undefined && apartment.floor !== null) {
-				                                                floorText = apartment.floor;
-				                                            }
-
-				                                            // 건축년도 정보
-				                                            let buildYearText = '-';
-				                                            if (apartment.buildYear !== undefined && apartment.buildYear !== null) {
-				                                                buildYearText = apartment.buildYear + '년';
-				                                            }
-
-				                                            // 관리비 정보
-				                                            let maintenanceFeeText = '-';
-				                                            if (apartment.maintenanceFee !== undefined && apartment.maintenanceFee !== null) {
-				                                                maintenanceFeeText = '월 ' + apartment.maintenanceFee + '만원';
-				                                            }
-
-				                                            // 아파트 정보 오버레이 생성
-				                                            const apartmentOverlay = new kakao.maps.CustomOverlay({
-				                                                position: apartmentPosition,
-				                                                content: '<div class="custom-overlay apartment-overlay">' +
-				                                                    '<div class="overlay-header">' +
-				                                                    '<div class="title">' + aptName + '</div>' +
-				                                                    '<button class="close" onclick="this.parentElement.parentElement.parentElement.style.display=\'none\'; currentOverlay = null;"></button>' +
-				                                                    '</div>' +
-				                                                    '<div class="overlay-body">' +
-				                                                    '<div class="overlay-section">' +
-				                                                    '<div class="overlay-price">' + priceText + '</div>' +
-				                                                    '<div class="overlay-size">' + sizeText + '</div>' +
-				                                                    '</div>' +
-				                                                    '<div class="overlay-section">' +
-				                                                    '<div class="overlay-address">' + addressText + '</div>' +
-				                                                    '<div class="overlay-distance">' + distanceText + '</div>' +
-				                                                    '</div>' +
-				                                                    '<div class="overlay-section overlay-details">' +
-				                                                    '<div class="detail-item"><span>방/욕실:</span> ' + roomsText + '/' + bathroomsText + '</div>' +
-				                                                    '<div class="detail-item"><span>층수:</span> ' + floorText + '</div>' +
-				                                                    '<div class="detail-item"><span>건축년도:</span> ' + buildYearText + '</div>' +
-				                                                    '<div class="detail-item"><span>관리비:</span> ' + maintenanceFeeText + '</div>' +
-				                                                    '</div>' +
-				                                                    '</div>' +
-				                                                    '<div class="overlay-footer">' +
-				                                                    '<button class="overlay-button favorite" style="width: 100%;">관심 등록</button>' +
-				                                                    '</div>' +
-				                                                    '</div>',
-				                                                map: map,
-				                                                yAnchor: 1
-				                                            });
-
-				                                            // 현재 오버레이에 아파트 ID 저장하여 추적
-				                                            apartmentOverlay.apartmentId = apartment.id;
-
-				                                            // 현재 열린 오버레이 업데이트
-				                                            currentOverlay = apartmentOverlay;
-				                                        });
-
-				                                        // 아파트 카드를 목록에 추가
-				                                        apartmentListContainer.appendChild(apartmentCard);
-				                                    });
-				                                }
-				                            } else {
-				                                console.error("지하철역을 찾을 수 없습니다.");
-				                                document.getElementById('mapLoading').innerHTML =
-				                                    '<p style="text-align: center; color: var(--danger);">' +
-				                                    '<i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i> ' +
-				                                    '지하철역을 찾을 수 없습니다.' +
-				                                    '</p>';
-				                            }
-				                        } else {
-				                            console.error("장소 검색 실패:", status);
-				                            document.getElementById('mapLoading').innerHTML =
-				                                '<p style="text-align: center; color: var(--danger);">' +
-				                                '<i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i> ' +
-				                                '지도를 불러오는 중 오류가 발생했습니다.' +
-				                                '</p>';
-				                        }
-				                    });
+				// 아파트 카드 클릭 시 비교 정보 표시
+				document.addEventListener('DOMContentLoaded', function() {
+				    // 아파트 데이터가 로드된 후에 이벤트 리스너를 추가하기 위한 MutationObserver 설정
+				    const apartmentListContainer = document.getElementById('apartmentList');
+				    
+				    // MutationObserver 설정
+				    const observer = new MutationObserver(function(mutations) {
+				        mutations.forEach(function(mutation) {
+				            if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+				                // 새로운 아파트 카드가 추가되면 이벤트 리스너 추가
+				                attachEventListenersToCards();
+				            }
+				        });
+				    });
+				    
+				    // 관찰 시작
+				    observer.observe(apartmentListContainer, { childList: true, subtree: true });
+				    
+				    // 초기 카드에 이벤트 리스너 추가
+				    attachEventListenersToCards();
+				    
+				    // 관심목록 불러오기 추가
+				    loadFavorites();
+				    
+				    function attachEventListenersToCards() {
+				        const apartmentCards = document.querySelectorAll('.apartment-card:not(.comparison-item)');
+				        console.log('아파트 카드 개수:', apartmentCards.length);
+				        
+				        apartmentCards.forEach(card => {
+				            // 이미 이벤트 리스너가 추가되었는지 확인
+				            if (card.dataset.hasClickListener === 'true') {
+				                return;
+				            }
+				            
+				            // 데이터 속성 확인
+				            console.log('카드 데이터 속성:', {
+				                floor: card.dataset.floor,
+				                buildYear: card.dataset.buildYear
+				            });
+				            
+				            card.dataset.hasClickListener = 'true';
+				            card.addEventListener('click', function() {
+				                console.log('아파트 카드 클릭됨');
+				                
+				                // 카드에서 아파트 정보 추출
+				                const aptName = this.querySelector('.apartment-name').textContent;
+				                const aptLocation = this.querySelector('.apartment-location').textContent;
+				                const aptPrice = this.querySelector('.apartment-price').textContent;
+				                const aptSize = this.querySelector('.apartment-details span:first-child').textContent;
+				                
+				                // 추가 정보 (데이터 속성에서 가져오거나 기본값 사용)
+				                const aptFloor = this.dataset.floor || '정보 없음';
+				                const aptBuildYear = this.dataset.buildYear || '정보 없음';
+				                
+				                console.log('추출된 정보:', {
+				                    aptName, aptLocation, aptPrice, aptSize, aptFloor, aptBuildYear
 				                });
-				                function getApartmentData(sigunguCode) {
-				                    // 현재 날짜 객체 생성
-				                    const now = new Date();
-				                    // yyyyMM 형식으로 변환
-				                    const yearMonth = now.getFullYear().toString() +
-				                        String(now.getMonth() + 1).padStart(2, '0');
-				                    console.log('API 호출 파라미터:', {sigunguCode, yearMonth});
+				                
+				                // 선택된 아파트 정보 표시
+				                const selectedApartment = document.getElementById('selectedApartment');
+				                selectedApartment.innerHTML = `
+				                    <div class="selected-apt-header">
+				                        <h3 class="selected-apt-name">${aptName}</h3>
+				                        <span class="selected-apt-label">선택됨</span>
+				                    </div>
+				                    <div class="selected-apt-location">${aptLocation}</div>
+				                    <div class="selected-apt-details">
+				                        <div class="selected-detail">
+				                            <span class="detail-label">가격</span>
+				                            <span class="detail-value selected-price">${aptPrice}</span>
+				                        </div>
+				                        <div class="selected-detail">
+				                            <span class="detail-label">평수</span>
+				                            <span class="detail-value selected-size">${aptSize}</span>
+				                        </div>
+				                        <div class="selected-detail">
+				                            <span class="detail-label">층수</span>
+				                            <span class="detail-value selected-floor">${aptFloor}</span>
+				                        </div>
+				                        <div class="selected-detail">
+				                            <span class="detail-label">건축년도</span>
+				                            <span class="detail-value selected-year">${aptBuildYear}</span>
+				                        </div>
+				                    </div>
+				                `;
+				                
+				                // 비교 항목 업데이트
+				                updateComparison(aptPrice, aptSize, aptFloor, aptBuildYear);
+				            });
+				        });
+				    }
+				});
 
-				                    $.ajax({
-				                        url: '/api/apartments/trade',
-				                        method: 'GET',
-				                        data: {
-				                            sigunguCode: sigunguCode,
-				                            yearMonth: yearMonth
-				                        },
-				                        success: function(response) {
-				                            console.log('API 응답 데이터:', response); // 응답 데이터 로깅
-				                            displayApartments(response);
-				                        },
-				                        error: function(xhr, status, error) {
-				                            console.error('아파트 데이터 조회 실패:', error);
-				                            console.error('상태 코드:', xhr.status);
-				                            console.error('응답 텍스트:', xhr.responseText);
+				// 아파트 카드에 이벤트 리스너 추가하는 함수
+				function attachEventListenersToCards() {
+				    const apartmentCards = document.querySelectorAll('.apartment-card:not(.comparison-item)');
+				    console.log('아파트 카드 개수:', apartmentCards.length);
+				    
+				    apartmentCards.forEach(card => {
+				        // 이미 이벤트 리스너가 추가되었는지 확인
+				        if (card.dataset.hasClickListener === 'true') {
+				            return;
+				        }
+				        
+				        // 데이터 속성 확인
+				        console.log('카드 데이터 속성:', {
+				            floor: card.dataset.floor,
+				            buildYear: card.dataset.buildYear
+				        });
+				        
+				        card.dataset.hasClickListener = 'true';
+				        card.addEventListener('click', function() {
+				            console.log('아파트 카드 클릭됨');
+				            
+				            // 카드에서 아파트 정보 추출
+				            const aptName = this.querySelector('.apartment-name').textContent;
+				            const aptLocation = this.querySelector('.apartment-location').textContent;
+				            const aptPrice = this.querySelector('.apartment-price').textContent;
+				            const aptSize = this.querySelector('.apartment-details span:first-child').textContent;
+				            
+				            // 추가 정보 (데이터 속성에서 가져오거나 기본값 사용)
+				            const aptFloor = this.dataset.floor || '정보 없음';
+				            const aptBuildYear = this.dataset.buildYear || '정보 없음';
+				            
+				            console.log('추출된 정보:', {
+				                aptName, aptLocation, aptPrice, aptSize, aptFloor, aptBuildYear
+				            });
+				            
+				            // 선택된 아파트 정보 표시
+				            const selectedApartment = document.getElementById('selectedApartment');
+				            selectedApartment.innerHTML = `
+				                <div class="selected-apt-header">
+				                    <h3 class="selected-apt-name">${aptName}</h3>
+				                    <span class="selected-apt-label">선택됨</span>
+				                </div>
+				                <div class="selected-apt-location">${aptLocation}</div>
+				                <div class="selected-apt-details">
+				                    <div class="selected-detail">
+				                        <span class="detail-label">가격</span>
+				                        <span class="detail-value selected-price">${aptPrice}</span>
+				                    </div>
+				                    <div class="selected-detail">
+				                        <span class="detail-label">평수</span>
+				                        <span class="detail-value selected-size">${aptSize}</span>
+				                    </div>
+				                    <div class="selected-detail">
+				                        <span class="detail-label">층수</span>
+				                        <span class="detail-value selected-floor">${aptFloor}</span>
+				                    </div>
+				                    <div class="selected-detail">
+				                        <span class="detail-label">건축년도</span>
+				                        <span class="detail-value selected-year">${aptBuildYear}</span>
+				                    </div>
+				                </div>
+				            `;
+				            
+				            // 비교 항목 업데이트
+				            updateComparison(aptPrice, aptSize, aptFloor, aptBuildYear);
+				        });
+				    });
+				}
+				
+				// 관심목록 불러오기 함수
+				function loadFavorites() {
+				    console.log('관심목록 불러오기 시작');
+				    
+				    // 이미 서버에서 관심목록을 가져왔다면 추가 요청 불필요
+				    const interestList = document.querySelectorAll('.comparison-item');
+				    if (interestList.length > 0) {
+				        console.log('이미 관심목록이 로드되어 있음:', interestList.length);
+				        return;
+				    }
+				    
+				    // AJAX로 관심목록 가져오기
+				    $.ajax({
+				        url: '/api/favorites',
+				        method: 'GET',
+				        success: function(response) {
+				            console.log('관심목록 데이터 수신:', response);
+				            displayFavorites(response);
+				        },
+				        error: function(xhr, status, error) {
+				            console.error('관심목록 가져오기 오류:', error);
+				            console.error('상태 코드:', xhr.status);
+				            console.error('응답 텍스트:', xhr.responseText);
+				            
+				            // 오류 발생 시 빈 목록으로 표시
+				            displayFavorites([]);
+				        }
+				    });
+				}
+
+				// 관심목록 표시 함수
+				function displayFavorites(favorites) {
+				    console.log('관심목록 표시 시작:', favorites?.length || 0);
+				    
+				    const interestComparisonList = document.getElementById('interestComparisonList');
+				    if (!interestComparisonList) {
+				        console.error('interestComparisonList 요소를 찾을 수 없습니다');
+				        return;
+				    }
+				    
+				    if (!favorites || favorites.length === 0) {
+				        interestComparisonList.innerHTML = `
+				            <p class="no-interest-message">
+				                <i class="fas fa-heart"></i> 관심 등록된 아파트가 없습니다.
+				            </p>
+				        `;
+				        return;
+				    }
+				    
+				    let html = '';
+				    favorites.forEach(apt => {
+				        // 데이터 유효성 검사 및 기본값 설정
+				        const aptId = apt.id || '';
+				        const aptName = apt.aptNm || '이름 없음';
+				        const location = apt.estateAgentSggNm || '위치 정보 없음';
+				        const dealAmount = apt.dealAmount ? `${apt.dealAmount.toLocaleString()}만원` : '가격 정보 없음';
+				        const excluUseAr = apt.excluUseAr ? `${apt.excluUseAr}㎡` : '면적 정보 없음';
+				        const floor = apt.floor ? `${apt.floor}층` : '층수 정보 없음';
+				        const buildYear = apt.buildYear ? `${apt.buildYear}년` : '건축년도 정보 없음';
+				        
+				        html += `
+				            <div class="comparison-item" data-apt-id="${aptId}">
+				                <div class="comparison-apt-info">
+				                    <h3 class="comparison-apt-name">${aptName}</h3>
+				                    <div class="comparison-apt-location">${location}</div>
+				                </div>
+				                <div class="comparison-details">
+				                    <div class="comparison-detail">
+				                        <span class="detail-label">가격</span>
+				                        <span class="detail-value">${dealAmount}</span>
+				                    </div>
+				                    <div class="comparison-detail">
+				                        <span class="detail-label">평수</span>
+				                        <span class="detail-value">${excluUseAr}</span>
+				                    </div>
+				                    <div class="comparison-detail">
+				                        <span class="detail-label">층수</span>
+				                        <span class="detail-value">${floor}</span>
+				                    </div>
+				                    <div class="comparison-detail">
+				                        <span class="detail-label">건축년도</span>
+				                        <span class="detail-value">${buildYear}</span>
+				                    </div>
+				                </div>
+				            </div>
+				        `;
+				    });
+				    
+				    interestComparisonList.innerHTML = html;
+				    console.log('관심목록 표시 완료');
+				}
+
+				// 비교 정보 업데이트 함수
+				function updateComparison(selectedPrice, selectedSize, selectedFloor, selectedBuildYear) {
+				    console.log('비교 업데이트:', { selectedPrice, selectedSize, selectedFloor, selectedBuildYear });
+				    
+				    const comparisonItems = document.querySelectorAll('.comparison-item');
+				    console.log('비교 항목 개수:', comparisonItems.length);
+				    
+				    if (comparisonItems.length === 0) {
+				        console.log('비교할 아파트가 없습니다.');
+				        return;
+				    }
+				    
+				    // 가격, 평수, 층수, 건축년도 비교
+				    comparisonItems.forEach(item => {
+				        try {
+				            // 가격 비교
+				            const priceElement = item.querySelector('.comparison-detail:nth-child(1) .detail-value');
+				            if (priceElement) {
+				                const itemPrice = priceElement.textContent;
+				                compareValues(priceElement, itemPrice, selectedPrice, true); // 가격은 높을수록 불리
+				            }
+				            
+				            // 평수 비교
+				            const sizeElement = item.querySelector('.comparison-detail:nth-child(2) .detail-value');
+				            if (sizeElement) {
+				                const itemSize = sizeElement.textContent;
+				                compareValues(sizeElement, itemSize, selectedSize, false); // 평수는 높을수록 유리
+				            }
+				            
+				            // 층수 비교
+				            const floorElement = item.querySelector('.comparison-detail:nth-child(3) .detail-value');
+				            if (floorElement) {
+				                const itemFloor = floorElement.textContent;
+				                compareValues(floorElement, itemFloor, selectedFloor, false); // 층수는 높을수록 유리
+				            }
+				            
+				            // 건축년도 비교
+				            const yearElement = item.querySelector('.comparison-detail:nth-child(4) .detail-value');
+				            if (yearElement) {
+				                const itemYear = yearElement.textContent;
+				                compareValues(yearElement, itemYear, selectedBuildYear, false); // 건축년도는 최신일수록 유리
+				            }
+				        } catch (error) {
+				            console.error('비교 중 오류 발생:', error);
+				        }
+				    });
+				}
+
+				// 값 비교 및 스타일 적용 함수
+				function compareValues(element, itemValue, selectedValue, isHigherWorse) {
+				    console.log('값 비교:', { itemValue, selectedValue, isHigherWorse });
+				    
+				    // 숫자만 추출
+				    const itemNum = extractNumber(itemValue);
+				    const selectedNum = extractNumber(selectedValue);
+				    
+				    console.log('추출된 숫자:', { itemNum, selectedNum });
+				    
+				    if (itemNum === null || selectedNum === null) {
+				        // 숫자 추출 실패 시 비교 불가
+				        console.log('숫자 추출 실패');
+				        element.classList.remove('better-value', 'worse-value');
+				        return;
+				    }
+				    
+				    if (itemNum === selectedNum) {
+				        // 값이 같으면 중립
+				        console.log('값이 같음');
+				        element.classList.remove('better-value', 'worse-value');
+				    } else if ((itemNum < selectedNum && isHigherWorse) || (itemNum > selectedNum && !isHigherWorse)) {
+				        // 더 좋은 값
+				        console.log('더 좋은 값');
+				        element.classList.add('better-value');
+				        element.classList.remove('worse-value');
+				    } else {
+				        // 더 나쁜 값
+				        console.log('더 나쁜 값');
+				        element.classList.add('worse-value');
+				        element.classList.remove('better-value');
+				    }
+				}
+
+				// 문자열에서 숫자만 추출하는 함수
+				function extractNumber(str) {
+				    if (!str || typeof str !== 'string') {
+				        console.log('유효하지 않은 문자열:', str);
+				        return null;
+				    }
+				    
+				    const matches = str.match(/[\d,]+/);
+				    if (!matches) {
+				        console.log('숫자 패턴 없음:', str);
+				        return null;
+				    }
+				    
+				    // 쉼표 제거 후 숫자로 변환
+				    const result = parseFloat(matches[0].replace(/,/g, ''));
+				    console.log('추출된 숫자:', result);
+				    return result;
+				}
+
+				let map;
+				document.addEventListener('DOMContentLoaded', function () {
+				    // 현재 열려있는 오버레이를 추적하는 변수
+				    let currentOverlay = null;
+
+				    // 검색 파라미터 확인
+				    const searchParams = {
+				        region: "<c:out value='${searchParams.majorRegion}' default='' />",
+				        district: "<c:out value='${searchParams.district}' default='' />",
+				        station: "<c:out value='${searchParams.station}' default='' />"
+				    };
+
+				    // 지하철역 이름
+				    const stationName = searchParams.station;
+
+				    if (!stationName) {
+				        console.error("지하철역 정보가 없습니다.");
+				        return;
+				    }
+
+				    // 카카오맵 초기화
+				    const container = document.getElementById('map');
+				    const options = {
+				        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 서울 시청 (기본값)
+				        level: 3 // 지도 확대 레벨
+				    };
+
+				    map = new kakao.maps.Map(container, options);
+
+				    // 지도 확대/축소 컨트롤 추가
+				    const zoomControl = new kakao.maps.ZoomControl();
+				    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+				    // 지도 로딩 완료 시 로딩 화면 숨기기
+				    kakao.maps.event.addListener(map, 'tilesloaded', function () {
+				        document.getElementById('mapLoading').style.display = 'none';
+				    });
+
+				    // 지도 클릭 시 열려있는 오버레이 닫기
+				    kakao.maps.event.addListener(map, 'click', function () {
+				        if (currentOverlay) {
+				            currentOverlay.setMap(null);
+				            currentOverlay = null;
+				        }
+				    });
+
+				    // 장소 검색 객체 생성
+				    const ps = new kakao.maps.services.Places();
+
+				    // 지하철역 검색
+				    ps.keywordSearch(stationName, function (data, status) {
+				        if (status === kakao.maps.services.Status.OK) {
+				            // 검색된 장소 중 지하철역 찾기
+				            let stationPlace = null;
+
+				            for (let i = 0; i < data.length; i++) {
+				                if (data[i].category_name.includes('교통,수송 > 지하철,전철 > 지하철역')) {
+				                    stationPlace = data[i];
+				                    break;
+				                }
+				            }
+
+
+				            if (!stationPlace && data.length > 0) {
+				                // 지하철역 카테고리가 없으면 첫 번째 결과 사용
+				                stationPlace = data[0];
+				            }
+
+				            if (stationPlace) {
+				                // 지하철역 위치로 지도 중심 이동
+				                const stationPosition = new kakao.maps.LatLng(stationPlace.y, stationPlace.x);
+				                map.setCenter(stationPosition);
+
+				                // 시군구 코드 가져오기
+				                const geocoder = new kakao.maps.services.Geocoder();
+
+				                function getAddressInfo(lat, lng) { // lat 위도, lng 경도
+				                    geocoder.coord2RegionCode(lng, lat, function(result, status) { // 비동기 처리를 위한 콜백 함수
+				                        if (status === kakao.maps.services.Status.OK) { // api 호출 성공 여부
+				                            const region = result.find(item => item.region_type === 'H');
+				                            if (region) {
+				                                const sigunguCode = region.code.substring(0, 5);
+				                                console.log('시군구 코드:', sigunguCode);
+				                                getApartmentData(sigunguCode);
+				                            }
 				                        }
 				                    });
-
 				                }
-				            </script>
-				            <script>
-				                let apartmentMarkers = [];
-				                let currentOverlay = null;
 
-				                function displayApartments(apartments) {
-				                    // 기존 마커/오버레이 제거
-				                    apartmentMarkers.forEach(marker => marker.setMap(null));
-				                    apartmentMarkers = [];
+				                // 초기 위치의 시군구 코드 가져오기
+				                getAddressInfo(stationPlace.y, stationPlace.x);
 
-				                    const apartmentListContainer = document.getElementById('apartmentList');
-				                    apartmentListContainer.innerHTML = '';
+				                // 지도 클릭 이벤트에서도 시군구 코드 확인
+				                kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+				                    const latlng = mouseEvent.latLng;
+				                    getAddressInfo(latlng.getLat(), latlng.getLng());
+				                });
 
-				                    if (!apartments || apartments.length === 0) {
-				                        apartmentListContainer.innerHTML = `
+				                // 기본 마커 대신 지하철역 커스텀 마커 생성 (크기 증가)
+				                const stationMarker = new kakao.maps.CustomOverlay({
+				                    position: stationPosition,
+				                    content: '<div style="' +
+				                        'padding: 15px;' +
+				                        'background-color: #51bdbd;' +
+				                        'color: white;' +
+				                        'border-radius: 50%;' +
+				                        'font-size: 24px;' +
+				                        'font-weight: bold;' +
+				                        'box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);' +
+				                        'display: flex;' +
+				                        'align-items: center;' +
+				                        'justify-content: center;' +
+				                        'width: 60px;' +
+				                        'height: 60px;' +
+				                        'transform: translate(-50%, -50%);' +
+				                        '">' +
+				                        '<i class="fas fa-subway"></i>' +
+				                        '</div>',
+				                    map: map,
+				                    zIndex: 3 // 다른 마커보다 앞에 표시
+				                });
+
+				                // 지하철역 정보 오버레이 생성 (위치 조정)
+				                const stationInfoOverlay = new kakao.maps.CustomOverlay({
+				                    position: stationPosition,
+				                    content: '<div class="custom-overlay" style="' +
+				                        'position: relative;' +
+				                        'bottom: 95px;' +
+				                        'border-radius: 6px;' +
+				                        'float: left;' +
+				                        'background: #fff;' +
+				                        'padding: 10px;' +
+				                        'box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);' +
+				                        'transform: translateX(-50%);' +
+				                        'white-space: nowrap;' +
+				                        '">' +
+				                        '<div class="title" style="' +
+				                        'display: block;' +
+				                        'font-size: 14px;' +
+				                        'font-weight: 600;' +
+				                        'color: #51bdbd;' +
+				                        'text-align: center;' +
+				                        '">' + stationName + '</div>' +
+				                        '<div style="' +
+				                        'content: \'\';' +
+				                        'position: absolute;' +
+				                        'bottom: -8px;' +
+				                        'left: 50%;' +
+				                        'margin-left: -8px;' +
+				                        'width: 0;' +
+				                        'height: 0;' +
+				                        'border-width: 8px 8px 0 8px;' +
+				                        'border-style: solid;' +
+				                        'border-color: #fff transparent transparent transparent;' +
+				                        '"></div>' +
+				                        '</div>',
+				                    map: map,
+				                    yAnchor: 0.5
+				                });
+				            } else {
+				                console.error("지하철역을 찾을 수 없습니다.");
+				                document.getElementById('mapLoading').innerHTML =
+				                    '<p style="text-align: center; color: var(--danger);">' +
+				                    '<i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i> ' +
+				                    '지하철역을 찾을 수 없습니다.' +
+				                    '</p>';
+				            }
+				        } else {
+				            console.error("장소 검색 실패:", status);
+				            document.getElementById('mapLoading').innerHTML =
+				                '<p style="text-align: center; color: var(--danger);">' +
+				                '<i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i> ' +
+				                '지도를 불러오는 중 오류가 발생했습니다.' +
+				                '</p>';
+				        }
+				    });
+				});
+
+				function getApartmentData(sigunguCode) {
+				    // 현재 날짜 객체 생성
+				    const now = new Date();
+				    // yyyyMM 형식으로 변환
+				    const yearMonth = now.getFullYear().toString() +
+				        String(now.getMonth() + 1).padStart(2, '0');
+				    console.log('API 호출 파라미터:', {sigunguCode, yearMonth});
+
+				    $.ajax({
+				        url: '/api/apartments/trade',
+				        method: 'GET',
+				        data: {
+				            sigunguCode: sigunguCode,
+				            yearMonth: yearMonth
+				        },
+				        success: function(response) {
+				            console.log('API 응답 데이터:', response); // 응답 데이터 로깅
+				            displayApartments(response);
+				        },
+				        error: function(xhr, status, error) {
+				            console.error('아파트 데이터 조회 실패:', error);
+				            console.error('상태 코드:', xhr.status);
+				            console.error('응답 텍스트:', xhr.responseText);
+				        }
+				    });
+				}
+
+				let apartmentMarkers = [];
+				let currentOverlay = null;
+
+				function displayApartments(apartments) {
+				    // 기존 마커/오버레이 제거
+				    apartmentMarkers.forEach(marker => marker.setMap(null));
+				    apartmentMarkers = [];
+
+				    const apartmentListContainer = document.getElementById('apartmentList');
+				    apartmentListContainer.innerHTML = '';
+
+				    if (!apartments || apartments.length === 0) {
+				        apartmentListContainer.innerHTML = `
 				        <p style="grid-column: 1 / -1; text-align: center; padding: 50px 0; color: var(--gray-500);" id="noResultsMessage">
 				            검색 결과가 없습니다.
 				        </p>`;
-				                        return;
-				                    }
+				        return;
+				    }
 
-				                    apartments.forEach((apt, idx) => {
-				                        if (apt.lat && apt.lng) {
-				                            const position = new kakao.maps.LatLng(parseFloat(apt.lat), parseFloat(apt.lng));
+				    apartments.forEach((apt, idx) => {
+				        if (apt.lat && apt.lng) {
+				            const position = new kakao.maps.LatLng(parseFloat(apt.lat), parseFloat(apt.lng));
 
-				                            // 마커 생성
-				                            const marker = new kakao.maps.Marker({
-				                                position: position,
-				                                map: map,
-				                                clickable: true
-				                            });
-				                            apartmentMarkers.push(marker);
+				            // 마커 생성
+				            const marker = new kakao.maps.Marker({
+				                position: position,
+				                map: map,
+				                clickable: true
+				            });
+				            apartmentMarkers.push(marker);
 
-				                            // 값 준비
-				                            const aptName = apt.aptNm || "이름 없음";
-				                            const excluUseAr = apt.excluUseAr ? apt.excluUseAr + "㎡" : "면적 없음";
-				                            const dealAmount = apt.dealAmount ? apt.dealAmount.toLocaleString() + "만원" : "가격 없음";
-				                            const locationContent = apt.estateAgentSggNm || "위치 없음";
-				                            const addressText = locationContent + " " + aptName;
+				            // 값 준비
+				            const aptName = apt.aptNm || "이름 없음";
+				            const excluUseAr = apt.excluUseAr ? apt.excluUseAr + "㎡" : "면적 없음";
+				            const dealAmount = apt.dealAmount ? apt.dealAmount.toLocaleString() + "만원" : "가격 없음";
+				            const locationContent = apt.estateAgentSggNm || "위치 없음";
+				            const addressText = locationContent + " " + aptName;
 
-				                            // 필요에 따라 추가 정보 처리
-				                            const floorText = apt.floor || "-";
-				                            const buildYearText = apt.buildYear ? apt.buildYear + "년" : "-";
-				                            const roomsText = apt.rooms || "-";
-				                            const bathroomsText = apt.bathrooms || "-";
-				                            const maintenanceFeeText = apt.maintenanceFee ? "월 " + apt.maintenanceFee + "만원" : "-";
-				                            const distanceText = apt.subwayDistance ? apt.subwayStation + "에서 " + apt.subwayDistance + "m" : "-";
+				            // 필요에 따라 추가 정보 처리
+				            const floorText = apt.floor || "-";
+				            const buildYearText = apt.buildYear ? apt.buildYear + "년" : "-";
+				            const roomsText = apt.rooms || "-";
+				            const bathroomsText = apt.bathrooms || "-";
+				            const maintenanceFeeText = apt.maintenanceFee ? "월 " + apt.maintenanceFee + "만원" : "-";
+				            const distanceText = apt.subwayDistance ? apt.subwayStation + "에서 " + apt.subwayDistance + "m" : "-";
 
-				                            // 커스텀 오버레이용 HTML 템플릿
-				                            const overlayContent = `
+				            // 커스텀 오버레이용 HTML 템플릿 (기존 코드 유지)
+				            const overlayContent = `
 				                <div class="custom-overlay apartment-overlay">
 				                    <div class="overlay-header">
 				                        <div class="title">`+aptName+`</div>
@@ -690,35 +790,40 @@
 				                    </div>
 				                </div>
 				            `;
-				                            // 커스텀 오버레이 생성 (초기에는 지도에 표시하지 않음)
-				                            const apartmentOverlay = new kakao.maps.CustomOverlay({
-				                                position: position,
-				                                content: overlayContent,
-				                                map: null,
-				                                yAnchor: 1
-				                            });
-				                            apartmentOverlay.apartmentId = apt.id;
+				            // 커스텀 오버레이 생성 (초기에는 지도에 표시하지 않음)
+				            const apartmentOverlay = new kakao.maps.CustomOverlay({
+				                position: position,
+				                content: overlayContent,
+				                map: null,
+				                yAnchor: 1
+				            });
+				            apartmentOverlay.apartmentId = apt.id;
 
-				                            // 마커 클릭 시 오버레이 열기
-				                            kakao.maps.event.addListener(marker, 'click', function () {
-				                                // 이미 열려있는 오버레이가 같은 아파트라면 닫기
-				                                if (currentOverlay && currentOverlay.apartmentId === apt.id) {
-				                                    currentOverlay.setMap(null);
-				                                    currentOverlay = null;
-				                                    return;
-				                                }
-				                                // 다른 오버레이가 열려있으면 닫기
-				                                if (currentOverlay) {
-				                                    currentOverlay.setMap(null);
-				                                }
-				                                apartmentOverlay.setMap(map);
-				                                currentOverlay = apartmentOverlay;
-				                            });
+				            // 마커 클릭 시 오버레이 열기 (기존 코드 유지)
+				            kakao.maps.event.addListener(marker, 'click', function () {
+				                // 이미 열려있는 오버레이가 같은 아파트라면 닫기
+				                if (currentOverlay && currentOverlay.apartmentId === apt.id) {
+				                    currentOverlay.setMap(null);
+				                    currentOverlay = null;
+				                    return;
+				                }
+				                // 다른 오버레이가 열려있으면 닫기
+				                if (currentOverlay) {
+				                    currentOverlay.setMap(null);
+				                }
+				                apartmentOverlay.setMap(map);
+				                currentOverlay = apartmentOverlay;
+				            });
 
-				                            // 아파트 카드 생성
-				                            const apartmentCard = document.createElement('div');
-				                            apartmentCard.className = 'apartment-card';
-				                            apartmentCard.innerHTML = `
+				            // 아파트 카드 생성 (기존 코드 유지)
+				            const apartmentCard = document.createElement('div');
+				            apartmentCard.className = 'apartment-card';
+				            
+				            // 중요: 데이터 속성 추가 - 이 부분이 누락되어 있었습니다
+				            apartmentCard.dataset.floor = floorText;
+				            apartmentCard.dataset.buildYear = buildYearText;
+				            
+				            apartmentCard.innerHTML = `
 				                <div class="apartment-image">
 				                    <i class="fas fa-building"></i>
 				                </div>
@@ -731,36 +836,89 @@
 				                    </div>
 				                </div>
 				            `;
-				                            const nameH3 = apartmentCard.querySelector('.apartment-name');
-				                            nameH3.textContent = aptName;
-				                            const bonbun3 = apartmentCard.querySelector('.apartment-location');
-				                            bonbun3.textContent = locationContent;
-				                            const excluUseArSpan = apartmentCard.querySelector('.apartment-details span:nth-child(1)');excluUseArSpan.textContent = excluUseAr + "㎡";
-				                            const dealAmountSpan = apartmentCard.querySelector('.apartment-price');
-				                            dealAmountSpan.textContent = dealAmount.toLocaleString();
-				                            apartmentListContainer.appendChild(apartmentCard);
+				            
+				            // 기존 코드 유지
+				            const nameH3 = apartmentCard.querySelector('.apartment-name');
+				            nameH3.textContent = aptName;
+				            const bonbun3 = apartmentCard.querySelector('.apartment-location');
+				            bonbun3.textContent = locationContent;
+				            const excluUseArSpan = apartmentCard.querySelector('.apartment-details span:nth-child(1)');
+				            excluUseArSpan.textContent = excluUseAr;
+				            const dealAmountSpan = apartmentCard.querySelector('.apartment-price');
+				            dealAmountSpan.textContent = dealAmount;
+				            
+				            // displayApartments 함수 내의 아파트 카드 클릭 이벤트 핸들러를 다음과 같이 수정
+				            apartmentCard.addEventListener('click', function () {
+				                // 지도 이동 및 오버레이 표시 (기존 코드 유지)
+				                map.setCenter(position);
+				                map.setLevel(3);
 
-				                            // 카드 클릭 시 해당 마커로 지도 이동 및 오버레이 오픈
-				                            apartmentCard.addEventListener('click', function () {
-				                                map.setCenter(position);
-				                                map.setLevel(3);
-
-				                                if (currentOverlay && currentOverlay.apartmentId === apt.id) {
-				                                    currentOverlay.setMap(null);
-				                                    currentOverlay = null;
-				                                    return;
-				                                }
-				                                if (currentOverlay) {
-				                                    currentOverlay.setMap(null);
-				                                }
-				                                apartmentOverlay.setMap(map);
-				                                currentOverlay = apartmentOverlay;
-				                            });
-
-				                            apartmentListContainer.appendChild(apartmentCard);
-				                        }
-				                    });
+				                if (currentOverlay && currentOverlay.apartmentId === apt.id) {
+				                    currentOverlay.setMap(null);
+				                    currentOverlay = null;
+				                } else {
+				                    if (currentOverlay) {
+				                        currentOverlay.setMap(null);
+				                    }
+				                    apartmentOverlay.setMap(map);
+				                    currentOverlay = apartmentOverlay;
 				                }
+				                
+				                // 선택된 아파트 정보 표시 - 간단한 방식으로 변경
+				                const selectedApartment = document.getElementById('selectedApartment');
+				                if (selectedApartment) {
+				                    // 간단한 HTML 문자열 사용
+				                    const html = `
+				                        <div style="padding: 15px; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+				                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+				                                <h3 style="margin: 0; font-size: 16px; font-weight: 600;">${aptName}</h3>
+				                                <span style="background-color: #51bdbd; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">선택됨</span>
+				                            </div>
+				                            <div style="color: #666; margin-bottom: 15px; font-size: 14px;">${locationContent}</div>
+				                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+				                                <div style="background-color: #f5f5f5; padding: 10px; border-radius: 4px;">
+				                                    <div style="font-size: 12px; color: #666; margin-bottom: 4px;">가격</div>
+				                                    <div style="font-weight: 500;">${dealAmount}</div>
+				                                </div>
+				                                <div style="background-color: #f5f5f5; padding: 10px; border-radius: 4px;">
+				                                    <div style="font-size: 12px; color: #666; margin-bottom: 4px;">평수</div>
+				                                    <div style="font-weight: 500;">${excluUseAr}</div>
+				                                </div>
+				                                <div style="background-color: #f5f5f5; padding: 10px; border-radius: 4px;">
+				                                    <div style="font-size: 12px; color: #666; margin-bottom: 4px;">층수</div>
+				                                    <div style="font-weight: 500;">${floorText}</div>
+				                                </div>
+				                                <div style="background-color: #f5f5f5; padding: 10px; border-radius: 4px;">
+				                                    <div style="font-size: 12px; color: #666; margin-bottom: 4px;">건축년도</div>
+				                                    <div style="font-weight: 500;">${buildYearText}</div>
+				                                </div>
+				                            </div>
+				                        </div>
+				                    `;
+				                    
+				                    // 직접 HTML 설정
+				                    selectedApartment.innerHTML = html;
+				                    
+				                    console.log('선택된 아파트 정보가 업데이트되었습니다:', {
+				                        이름: aptName,
+				                        위치: locationContent,
+				                        가격: dealAmount,
+				                        평수: excluUseAr,
+				                        층수: floorText,
+				                        건축년도: buildYearText
+				                    });
+				                } else {
+				                    console.error('selectedApartment 요소를 찾을 수 없습니다');
+				                }
+				            });
+
+				            apartmentListContainer.appendChild(apartmentCard);
+				        }
+				    });
+				    
+				    // 중요: 모든 카드가 생성된 후 이벤트 리스너 다시 연결
+				    attachEventListenersToCards();
+				}
             </script>
         </body>
 
