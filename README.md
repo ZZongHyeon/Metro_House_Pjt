@@ -144,5 +144,57 @@ FOREIGN KEY (userNumber)
 REFERENCES USERINFO(userNumber)
 ON DELETE CASCADE;
 DESC board_comment;
+
+
+create table apartmentinfo(
+    apartmentId number primary key,
+    sggcd VARCHAR2(10),
+    umdnm VARCHAR2(100),
+    aptnm VARCHAR2(200),
+    jibun VARCHAR2(100),
+    excluusear VARCHAR2(50),
+    dealYear VARCHAR2(4),
+    dealMonth VARCHAR2(2),
+    dealDay VARCHAR2(2),
+    dealAmount VARCHAR2(100),
+    floor VARCHAR2(10),
+    buildYear VARCHAR2(4),
+    cdealType VARCHAR2(50),
+    cdealDay VARCHAR2(50),
+    dealingGbn VARCHAR2(50),
+    estateAgentSggnm VARCHAR2(100),
+    rgstDate VARCHAR2(50),
+    aptDong VARCHAR2(50),
+    slerGbn VARCHAR2(50),
+    buyerGbn VARCHAR2(50),
+    landLeaseHoldGbn VARCHAR2(50),
+    aptSeq VARCHAR2(50),
+    bonbun VARCHAR2(50),
+    bubun VARCHAR2(50),
+    landCd VARCHAR2(50),
+    roadNm VARCHAR2(200),
+    roadNmBonbun VARCHAR2(50),
+    roadNmBubun VARCHAR2(50),
+    roadNmCd VARCHAR2(50),
+    roadNmSeq VARCHAR2(50),
+    roadNmSggcd VARCHAR2(50),
+    roadNmBcd VARCHAR2(50),
+    umdcd VARCHAR2(50),
+    lat NUMBER(12,8),
+    lng NUMBER(12,8),
+    subwayStation VARCHAR2(100),
+    subwayDistance VARCHAR2(50)
+);
+
+-- 위도/경도에 복합 인덱스 생성
+CREATE INDEX idx_apartmentinfo_latlng ON APARTMENTINFO(lat, lng);
+
+
+CREATE SEQUENCE seq_apartmentinfo
+    START WITH 1
+    INCREMENT BY 1
+    NOCACHE
+    NOCYCLE;
+
   </code></pre>
 </details>
