@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.boot.board.dto.BoardDTO;
-import com.boot.z_page.CriteriaDTO;
+import com.boot.z_page.criteria.CriteriaDTO;
 
 public interface BoardService {
 	public void boardWrite(HashMap<String, String> param);

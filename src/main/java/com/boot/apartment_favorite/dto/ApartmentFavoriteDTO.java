@@ -11,40 +11,19 @@ public class ApartmentFavoriteDTO {
 	private Long favoriteId; // LISTID (NUMBER, auto-increment)
 	private String userNumber; // USERID
 	private String createdAt; // 생성날짜
-	private String sggcd; // SGGCD
-	private String umdnm; // UMDNM
-	private String aptnm; // APTNM
-	private String jibun; // JIBUN
-	private String excluusear; // EXCLUUSEAR
-	private String dealYear; // DEALYEAR
-	private String dealMonth; // DEALMONTH
-	private String dealDay; // DEALDAY
 	private String dealAmount; // DEALAMOUNT
-	private String floor; // FLOOR
-	private String buildYear; // BUILDYEAR
-	private String cdealType; // CDEALTYPE
-	private String cdealDay; // CDEALDAY
-	private String dealingGbn; // DEALINGGBN
-	private String estateAgentSggnm; // ESTATEAGENTSGGNM
-	private String rgstDate; // RGSTDATE
-	private String aptDong; // APTDONG
-	private String slerGbn; // SLERGBN
-	private String buyerGbn; // BUYERGBN
-	private String landLeaseHoldGbn; // LANDLEASEHOLDGBN
-	private String aptSeq; // APTSEQ
-	private String bonbun; // BONBUN
-	private String bubun; // BUBUN
-	private String landCd; // LANDCD
-	private String roadNm; // ROADNM
-	private String roadNmBonbun; // ROADNMBONBUN
-	private String roadNmBubun; // ROADNMBUBUN
-	private String roadNmCd; // ROADNMCD
-	private String roadNmSeq; // ROADNMSEQ
-	private String roadNmSggcd; // ROADNMSGGCD
-	private String roadNmBcd; // ROADNMBCD
-	private String umdcd; // UMDCD
 	private Double lat; // LAT
 	private Double lng; // LNG
-	private String subwayStation; // SUBWAYSTATION
-	private String subwayDistance; // SUBWAYDISTANCE
+
+	
+	// 아파트 고유번호(디비에만 있는 거 api에 없음)
+	private int apartmentId;
+	// 쿼리에 없는 컬럼 그냥 불러오기용
+	private String aptNm; // 아파트이름
+	private String estateAgentSggNm; // 지역명
+	private String excluUseAr; // 면적
+	private String floor; // 층수
+	private String buildYear; // 건축년도
+    private String subwayStation; // 지하철역 이름
+    private String subwayDistance; // 거리
 }

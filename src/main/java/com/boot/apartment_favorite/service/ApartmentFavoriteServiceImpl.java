@@ -2,13 +2,26 @@ package com.boot.apartment_favorite.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.boot.apartment_favorite.dao.ApartmentFavoriteDAO;
+import com.boot.apartment_favorite.dto.ApartmentFavoriteDTO;
+import com.boot.board.dao.BoardDAO;
+import com.boot.z_page.criteria.ApartmentFavoriteCriteriaDTO;
+
+@Service
 public class ApartmentFavoriteServiceImpl implements ApartmentFavoriteService {
+
+	@Autowired
+	private SqlSession sqlSession;
 
 	@Override
 	public int addFavoriteList(HashMap<String, String> param) {
 		return 0;
-
 	}
 
 	@Override
@@ -18,15 +31,18 @@ public class ApartmentFavoriteServiceImpl implements ApartmentFavoriteService {
 	}
 
 	@Override
-	public int getFavoriteListCount(int userNumber) {
-		// TODO Auto-generated method stub
-		return 0;
+//	public int getFavoriteListCount(int userNumber, ApartmentFavoriteCriteriaDTO apartmentFavoriteCriteria) {
+	public int getFavoriteListCount(Map<String, Object> params) {
+		ApartmentFavoriteDAO dao = sqlSession.getMapper(ApartmentFavoriteDAO.class);
+		return dao.getFavoriteListCount(params);
 	}
 
 	@Override
-	public List<Integer> getFavoriteListByUserNumber(int userNumber) {
-		// TODO Auto-generated method stub
-		return null;
+//	public List<ApartmentFavoriteDTO> getFavoriteListByUserNumber(int userNumber,
+//			ApartmentFavoriteCriteriaDTO apartmentFavoriteCriteriaDTO) {
+		public List<ApartmentFavoriteDTO> getFavoriteListByUserNumber(Map<String, Object> params) {
+		ApartmentFavoriteDAO dao = sqlSession.getMapper(ApartmentFavoriteDAO.class);
+		return dao.getFavoriteListByUserNumber(params);
 	}
 
 	@Override

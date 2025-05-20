@@ -1,5 +1,7 @@
 package com.boot.z_page;
 
+import com.boot.z_page.criteria.CriteriaDTO;
+
 import lombok.Data;
 
 @Data

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.boot.board.dao.BoardCommentDAO;
 import com.boot.board.dao.BoardDAO;
 import com.boot.board.dto.BoardCommentDTO;
-import com.boot.z_page.CriteriaDTO;
+import com.boot.z_page.criteria.CriteriaDTO;
 
 @Service
 public class BoardCommentServiceImpl implements BoardCommentService {

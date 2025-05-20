@@ -6,7 +6,7 @@ import java.util.HashMap;
 import org.apache.ibatis.annotations.Param;
 
 import com.boot.board.dto.BoardCommentDTO;
-import com.boot.z_page.CriteriaDTO;
+import com.boot.z_page.criteria.CriteriaDTO;
 
 public interface BoardCommentDAO {
 //	public ArrayList<BoardCommentDTO> bcView(HashMap<String, String> param, CriteriaDTO criteriaDTO);

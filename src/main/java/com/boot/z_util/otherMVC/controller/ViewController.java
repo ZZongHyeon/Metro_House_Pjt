@@ -72,7 +72,7 @@ public class ViewController {
 			response.addCookie(visitCookie);
 		}
 		
-		model.addAttribute("currentPage", "main"); // 헤더 식별용
+//		model.addAttribute("currentPage", "main"); // 헤더 식별용
 		model.addAttribute("todayViews", todayViews);
 
 		// 사용자 정보가 필요한 경우 request(토큰)에서 가져옴
@@ -149,14 +149,7 @@ public class ViewController {
 		return "user/join";
 	}
 
-	@RequestMapping("/favorite_apartment")
-	public String favorite_apartment(HttpServletRequest request, Model model) {
-//		UserDTO user = userUtils.extractUserFromRequest(request);
-//		model.addAttribute("user", user);
 
-		model.addAttribute("currentPage", "favorite_apartment"); // 헤더식별용
-		return "favorite_apartment";
-	}
 
 	@RequestMapping("/privacy")
 	public String privacy(HttpServletRequest request, Model model) {

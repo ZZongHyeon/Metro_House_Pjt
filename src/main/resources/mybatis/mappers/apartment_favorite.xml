@@ -3,55 +3,140 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.boot.apartment.dao.ApartmentFavoriteDAO">
+<mapper namespace="com.boot.apartment_favorite.dao.ApartmentFavoriteDAO">
 <!--추가(맵에서 관심등록 눌렀을 때) insert-->
 	<insert id="addFavoriteList">
-		INSERT INTO userinfo (
-		userNumber, userId, userPw,
-		userName, userTel,
-		userEmail, userBirth, userZipCode, userAddress,
-		userDetailAddress
-		)
-		VALUES (
-		(SELECT NVL(MAX(userNumber), 0) + 1 FROM
-		userinfo),
-		#{userId}, #{userPw}, #{userName}, #{userTel},
-		#{userEmail},
-		#{userBirth}, #{userZipCode}, #{userAddress}, #{userDetailAddress}
-		)
+
 	</insert>
 
 <!--	검증(이미 눌렀으면) select-->
 	<select id="checkFavoriteList" resultType="com.boot.apartment_favorite.dto.ApartmentFavoriteDTO">
-		select userid, userPw from userinfo where userId=#{userId}
+		
 	</select>
 
 <!--관심목록 전체 카운트(갯수) select-->
-	<select id="getFavoriteListCount" resultType="com.boot.apartment_favorite.dto.ApartmentFavoriteDTO">
-		select userNumber, userId, userPw, userName, userTel,
-		userEmail,
-		userBirth, userZipCode, userAddress, userDetailAddress,
-		userAdmin, userRegdate from
-		userinfo where userId=#{userId}
-	</select>
-	
-<!--	유저 전체 관심목록 리스트 사이드바 + 관심아파트 jsp select-->
-	<select id="getFavoriteListByUserNumber" resultType="com.boot.apartment_favorite.dto.ApartmentFavoriteDTO">
-		select userNumber, userId, userPw, userName, userTel,
-		userEmail,
-		userBirth, userZipCode, userAddress, userDetailAddress,
-		userAdmin, userRegdate from
-		userinfo where userId=#{userId}
-	</select>
-
+<select id="getFavoriteListCount" parameterType="map" resultType="int">
+    SELECT count(DISTINCT f.FAVORITEID) 
+    FROM APARTMENT_FAVORITE f
+    LEFT JOIN APARTMENTINFO i ON (
+        ABS(f.LAT - i.LAT) &lt; 0.0000001
+        AND ABS(f.LNG - i.LNG) &lt; 0.0000001
+        AND f.DEALAMOUNT = i.DEALAMOUNT
+    )
+    WHERE f.USERNUMBER = #{userNumber}
+    <if test="region != null and region != ''">
+        AND i.ESTATEAGENTSGGNM LIKE #{region} || '%'
+    </if>
+    <if test="district != null and district != ''">
+        AND i.ESTATEAGENTSGGNM LIKE '%' || #{district} || '%'
+    </if>
+    <if test="priceRange != null and priceRange != ''">
+        <choose>
+            <when test="priceRange == '0-50000'">
+                AND TO_NUMBER(REPLACE(f.DEALAMOUNT, ',', '')) &lt;= 50000
+            </when>
+            <when test="priceRange == '50000-100000'">
+                AND TO_NUMBER(REPLACE(f.DEALAMOUNT, ',', '')) > 50000 
+                AND TO_NUMBER(REPLACE(f.DEALAMOUNT, ',', '')) &lt;= 100000
+            </when>
+            <when test="priceRange == '100000-150000'">
+                AND TO_NUMBER(REPLACE(f.DEALAMOUNT, ',', '')) > 100000 
+                AND TO_NUMBER(REPLACE(f.DEALAMOUNT, ',', '')) &lt;= 150000
+            </when>
+            <when test="priceRange == '150000+'">
+                AND TO_NUMBER(REPLACE(f.DEALAMOUNT, ',', '')) > 150000
+            </when>
+        </choose>
+    </if>
+</select>
+    
+<!--유저 전체 관심목록 리스트 사이드바 + 관심아파트 jsp select-->
+<select id="getFavoriteListByUserNumber" parameterType="map" resultType="com.boot.apartment_favorite.dto.ApartmentFavoriteDTO">
+    SELECT * FROM (
+        SELECT 
+            ROWNUM AS rn,
+            t.*
+        FROM (
+            SELECT 
+                f.FAVORITEID as favoriteId,
+                f.USERNUMBER as userNumber,
+                f.CREATEDAT as createdAt,
+                f.LAT as lat,
+                f.LNG as lng,
+                f.DEALAMOUNT as dealAmount,
+                MAX(i.APARTMENTID) as apartmentId,
+                MAX(i.APTNM) as aptNm,
+                MAX(i.ESTATEAGENTSGGNM) as estateAgentSggNm,
+                MAX(i.EXCLUUSEAR) as excluUseAr,
+                MAX(i.FLOOR) as floor,
+                MAX(i.BUILDYEAR) as buildYear,
+                MAX(i.SUBWAYSTATION) as subwayStation,
+                MAX(i.SUBWAYDISTANCE) as subwayDistance
+            FROM 
+                APARTMENT_FAVORITE f
+            LEFT JOIN 
+                APARTMENTINFO i ON (
+                    ABS(f.LAT - i.LAT) &lt; 0.0000001
+                    AND ABS(f.LNG - i.LNG) &lt; 0.0000001
+                    AND f.DEALAMOUNT = i.DEALAMOUNT
+                )
+            WHERE 
+                f.USERNUMBER = #{userNumber}
+                <if test="region != null and region != ''">
+                    AND i.ESTATEAGENTSGGNM LIKE #{region} || '%'
+                </if>
+                <if test="district != null and district != ''">
+                    AND i.ESTATEAGENTSGGNM LIKE '%' || #{district} || '%'
+                </if>
+                <if test="priceRange != null and priceRange != ''">
+                    <choose>
+                        <when test="priceRange == '0-50000'">
+                            AND TO_NUMBER(REPLACE(f.DEALAMOUNT, ',', '')) &lt;= 50000
+                        </when>
+                        <when test="priceRange == '50000-100000'">
+                            AND TO_NUMBER(REPLACE(f.DEALAMOUNT, ',', '')) > 50000 
+                            AND TO_NUMBER(REPLACE(f.DEALAMOUNT, ',', '')) &lt;= 100000
+                        </when>
+                        <when test="priceRange == '100000-150000'">
+                            AND TO_NUMBER(REPLACE(f.DEALAMOUNT, ',', '')) > 100000 
+                            AND TO_NUMBER(REPLACE(f.DEALAMOUNT, ',', '')) &lt;= 150000
+                        </when>
+                        <when test="priceRange == '150000+'">
+                            AND TO_NUMBER(REPLACE(f.DEALAMOUNT, ',', '')) > 150000
+                        </when>
+                    </choose>
+                </if>
+            GROUP BY 
+                f.FAVORITEID, f.USERNUMBER, f.CREATEDAT, f.LAT, f.LNG, f.DEALAMOUNT
+            <choose>
+                <when test="sort == 'recent'">
+                    ORDER BY f.CREATEDAT DESC
+                </when>
+                <when test="sort == 'price-asc'">
+                    ORDER BY TO_NUMBER(REPLACE(f.DEALAMOUNT, ',', '')) ASC
+                </when>
+                <when test="sort == 'price-desc'">
+                    ORDER BY TO_NUMBER(REPLACE(f.DEALAMOUNT, ',', '')) DESC
+                </when>
+                <when test="sort == 'size-asc'">
+                    ORDER BY TO_NUMBER(MAX(i.EXCLUUSEAR)) ASC
+                </when>
+                <when test="sort == 'size-desc'">
+                    ORDER BY TO_NUMBER(MAX(i.EXCLUUSEAR)) DESC
+                </when>
+                <otherwise>
+                    ORDER BY f.CREATEDAT DESC
+                </otherwise>
+            </choose>
+        ) t
+        WHERE ROWNUM &lt;= #{criteria.pageNum} * #{criteria.amount}
+    )
+    WHERE rn > (#{criteria.pageNum} - 1) * #{criteria.amount}
+</select>
 
 <!--삭제(관심아파트 페이지에서 하트눌렀을 때) delete-->
 	<delete id="removeFavoriteList">
-	update userinfo set userNumber=#{userNumber},
-		userId=#{userId}, userName=#{userName}, userTel=#{userTel} ,
-		userEmail=#{userEmail}, userZipCode=#{userZipCode},
-		userAddress=#{userAddress}, userDetailAddress=#{userDetailAddress}
-		where userNumber=#{userNumber}
+
 	</delete>
 
 </mapper>

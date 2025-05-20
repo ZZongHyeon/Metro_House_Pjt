@@ -30,8 +30,8 @@ import com.boot.user.dto.BasicUserDTO;
 import com.boot.user.dto.UserDTO;
 import com.boot.z_config.security.UserUtils;
 import com.boot.z_page.CommentPageDTO;
-import com.boot.z_page.CriteriaDTO;
 import com.boot.z_page.PageDTO;
+import com.boot.z_page.criteria.CriteriaDTO;
 
 import lombok.extern.slf4j.Slf4j;
 

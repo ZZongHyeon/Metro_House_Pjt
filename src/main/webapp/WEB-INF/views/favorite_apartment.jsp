@@ -10,12 +10,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>관심 아파트 - 메트로하우스</title>
-    <link rel="stylesheet" type="text/css"
-	href="/resources/css/favorite_apartment.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/favorite_apartment.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/board_view.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="${pageContext.request.contextPath}/resources/js/jquery.js"></script>
-   
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <jsp:include page="header.jsp" />
@@ -61,7 +60,7 @@
                 </div>
                 <div class="filter-group">
                     <label class="filter-label">가격 범위</label>
-                    <select class="filter-select">
+                    <select class="filter-select" id="priceRangeSelect">
                         <option value="">전체</option>
                         <option value="0-50000">5억 이하</option>
                         <option value="50000-100000">5억-10억</option>
@@ -71,7 +70,7 @@
                 </div>
                 <div class="filter-group">
                     <label class="filter-label">정렬</label>
-                    <select class="filter-select">
+                    <select class="filter-select" id="sortSelect">
                         <option value="recent">최근 등록순</option>
                         <option value="price-asc">가격 낮은순</option>
                         <option value="price-desc">가격 높은순</option>
@@ -84,256 +83,268 @@
 
         <% 
         // 관심 아파트가 있는지 확인
-        Object favoriteCountObj = request.getAttribute("userFavoriteCount");
-        //int favoriteCount = 0;
-        int favoriteCount = 1;
-        if (favoriteCountObj != null) {
-            try {
-                favoriteCount = Integer.parseInt(String.valueOf(favoriteCountObj));
-            } catch (NumberFormatException e) {
-                // 변환 실패 시 기본값 유지
-            }
-        }
+        Object favoriteListObj = request.getAttribute("favorites");
+        boolean hasFavorites = favoriteListObj != null && !((java.util.List<?>)favoriteListObj).isEmpty();
         
-        if (favoriteCount > 0) {
+        if (hasFavorites) {
         %>
         <div class="apartment-grid">
-            <%-- 실제 데이터가 있을 때는 이 부분이 표시됨 --%>
-            <c:forEach var="apartment" items="${favoriteApartments}" varStatus="status">
+            <c:forEach var="favorite" items="${favorites}" varStatus="status">
                 <div class="apartment-card">
                     <div class="apartment-image">
-                        <img src="/resources/images/apartments/${apartment.apartmentId}.jpg" 
-                             onerror="this.src='/resources/images/apartment-placeholder.jpg'" 
-                             alt="${apartment.apartmentName}">
-                        <div class="apartment-favorite" onclick="removeFavorite('${apartment.apartmentId}')">
+                        <div class="apartment-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="apartment-favorite" onclick="removeFavorite('${favorite.favoriteId}')">
                             <i class="fas fa-heart"></i>
                         </div>
                         <div class="apartment-badge">관심 등록</div>
                     </div>
                     <div class="apartment-content">
-                        <h3 class="apartment-title">${apartment.apartmentName}</h3>
+                        <h3 class="apartment-title">${favorite.aptNm}</h3>
                         <div class="apartment-location">
                             <i class="fas fa-map-marker-alt"></i>
-                            ${apartment.district} ${apartment.dong}
+                            ${favorite.estateAgentSggNm}
                         </div>
                         <div class="apartment-details">
                             <div class="detail-item">
                                 <span class="detail-label">면적</span>
-                                <span class="detail-value">${apartment.size}㎡</span>
+                                <span class="detail-value">${favorite.excluUseAr}㎡</span>
                             </div>
                             <div class="detail-item">
                                 <span class="detail-label">층수</span>
-                                <span class="detail-value">${not empty apartment.floor ? apartment.floor : '-'}층</span>
+                                <span class="detail-value">${not empty favorite.floor ? favorite.floor : '-'}층</span>
                             </div>
                             <div class="detail-item">
                                 <span class="detail-label">건축년도</span>
-                                <span class="detail-value">
-                                    <fmt:formatDate value="${apartment.builtDate}" pattern="yyyy년" />
-                                </span>
+                                <span class="detail-value">${favorite.buildYear}년</span>
                             </div>
                             <div class="detail-item">
                                 <span class="detail-label">가까운 역</span>
-                                <span class="detail-value">${apartment.nearestStation}</span>
+                                <span class="detail-value">${favorite.subwayStation} (${favorite.subwayDistance}m)</span>
                             </div>
                         </div>
                         <div class="apartment-price">
                             <div>
                                 <span class="price-value">
-                                    <fmt:formatNumber value="${apartment.price}" type="number"/>
+                                    ${favorite.dealAmount}
                                 </span>
                                 <span class="price-unit">만원</span>
                             </div>
-                            <a href="/apartment_detail?apartmentId=${apartment.apartmentId}" class="apartment-button">
+                            <a href="/apartment_detail?apartmentId=${favorite.apartmentId}" class="apartment-button">
                                 <i class="fas fa-info-circle"></i> 상세보기
                             </a>
                         </div>
                     </div>
                 </div>
             </c:forEach>
-            
-            <%-- 아래는 더미 데이터 아파트 카드 --%>
-            <%-- 아파트 1 --%>
-            <div class="apartment-card">
-                <div class="apartment-image">
-                    <img src="/resources/images/main3.png" 
-                         alt="래미안 펠리스">
-                    <div class="apartment-favorite" onclick="removeFavorite('AP001')">
-                        <i class="fas fa-heart"></i>
-                    </div>
-                    <div class="apartment-badge">관심 등록</div>
-                </div>
-                <div class="apartment-content">
-                    <h3 class="apartment-title">래미안 펠리스</h3>
-                    <div class="apartment-location">
-                        <i class="fas fa-map-marker-alt"></i>
-                        서울특별시 강남구 대치동
-                    </div>
-                    <div class="apartment-details">
-                        <div class="detail-item">
-                            <span class="detail-label">면적</span>
-                            <span class="detail-value">84.5㎡</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">층수</span>
-                            <span class="detail-value">15층</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">건축년도</span>
-                            <span class="detail-value">2019년</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">가까운 역</span>
-                            <span class="detail-value">대치역</span>
-                        </div>
-                    </div>
-                    <div class="apartment-price">
-                        <div>
-                            <span class="price-value">185,000</span>
-                            <span class="price-unit">만원</span>
-                        </div>
-                        <a href="/apartment_detail?apartmentId=AP001" class="apartment-button">
-                            <i class="fas fa-info-circle"></i> 상세보기
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <%-- 아파트 2 --%>
-            <div class="apartment-card">
-                <div class="apartment-image">
-                    <img src="/resources/images/main2.png" 
-                         alt="푸르지오 시티">
-                    <div class="apartment-favorite" onclick="removeFavorite('AP002')">
-                        <i class="fas fa-heart"></i>
-                    </div>
-                    <div class="apartment-badge">관심 등록</div>
-                </div>
-                <div class="apartment-content">
-                    <h3 class="apartment-title">푸르지오 시티</h3>
-                    <div class="apartment-location">
-                        <i class="fas fa-map-marker-alt"></i>
-                        서울특별시 송파구 잠실동
-                    </div>
-                    <div class="apartment-details">
-                        <div class="detail-item">
-                            <span class="detail-label">면적</span>
-                            <span class="detail-value">101.2㎡</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">층수</span>
-                            <span class="detail-value">21층</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">건축년도</span>
-                            <span class="detail-value">2020년</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">가까운 역</span>
-                            <span class="detail-value">잠실역</span>
-                        </div>
-                    </div>
-                    <div class="apartment-price">
-                        <div>
-                            <span class="price-value">210,000</span>
-                            <span class="price-unit">만원</span>
-                        </div>
-                        <a href="/apartment_detail?apartmentId=AP002" class="apartment-button">
-                            <i class="fas fa-info-circle"></i> 상세보기
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <%-- 아파트 3 --%>
-            <div class="apartment-card">
-                <div class="apartment-image">
-                    <img src="/resources/images/main1.png" 
-                         alt="자이 아파트">
-                    <div class="apartment-favorite" onclick="removeFavorite('AP003')">
-                        <i class="fas fa-heart"></i>
-                    </div>
-                    <div class="apartment-badge">관심 등록</div>
-                </div>
-                <div class="apartment-content">
-                    <h3 class="apartment-title">자이 아파트</h3>
-                    <div class="apartment-location">
-                        <i class="fas fa-map-marker-alt"></i>
-                        경기도 성남시 분당구
-                    </div>
-                    <div class="apartment-details">
-                        <div class="detail-item">
-                            <span class="detail-label">면적</span>
-                            <span class="detail-value">76.8㎡</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">층수</span>
-                            <span class="detail-value">12층</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">건축년도</span>
-                            <span class="detail-value">2018년</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">가까운 역</span>
-                            <span class="detail-value">서현역</span>
-                        </div>
-                    </div>
-                    <div class="apartment-price">
-                        <div>
-                            <span class="price-value">138,000</span>
-                            <span class="price-unit">만원</span>
-                        </div>
-                        <a href="/apartment_detail?apartmentId=AP003" class="apartment-button">
-                            <i class="fas fa-info-circle"></i> 상세보기
-                        </a>
-                    </div>
-                </div>
-            </div>
         </div>
-
-<!--		페이징 실제 구현 필요-->
-<!--        <div class="pagination">-->
-<!--            <div class="page-item disabled">-->
-<!--                <a class="page-link" href="#" aria-label="Previous">-->
-<!--                    <i class="fas fa-chevron-left"></i>-->
-<!--                </a>-->
-<!--            </div>-->
-<!--            <div class="page-item active">-->
-<!--                <a class="page-link" href="#">1</a>-->
-<!--            </div>-->
-<!--            <div class="page-item">-->
-<!--                <a class="page-link" href="#">2</a>-->
-<!--            </div>-->
-<!--            <div class="page-item">-->
-<!--                <a class="page-link" href="#">3</a>-->
-<!--            </div>-->
-<!--            <div class="page-item">-->
-<!--                <a class="page-link" href="#" aria-label="Next">-->
-<!--                    <i class="fas fa-chevron-right"></i>-->
-<!--                </a>-->
-<!--            </div>-->
-<!--        </div>-->
         <% } else { %>
         <div class="empty-state">
             <div class="empty-icon">
                 <i class="fas fa-heart"></i>
             </div>
             <div class="emoji-box">
-                <span class="emoji">🏢</span>
-                <span class="emoji-text">아직 관심 등록한 아파트가 없어요!</span>
+<!--                <span class="emoji">test</span>-->
+                <span class="emoji-text">관심 등록한 아파트가 없어요!</span>
             </div>
             <p class="empty-description">
-                관심있는 아파트를 등록하면 이곳에서 한눈에 확인하고<br> 가격 변동 알림을 받을 수 있습니다.
-                지금 마음에 드는 아파트를 찾아볼까요?
+<!--                관심있는 아파트를 등록하면 이곳에서 한눈에 확인하고-->
+<!--				<br> 가격 변동 알림을 받을 수 있습니다.-->
+<!--                지금 마음에 드는 아파트를 찾아볼까요?-->
+				
             </p>
-            <a href="/apartment_search_view" class="empty-button">
+            <a href="/search_map?majorRegion=서울&district=강남구&station=강남역" class="empty-button">
                 <i class="fas fa-search"></i> 아파트 검색하기
             </a>
         </div>
         <% } %>
+		<div class="div_page">
+		    <ul>
+		        <c:if test="${pageMaker.prev}">
+		            <li class="paginate_button">
+		                <a href="${pageMaker.startPage - 1}">
+		                    <i class="fas fa-caret-left"></i>
+		                </a>
+		            </li>
+		        </c:if>
+
+		        <c:forEach var="num" begin="${pageMaker.startPage}"
+		            end="${pageMaker.endPage}">
+		            <li
+		                class="paginate_button ${pageMaker.apartmentFavoriteCriteriaDTO.pageNum==num ? 'active' : ''}">
+		                <a href="${num}">
+		                    ${num}
+		                </a>
+		            </li>
+		        </c:forEach>
+
+		        <c:if test="${pageMaker.next}">
+		            <li class="paginate_button">
+		                <a href="${pageMaker.endPage+1}">
+		                    <i class="fas fa-caret-right"></i>
+		                </a>
+		            </li>
+		        </c:if>
+		    </ul>
+		</div>
+		<form id="actionForm" action="favorite_apartment" method="get">
+		    <input type="hidden" name="pageNum" value="${pageMaker.apartmentFavoriteCriteriaDTO.pageNum}">
+		    <input type="hidden" name="amount" value="${pageMaker.apartmentFavoriteCriteriaDTO.amount}">
+		    <c:if test="${not empty pageMaker.apartmentFavoriteCriteriaDTO.type}">
+		        <input type="hidden" name="type" value="${pageMaker.apartmentFavoriteCriteriaDTO.type}">
+		    </c:if>
+		    <c:if test="${not empty pageMaker.apartmentFavoriteCriteriaDTO.keyword}">
+		        <input type="hidden" name="keyword" value="${pageMaker.apartmentFavoriteCriteriaDTO.keyword}">
+		    </c:if>
+		    <c:if test="${not empty region}">
+		        <input type="hidden" name="region" value="${region}">
+		    </c:if>
+		    <c:if test="${not empty district}">
+		        <input type="hidden" name="district" value="${district}">
+		    </c:if>
+		    <c:if test="${not empty priceRange}">
+		        <input type="hidden" name="priceRange" value="${priceRange}">
+		    </c:if>
+		    <c:if test="${not empty sort}">
+		        <input type="hidden" name="sort" value="${sort}">
+		    </c:if>
+		</form>
     </div>
 
     <script>
+        // 페이지 로드 시 URL 파라미터에 따라 필터 값 설정
+        document.addEventListener('DOMContentLoaded', function() {
+            // URL 파라미터 가져오기
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            // 지역 설정
+            const regionParam = urlParams.get('region');
+            if (regionParam) {
+                document.getElementById('regionSelect').value = regionParam;
+                
+                // 구/군 옵션 업데이트
+                const districtSelect = document.getElementById('districtSelect');
+                if (districtData[regionParam]) {
+                    districtData[regionParam].forEach(district => {
+                        const option = document.createElement('option');
+                        option.value = district;
+                        option.textContent = district;
+                        districtSelect.appendChild(option);
+                    });
+                    
+                    // 구/군 값 설정
+                    const districtParam = urlParams.get('district');
+                    if (districtParam) {
+                        districtSelect.value = districtParam;
+                    }
+                }
+            }
+            
+            // 가격 범위 설정
+            const priceRangeParam = urlParams.get('priceRange');
+            if (priceRangeParam) {
+                document.getElementById('priceRangeSelect').value = priceRangeParam;
+            }
+            
+            // 정렬 설정
+            const sortParam = urlParams.get('sort');
+            if (sortParam) {
+                document.getElementById('sortSelect').value = sortParam;
+            }
+        });
+		
+		// 페이징처리
+		var actionForm = $("#actionForm");
+
+		// 페이지번호 처리
+		$(".paginate_button a").on("click", function (e) {
+		    e.preventDefault();
+		    console.log("click했음");
+		    console.log("@# href => " + $(this).attr("href"));
+
+		    // 페이지 번호 설정
+		    actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+
+		    // URL 파라미터 가져오기
+		    const urlParams = new URLSearchParams(window.location.search);
+		    
+		    // 필터 파라미터 추가
+		    const region = urlParams.get('region');
+		    if (region) {
+		        actionForm.find("input[name='region']").remove();
+		        actionForm.append("<input type='hidden' name='region' value='" + region + "'>");
+		    }
+		    
+		    const district = urlParams.get('district');
+		    if (district) {
+		        actionForm.find("input[name='district']").remove();
+		        actionForm.append("<input type='hidden' name='district' value='" + district + "'>");
+		    }
+		    
+		    const priceRange = urlParams.get('priceRange');
+		    if (priceRange) {
+		        actionForm.find("input[name='priceRange']").remove();
+		        actionForm.append("<input type='hidden' name='priceRange' value='" + priceRange + "'>");
+		    }
+		    
+		    const sort = urlParams.get('sort');
+		    if (sort) {
+		        actionForm.find("input[name='sort']").remove();
+		        actionForm.append("<input type='hidden' name='sort' value='" + sort + "'>");
+		    }
+
+		    // 폼 제출
+		    actionForm.attr("action", "favorite_apartment").submit();
+		});
+
+		// 게시글 처리
+		$(".move_link").on("click", function (e) {
+		    e.preventDefault();
+		    console.log("move_link click");
+		    console.log("@# click => " + $(this).attr("href"));
+
+		    var targetBno = $(this).attr("href");
+
+		    // 버그처리(게시글 클릭 후 뒤로가기 누른 후 다른 게시글 클릭 할 때 &boardNo=번호 게속 누적되는 거 방지)
+		    var bno = actionForm.find("input[name='boardNo']").val();
+		    if (bno != "") {
+		        actionForm.find("input[name='boardNo']").remove();
+		    }
+
+		    // "content_view?boardNo=${dto.boardNo}"를 actionForm로 처리
+		    actionForm.append("<input type='hidden' name='boardNo' value='" + targetBno + "'>");
+		    // actionForm.submit();
+		    // 컨트롤러에 content_view로 찾아감
+		    actionForm.attr("action", "board_detail_view").submit();
+		});
+
+		// 검색처리
+		var searchForm = $("#searchForm");
+
+		$("#searchForm button").on("click", function () {
+		    // alert("검색");
+
+		    // 키워드 입력 받을 조건
+		    if (searchForm.find("option:selected").val() != "" && !searchForm.find("input[name='keyword']").val()) {
+		        alert("키워드를 입력하세요.");
+		        return false;
+		    }
+
+		    // searchForm.find("input[name='pageNum']").val("1"); // 검색 시 1페이지로 이동
+		    searchForm.attr("action", "favorite_apartment").submit();
+		}); // end of searchForm click
+
+		// type 콤보박스 변경
+		$("#searchForm select").on("change", function () {
+		    if (searchForm.find("option:selected").val() == "") {
+		        // 키워드를 널값으로 변경
+		        searchForm.find("input[name='keyword']").val("");
+		    }
+		}); // end of searchForm click 2
+		
+		
+		
         // 지역별 구/군 데이터
         const districtData = {
             '서울': ['강남구', '서초구', '송파구', '강동구', '강북구', '강서구', '관악구', '광진구', '구로구', '금천구', '노원구', '도봉구', '동대문구', '동작구', '마포구', '서대문구', '성동구', '성북구', '양천구', '영등포구', '용산구', '은평구', '종로구', '중구', '중랑구'],
@@ -364,11 +375,11 @@
             }
         });
 
-        function removeFavorite(apartmentId) {
+        function removeFavorite(favoriteId) {
             if (confirm('정말로 이 아파트를 관심 목록에서 삭제하시겠습니까?')) {
                 $.ajax({
                     type: "post",
-                    data: { apartmentId: apartmentId },
+                    data: { favoriteId: favoriteId },
                     url: "apartment_favorite_remove",
                     success: function(data) {
                         alert("관심 목록에서 삭제되었습니다.");
@@ -391,11 +402,36 @@
             districtSelect.innerHTML = '<option value="">전체</option>';
         });
         
-        // 필터 검색 버튼
-        document.querySelector('.filter-button').addEventListener('click', function() {
-            // 실제 구현 시 필터 값을 가져와서 서버로 요청을 보내는 코드 작성
-            alert('필터 검색 기능은 현재 개발 중입니다.');
-        });
+		// 필터 검색 버튼
+		document.querySelector('.filter-button').addEventListener('click', function() {
+		    // 현재 URL 가져오기
+		    const url = new URL(window.location.href);
+		    
+		    // 페이지 파라미터 초기화 (첫 페이지로)
+		    url.searchParams.set('pageNum', '1');
+		    
+		    // 필터 값 가져오기
+		    const region = document.getElementById('regionSelect').value;
+		    const district = document.getElementById('districtSelect').value;
+		    const priceRange = document.getElementById('priceRangeSelect').value;
+		    const sort = document.getElementById('sortSelect').value;
+		    
+		    // URL 파라미터 설정
+		    if (region) url.searchParams.set('region', region);
+		    else url.searchParams.delete('region');
+		    
+		    if (district) url.searchParams.set('district', district);
+		    else url.searchParams.delete('district');
+		    
+		    if (priceRange) url.searchParams.set('priceRange', priceRange);
+		    else url.searchParams.delete('priceRange');
+		    
+		    if (sort) url.searchParams.set('sort', sort);
+		    else url.searchParams.delete('sort');
+		    
+		    // 페이지 이동
+		    window.location.href = url.toString();
+		});
     </script>
 </body>
 </html>

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import org.springframework.stereotype.Service;
 
 import com.boot.board.dto.BoardCommentDTO;
-import com.boot.z_page.CriteriaDTO;
+import com.boot.z_page.criteria.CriteriaDTO;
 
 public interface BoardCommentService {
 	public ArrayList<BoardCommentDTO> bcView(HashMap<String, String> param, CriteriaDTO criteriaDTO);
