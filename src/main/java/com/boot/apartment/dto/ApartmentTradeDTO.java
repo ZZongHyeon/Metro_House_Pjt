@@ -28,7 +28,7 @@ public class ApartmentTradeDTO {
     private String aptDong;
     private String slerGbn;
     private String buyerGbn;
-    private String landLeaseholdGbn;
+    private String landLeaseHoldGbn;
     private String aptSeq;
     private String bonbun;
     private String bubun;

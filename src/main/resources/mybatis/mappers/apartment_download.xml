@@ -1,0 +1,179 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boot.apartment.dao.ApartmentDownloadDAO">
+
+    <!-- 단일 아파트 정보 삽입 (Oracle용) -->
+    <insert id="insertApartmentInfo" parameterType="com.boot.apartment.dto.ApartmentTradeDTO">
+        MERGE INTO APARTMENTINFO t
+        USING (
+            SELECT
+                #{sggCd, jdbcType=VARCHAR} as sggCd,
+                #{umdNm, jdbcType=VARCHAR} as umdNm,
+                #{aptNm, jdbcType=VARCHAR} as aptNm,
+                #{dealYear, jdbcType=VARCHAR} as dealYear,
+                #{dealMonth, jdbcType=VARCHAR} as dealMonth,
+                #{dealDay, jdbcType=VARCHAR} as dealDay
+            FROM dual
+        ) s
+        ON (
+            t.sggCd = s.sggCd AND
+            t.umdNm = s.umdNm AND
+            t.aptNm = s.aptNm AND
+            t.dealYear = s.dealYear AND
+            t.dealMonth = s.dealMonth AND
+            t.dealDay = s.dealDay
+        )
+        WHEN MATCHED THEN
+            UPDATE SET
+                t.dealAmount = #{dealAmount, jdbcType=VARCHAR},
+                t.rgstDate = #{rgstDate, jdbcType=VARCHAR}
+        WHEN NOT MATCHED THEN
+            INSERT (
+				APARTMENTID,
+                sggCd,
+                umdNm,
+                aptNm,
+                jibun,
+                excluUseAr,
+                dealYear,
+                dealMonth,
+                dealDay,
+                dealAmount,
+                floor,
+                buildYear,
+                cdealType,
+                cdealDay,
+                dealingGbn,
+                estateAgentSggNm,
+                rgstDate,
+                aptDong,
+                slerGbn,
+                buyerGbn,
+                landLeaseHoldGbn,
+                aptSeq,
+                bonbun,
+                bubun,
+                landCd,
+                roadNm,
+                roadNmBonbun,
+                roadNmBubun,
+                roadNmCd,
+                roadNmSeq,
+                roadNmSggCd,
+                roadNmBCd,
+                umdCd,
+                lat,
+                lng,
+                subwayStation,
+                subwayDistance
+            )
+            VALUES (
+				SEQ_APARTMENTINFO.NEXTVAL,
+                #{sggCd, jdbcType=VARCHAR},
+                #{umdNm, jdbcType=VARCHAR},
+                #{aptNm, jdbcType=VARCHAR},
+                #{jibun, jdbcType=VARCHAR},
+                #{excluUseAr, jdbcType=VARCHAR},
+                #{dealYear, jdbcType=VARCHAR},
+                #{dealMonth, jdbcType=VARCHAR},
+                #{dealDay, jdbcType=VARCHAR},
+                #{dealAmount, jdbcType=VARCHAR},
+                #{floor, jdbcType=VARCHAR},
+                #{buildYear, jdbcType=VARCHAR},
+                #{cdealType, jdbcType=VARCHAR},
+                #{cdealDay, jdbcType=VARCHAR},
+                #{dealingGbn, jdbcType=VARCHAR},
+                #{estateAgentSggNm, jdbcType=VARCHAR},
+                #{rgstDate, jdbcType=VARCHAR},
+                #{aptDong, jdbcType=VARCHAR},
+                #{slerGbn, jdbcType=VARCHAR},
+                #{buyerGbn, jdbcType=VARCHAR},
+                #{landLeaseHoldGbn, jdbcType=VARCHAR},
+                #{aptSeq, jdbcType=VARCHAR},
+                #{bonbun, jdbcType=VARCHAR},
+                #{bubun, jdbcType=VARCHAR},
+                #{landCd, jdbcType=VARCHAR},
+                #{roadNm, jdbcType=VARCHAR},
+                #{roadNmBonbun, jdbcType=VARCHAR},
+                #{roadNmBubun, jdbcType=VARCHAR},
+                #{roadNmCd, jdbcType=VARCHAR},
+                #{roadNmSeq, jdbcType=VARCHAR},
+                #{roadNmSggCd, jdbcType=VARCHAR},
+                #{roadNmBCd, jdbcType=VARCHAR},
+                #{umdCd, jdbcType=VARCHAR},
+                #{lat, jdbcType=NUMERIC},
+                #{lng, jdbcType=NUMERIC},
+                #{subwayStation, jdbcType=VARCHAR},
+                #{subwayDistance, jdbcType=VARCHAR}
+            )
+    </insert>
+    
+    <!-- 기존 쿼리들은 그대로 유지 (substring을 SUBSTR로 변경) -->
+    <select id="getApartmentDataByYearMonth" parameterType="java.util.Map" resultType="com.boot.apartment.dto.ApartmentTradeDTO">
+        SELECT
+            apartmentId,
+            sggCd,
+            umdNm,
+            aptNm,
+            jibun,
+            excluUseAr,
+            dealYear,
+            dealMonth,
+            dealDay,
+            dealAmount,
+            floor,
+            buildYear,
+            cdealType,
+            cdealDay,
+            dealingGbn,
+            estateAgentSggnm as estateAgentSggNm,
+            rgstDate,
+            aptDong,
+            slerGbn,
+            buyerGbn,
+            landLeaseHoldGbn as landLeaseholdGbn,
+            aptSeq,
+            bonbun,
+            bubun,
+            landCd,
+            roadNm,
+            roadNmBonbun,
+            roadNmBubun,
+            roadNmCd,
+            roadNmSeq,
+            roadNmsggCd as roadNmSggCd,
+            roadNmBcd as roadNmBCd,
+            umdcd as umdCd,
+            lat,
+            lng,
+            subwayStation,
+            subwayDistance
+        FROM
+            APARTMENTINFO
+        WHERE
+            dealYear = SUBSTR(#{yearMonth, jdbcType=VARCHAR}, 1, 4)
+            AND dealMonth = SUBSTR(#{yearMonth, jdbcType=VARCHAR}, 5)
+        ORDER BY
+            sggCd, umdNm, aptNm, floor
+    </select>
+    
+    <select id="countApartmentDataByYearMonth" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*)
+        FROM
+            APARTMENTINFO
+        WHERE
+            dealYear = SUBSTR(#{yearMonth, jdbcType=VARCHAR}, 1, 4)
+            AND dealMonth = SUBSTR(#{yearMonth, jdbcType=VARCHAR}, 5)
+    </select>
+    
+    <delete id="deleteApartmentDataByYearMonth" parameterType="java.util.Map">
+        DELETE FROM
+            APARTMENTINFO
+        WHERE
+            dealYear = SUBSTR(#{yearMonth, jdbcType=VARCHAR}, 1, 4)
+            AND dealMonth = SUBSTR(#{yearMonth, jdbcType=VARCHAR}, 5)
+    </delete>
+</mapper>

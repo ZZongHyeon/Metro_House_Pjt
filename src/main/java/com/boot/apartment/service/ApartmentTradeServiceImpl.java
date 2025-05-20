@@ -329,6 +329,7 @@ public class ApartmentTradeServiceImpl implements ApartmentTradeService {
 
 			// 4. GET 요청 보내기
 			URL url = new URL(apiUrl);
+			System.out.println("apiUrl => " + apiUrl ); 
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
 

@@ -21,7 +21,7 @@
 </head>
 <body>
     <c:set var="currentPage" value="${requestScope['javax.servlet.forward.request_uri']}" />
-    
+
     <header class="top-header">
         <div class="header-container">
             <!-- 로고 섹션 -->
@@ -117,6 +117,12 @@
                                     </a>
                                 </div>
 
+								
+<!--								<div class="downloadTest" id="downloadBtn" style="cursor: pointer; padding: 10px 15px; background-color: #4CAF50; color: white; border-radius: 4px; display: inline-block; margin: 10px 0;">-->
+<!--								    <i class="fa-solid fa-download"></i> 아파트 데이터 다운로드-->
+<!--								</div>-->
+								
+								
                                 <!-- 관리자 섹션 -->
                                 <c:if test="${user.userAdmin == 1}">
                                 <div class="dropdown-section">
@@ -128,6 +134,15 @@
                                         <div class="dropdown-item-content">
                                             <div class="dropdown-item-title">관리자모드 <span class="admin-badge">Admin</span></div>
                                             <div class="dropdown-item-description">사이트 관리 및 설정</div>
+                                        </div>
+                                    </a>
+                                    <a href="down" class="dropdown-item admin-item">
+                                        <div class="dropdown-icon-wrapper">
+                                            <i class="dropdown-icon fa-solid fa-download"></i>
+                                        </div>
+                                        <div class="dropdown-item-content">
+                                            <div class="dropdown-item-title">아파트 데이터 다운로드 <span class="admin-badge">Admin</span></div>
+                                            <div class="dropdown-item-description">아파트 데이터 다운로드</div>
                                         </div>
                                     </a>
                                 </div>
@@ -239,5 +254,65 @@
             }
         });
     </script>
+	
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+		    // 다운로드 링크 이벤트 리스너 (클래스로 선택)
+		    const downloadLink = document.querySelector('a.dropdown-item.admin-item[href="down"]');
+		    
+		    if (downloadLink) {
+		        downloadLink.addEventListener('click', function(event) {
+		            // 기본 링크 동작 방지
+		            event.preventDefault();
+		            
+		            // 링크 상태 변경 (비활성화 및 로딩 표시)
+		            downloadLink.style.pointerEvents = 'none';
+		            const iconWrapper = downloadLink.querySelector('.dropdown-icon-wrapper');
+		            const originalIcon = iconWrapper.innerHTML;
+		            iconWrapper.innerHTML = '<i class="dropdown-icon fa-solid fa-spinner fa-spin"></i>';
+		            
+		            const titleElement = downloadLink.querySelector('.dropdown-item-title');
+		            const originalTitle = titleElement.innerHTML;
+		            titleElement.innerHTML = '데이터 수집 중... <span class="admin-badge">Admin</span>';
+		            
+		            // 현재 연월 계산 (기본값: 이전 달)
+		            const today = new Date();
+		            const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1);
+		            const yearMonth = lastMonth.getFullYear().toString() + 
+		                             (lastMonth.getMonth() + 1).toString().padStart(2, '0');
+		            
+		            // API 호출
+		            fetch('/download?yearMonth=' + yearMonth)
+		                .then(response => {
+		                    if (!response.ok) {
+		                        throw new Error('서버 응답 오류: ' + response.status);
+		                    }
+		                    return response.json();
+		                })
+		                .then(data => {
+		                    // 성공 메시지 표시
+		                    alert('아파트 데이터 수집 및 저장이 완료되었습니다.\n총 ' + data.length + '개의 데이터가 저장되었습니다.');
+		                    
+		                    // 링크 상태 복원
+		                    iconWrapper.innerHTML = originalIcon;
+		                    titleElement.innerHTML = originalTitle;
+		                    downloadLink.style.pointerEvents = 'auto';
+		                })
+		                .catch(error => {
+		                    // 오류 메시지 표시
+		                    console.error('데이터 수집 중 오류 발생:', error);
+		                    alert('데이터 수집 중 오류가 발생했습니다: ' + error.message);
+		                    
+		                    // 링크 상태 복원
+		                    iconWrapper.innerHTML = originalIcon;
+		                    titleElement.innerHTML = originalTitle;
+		                    downloadLink.style.pointerEvents = 'auto';
+		                });
+		        });
+		    } else {
+		        console.error('아파트 데이터 다운로드 링크를 찾을 수 없습니다.');
+		    }
+		});
+	</script>
 </body>
 </html>
