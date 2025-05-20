@@ -185,6 +185,11 @@ create table apartmentinfo(
     subwayStation VARCHAR2(100),
     subwayDistance VARCHAR2(50)
 );
+
+-- 위도/경도에 복합 인덱스 생성
+CREATE INDEX idx_apartmentinfo_latlng ON APARTMENTINFO(lat, lng);
+
+
 CREATE SEQUENCE seq_apartmentinfo
     START WITH 1
     INCREMENT BY 1
