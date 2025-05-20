@@ -1,4 +1,4 @@
-package com.boot.z_util;
+package com.boot.z_config.security;
 
 import java.util.HashMap;
 
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 
 import com.boot.user.dto.UserDTO;
 import com.boot.user.service.UserService;
-import com.boot.z_config.security.PrincipalDetails;
 import com.boot.z_config.security.jwt.JwtTokenUtil;
 
 /**

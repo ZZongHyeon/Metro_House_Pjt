@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.boot.user.dto.UserDTO;
-import com.boot.z_util.UserUtils;
+import com.boot.z_config.security.UserUtils;
 
 
 

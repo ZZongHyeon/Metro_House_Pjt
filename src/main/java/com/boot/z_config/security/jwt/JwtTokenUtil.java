@@ -40,6 +40,7 @@ public class JwtTokenUtil {
     private String secret = "metrohouse_jwt_secret_key_should_be_longer_than_32_bytes_for_security";
 
     // 토큰 유효 시간 (24시간)
+    // 서버내에 토큰 저장 JwtAuthenticationSuccessHandler.java의 유효시간과 동일해야함
     private int jwtExpirationInMs = 24 * 60 * 60 * 1000;
 
     // 시크릿 키를 SecretKey 객체로 변환

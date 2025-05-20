@@ -1,6 +1,7 @@
 package com.boot.apartment.service;
 
 import com.boot.apartment.dto.ApartmentTradeDTO;
+import com.boot.user.dto.BasicUserDTO;
 import com.boot.user.dto.UserDTO;
 
 import org.json.JSONArray;
@@ -368,7 +369,7 @@ public class ApartmentTradeServiceImpl implements ApartmentTradeService {
     }
 
     @Override
-    public List<ApartmentTradeDTO> recommend(UserDTO loginUser) {
+    public List<ApartmentTradeDTO> recommend(BasicUserDTO loginUser) {
         if (loginUser != null)
         {
             String userAddress = loginUser.getUserAddress();

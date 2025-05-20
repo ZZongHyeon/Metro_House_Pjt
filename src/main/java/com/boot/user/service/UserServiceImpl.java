@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
 	public ArrayList<UserDTO> userLogin(HashMap<String, String> param) {
 		UserDAO dao = sqlSession.getMapper(UserDAO.class);
 		ArrayList<UserDTO> list = dao.userLogin(param);
-		System.out.println("실행됨");
+//		System.out.println("실행됨");
 		return list;
 	}
 
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
 	public UserDTO getUserInfo(HashMap<String, String> param) {
 		UserDAO dao = sqlSession.getMapper(UserDAO.class);
 		UserDTO dto = dao.getUserInfo(param);
-		System.out.println("실행됨");
+//		System.out.println("실행됨");
 		return dto;
 	}
 

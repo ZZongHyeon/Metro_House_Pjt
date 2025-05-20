@@ -26,7 +26,7 @@ import com.boot.board.service.BoardCommentServiceImpl;
 import com.boot.user.dto.BasicUserDTO;
 import com.boot.user.dto.UserDTO;
 import com.boot.user.service.UserService;
-import com.boot.z_util.UserUtils;
+import com.boot.z_config.security.UserUtils;
 
 import lombok.extern.slf4j.Slf4j;
 

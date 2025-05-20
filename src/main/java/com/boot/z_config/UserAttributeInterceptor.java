@@ -11,8 +11,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.boot.user.dto.UserDTO;
+import com.boot.z_config.security.UserUtils;
 import com.boot.user.dto.BasicUserDTO;
-import com.boot.z_util.UserUtils;
 
 /**
  * 모든 요청에 대해 request 속성에 설정된 사용자 정보를 모델에 추가하는 인터셉터

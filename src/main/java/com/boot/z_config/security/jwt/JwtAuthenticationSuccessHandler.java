@@ -36,6 +36,8 @@ public class JwtAuthenticationSuccessHandler extends SimpleUrlAuthenticationSucc
         Cookie jwtCookie = new Cookie("jwt_token", token);
         jwtCookie.setPath("/"); // 모든 경로에서 접근 가능
         jwtCookie.setHttpOnly(true); // JavaScript에서 접근 불가능하게 설정
+        
+        // 브라우저에 토큰 저장 JwtTokenUtil.java의 유효시간과 동일해야함
         jwtCookie.setMaxAge(1 * 24 * 60 * 60); // 1일 유효기간
 
         // HTTPS 환경에서는 Secure 플래그 추가

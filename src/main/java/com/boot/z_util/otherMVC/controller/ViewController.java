@@ -12,9 +12,11 @@ import javax.servlet.http.HttpSession;
 
 import com.boot.apartment.dto.ApartmentTradeDTO;
 import com.boot.apartment.service.ApartmentTradeService;
+import com.boot.user.dto.BasicUserDTO;
 import com.boot.user.dto.UserDTO;
+import com.boot.z_config.security.OAuth2AuthenticationSuccessHandler;
 import com.boot.z_config.security.PrincipalDetails;
-import com.boot.z_util.UserUtils;
+import com.boot.z_config.security.UserUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -27,9 +29,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class ViewController {
+
+    private final OAuth2AuthenticationSuccessHandler OAuth2AuthenticationSuccessHandler;
 	private int todayViews = 0;
 	@Autowired
 	private ApartmentTradeService apartmentTradeService;
+
+    ViewController(OAuth2AuthenticationSuccessHandler OAuth2AuthenticationSuccessHandler) {
+        this.OAuth2AuthenticationSuccessHandler = OAuth2AuthenticationSuccessHandler;
+    }
 //	@Autowired
 //	private UserUtils userUtils;
 
@@ -63,13 +71,17 @@ public class ViewController {
 			visitCookie.setMaxAge(24 * 60 * 60); // 24시간
 			response.addCookie(visitCookie);
 		}
-
+		
 		model.addAttribute("currentPage", "main"); // 헤더 식별용
 		model.addAttribute("todayViews", todayViews);
 
-		// 사용자 정보가 필요한 경우 모델에서 가져옴
-		UserDTO user = (UserDTO) model.getAttribute("user");
+		// 사용자 정보가 필요한 경우 request(토큰)에서 가져옴
+		
+		BasicUserDTO user = (BasicUserDTO) request.getAttribute("user");
+		
+//		System.out.println("user :" + user);
 		if (user != null) {
+			System.out.println("user != null");
 			List<ApartmentTradeDTO> apartmentList = apartmentTradeService.recommend(user);
 			model.addAttribute("apartmentList", apartmentList);
 		}

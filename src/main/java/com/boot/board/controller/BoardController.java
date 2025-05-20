@@ -28,10 +28,10 @@ import com.boot.board.service.BoardCommentServiceImpl;
 import com.boot.board.service.BoardService;
 import com.boot.user.dto.BasicUserDTO;
 import com.boot.user.dto.UserDTO;
+import com.boot.z_config.security.UserUtils;
 import com.boot.z_page.CommentPageDTO;
 import com.boot.z_page.CriteriaDTO;
 import com.boot.z_page.PageDTO;
-import com.boot.z_util.UserUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
