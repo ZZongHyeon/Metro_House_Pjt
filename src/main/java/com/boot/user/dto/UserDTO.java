@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+// 데이터 불러올 때 비밀번호가 필요한 서비스일때만 이거 사용
 public class UserDTO {
 	private int userNumber;
 	private String userId;
