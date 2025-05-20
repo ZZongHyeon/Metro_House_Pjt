@@ -149,7 +149,7 @@
 			                <div class="apartment-list" id="apartmentList">
 			                    <!-- 아파트 목록이 여기에 표시됩니다 -->
 			                    <p style="text-align: center; padding: 50px 0; color: var(--gray-500);" id="noResultsMessage">
-			                        검색 결과가 없습니다. 다른 지하철역을 검색해보세요.
+			                        검색 결과가 없습니다. <br> 지하철역을 검색해보세요.
 			                    </p>
 			                </div>
 			            </div>
@@ -191,10 +191,10 @@
 				        }
 				        
 				        // 데이터 속성 확인
-				        /*console.log('카드 데이터 속성:', {
+				        console.log('카드 데이터 속성:', {
 				            floor: card.dataset.floor,
 				            buildYear: card.dataset.buildYear
-				        });*/
+				        });
 				        
 				        card.dataset.hasClickListener = 'true';
 				        card.addEventListener('click', function() {
@@ -216,7 +216,13 @@
 				            
 				            // 선택된 아파트 정보 표시
 				            const selectedApartment = document.getElementById('selectedApartment');
-				            selectedApartment.innerHTML = `
+				            if (!selectedApartment) {
+				                console.error('selectedApartment 요소를 찾을 수 없습니다');
+				                return;
+				            }
+				            
+				            // 선택된 아파트 정보 HTML 생성
+				            const html = `
 				                <div class="selected-apt-header">
 				                    <h3 class="selected-apt-name">${aptName}</h3>
 				                    <span class="selected-apt-label">선택됨</span>
@@ -241,6 +247,10 @@
 				                    </div>
 				                </div>
 				            `;
+				            
+				            // HTML 설정
+				            selectedApartment.innerHTML = html;
+				            console.log('선택된 아파트 정보가 업데이트되었습니다');
 				            
 				            // 비교 항목 업데이트
 				            updateComparison(aptPrice, aptSize, aptFloor, aptBuildYear);
@@ -687,67 +697,19 @@
 				            
 				            // displayApartments 함수 내의 아파트 카드 클릭 이벤트 핸들러를 다음과 같이 수정
 				            apartmentCard.addEventListener('click', function () {
-				                // 지도 이동 및 오버레이 표시 (기존 코드 유지)
 				                map.setCenter(position);
 				                map.setLevel(3);
 
-				                if (currentOverlay && currentOverlay.apartmentId === apt.id) {
-				                    currentOverlay.setMap(null);
-				                    currentOverlay = null;
-				                } else {
-				                    if (currentOverlay) {
-				                        currentOverlay.setMap(null);
-				                    }
-				                    apartmentOverlay.setMap(map);
-				                    currentOverlay = apartmentOverlay;
-				                }
-				                
-				                // 선택된 아파트 정보 표시 - 간단한 방식으로 변경
-				                const selectedApartment = document.getElementById('selectedApartment');
-				                if (selectedApartment) {
-				                    // 간단한 HTML 문자열 사용
-				                    const html = `
-				                        <div style="padding: 15px; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-				                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-				                                <h3 style="margin: 0; font-size: 16px; font-weight: 600;">${aptName}</h3>
-				                                <span style="background-color: #51bdbd; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px;">선택됨</span>
-				                            </div>
-				                            <div style="color: #666; margin-bottom: 15px; font-size: 14px;">${locationContent}</div>
-				                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-				                                <div style="background-color: #f5f5f5; padding: 10px; border-radius: 4px;">
-				                                    <div style="font-size: 12px; color: #666; margin-bottom: 4px;">가격</div>
-				                                    <div style="font-weight: 500;">${dealAmount}</div>
-				                                </div>
-				                                <div style="background-color: #f5f5f5; padding: 10px; border-radius: 4px;">
-				                                    <div style="font-size: 12px; color: #666; margin-bottom: 4px;">평수</div>
-				                                    <div style="font-weight: 500;">${excluUseAr}</div>
-				                                </div>
-				                                <div style="background-color: #f5f5f5; padding: 10px; border-radius: 4px;">
-				                                    <div style="font-size: 12px; color: #666; margin-bottom: 4px;">층수</div>
-				                                    <div style="font-weight: 500;">${floorText}</div>
-				                                </div>
-				                                <div style="background-color: #f5f5f5; padding: 10px; border-radius: 4px;">
-				                                    <div style="font-size: 12px; color: #666; margin-bottom: 4px;">건축년도</div>
-				                                    <div style="font-weight: 500;">${buildYearText}</div>
-				                                </div>
-				                            </div>
-				                        </div>
-				                    `;
-				                    
-				                    // 직접 HTML 설정
-				                    selectedApartment.innerHTML = html;
-				                    
-				                    console.log('선택된 아파트 정보가 업데이트되었습니다:', {
-				                        이름: aptName,
-				                        위치: locationContent,
-				                        가격: dealAmount,
-				                        평수: excluUseAr,
-				                        층수: floorText,
-				                        건축년도: buildYearText
-				                    });
-				                } else {
-				                    console.error('selectedApartment 요소를 찾을 수 없습니다');
-				                }
+								if (currentOverlay && currentOverlay.apartmentId === apt.id) {
+								        currentOverlay.setMap(null);
+								        currentOverlay = null;
+								    } else {
+								        if (currentOverlay) {
+								            currentOverlay.setMap(null);
+								        }
+								        apartmentOverlay.setMap(map);
+								        currentOverlay = apartmentOverlay;
+								    }
 				            });
 
 				            apartmentListContainer.appendChild(apartmentCard);
