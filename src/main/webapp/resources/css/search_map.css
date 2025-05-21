@@ -448,7 +448,7 @@ main.content {
 	background-color: var(--gray-100);
 	border-radius: var(--border-radius);
 	padding: 15px;
-	margin-bottom: 15px;
+
 }
 
 .selected-apt-header {
@@ -459,10 +459,9 @@ main.content {
 }
 
 .selected-apt-name {
-	font-size: 16px;
+	font-size: 18px;
 	font-weight: 600;
 	color: var(--dark);
-	margin: 0;
 }
 
 .selected-apt-label {
@@ -474,7 +473,12 @@ main.content {
 }
 
 .selected-apt-location {
-	font-size: 14px;
+	font-size: 13px;
+	color: var(--gray-500);
+	margin-bottom: 5px;
+}
+.selected-apt-subway {
+	font-size: 13px;
 	color: var(--gray-500);
 	margin-bottom: 10px;
 }
@@ -533,7 +537,7 @@ main.content {
 	flex-direction: column;
 	gap: 15px;
 	overflow-y: auto;
-	max-height: 500px;
+	max-height: 1000px;
 }
 
 .comparison-item {
@@ -563,7 +567,10 @@ main.content {
 	font-size: 13px;
 	color: var(--gray-500);
 }
-
+.comparison-apt-subway {
+	font-size: 13px;
+	color: var(--gray-500);
+}
 .comparison-details {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
@@ -577,23 +584,23 @@ main.content {
 
 /* 비교 결과 스타일 */
 .better-value {
-	color: var(--success) !important;
-	font-weight: 600;
-}
-
-.better-value:after {
-	content: ' ▼';
-	font-size: 12px;
-}
-
-.worse-value {
 	color: var(--danger) !important;
 	font-weight: 600;
 }
 
-.worse-value:after {
+.better-value:after {
 	content: ' ▲';
-	font-size: 12px;
+	font-size: 10px;
+}
+
+.worse-value {
+	color: #3b82f6 !important;
+	font-weight: 600;
+}
+
+.worse-value:after {
+	content: ' ▼';
+	font-size: 10px;
 }
 
 /* 반응형 스타일 */

@@ -3,7 +3,6 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.boot.apartment_comparison.dao.ApartmentComparisonDAO">
- 
 <select id="getFavoriteListByUserNumber" parameterType="Integer" resultType="com.boot.apartment_comparison.dto.ApartmentComparisonDTO">
     SELECT DISTINCT
         f.FAVORITEID as favoriteId,
@@ -26,11 +25,7 @@
     FROM 
         APARTMENT_FAVORITE f
     LEFT JOIN 
-        APARTMENTINFO i ON (
-            ABS(f.LAT - i.LAT) &lt; 0.0000001
-            AND ABS(f.LNG - i.LNG) &lt; 0.0000001
-            AND f.DEALAMOUNT = i.DEALAMOUNT
-        )
+        APARTMENTINFO i ON f.APARTMENTID = i.APARTMENTID
     WHERE 
         f.USERNUMBER = #{userNumber}
     ORDER BY 

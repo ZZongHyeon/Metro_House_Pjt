@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
         <!DOCTYPE html>
         <html>
 
@@ -56,6 +57,18 @@
 							                    <div class="comparison-apt-info">
 							                        <h3 class="comparison-apt-name">${apt.aptNm}</h3>
 							                        <div class="comparison-apt-location">${apt.estateAgentSggNm}</div>
+													<c:choose>
+													    <c:when test="${not empty apt.subwayStation}">
+													        <div class="comparison-apt-subway">
+													            ${fn:split(apt.subwayStation, ' ')[0]}에서 ${apt.subwayDistance}m
+													        </div>
+													    </c:when>
+													    <c:otherwise>
+													        <div class="comparison-apt-subway">
+													            지하철역정보없음
+													        </div>
+													    </c:otherwise>
+													</c:choose>
 							                    </div>
 							                    <div class="comparison-details">
 							                        <div class="comparison-detail">
@@ -191,10 +204,10 @@
 				        }
 				        
 				        // 데이터 속성 확인
-				        console.log('카드 데이터 속성:', {
+				        /*console.log('카드 데이터 속성:', {
 				            floor: card.dataset.floor,
 				            buildYear: card.dataset.buildYear
-				        });
+				        });*/
 				        
 				        card.dataset.hasClickListener = 'true';
 				        card.addEventListener('click', function() {
@@ -209,9 +222,12 @@
 				            // 추가 정보 (데이터 속성에서 가져오거나 기본값 사용)
 				            const aptFloor = this.dataset.floor || '정보 없음';
 				            const aptBuildYear = this.dataset.buildYear || '정보 없음';
+							const subwayStation = this.dataset.subwayStation || '정보 없음';
+							const subwayDistance = this.dataset.subwayDistance || '정보 없음';
+							
 				            
-				            console.log('추출된 정보:', {
-				                aptName, aptLocation, aptPrice, aptSize, aptFloor, aptBuildYear
+				            console.log('@#@#추출된 정보:', {
+				                aptName, aptLocation, aptPrice, aptSize, aptFloor, aptBuildYear, subwayStation, subwayDistance
 				            });
 				            
 				            // 선택된 아파트 정보 표시
@@ -224,26 +240,27 @@
 				            // 선택된 아파트 정보 HTML 생성
 				            const html = `
 				                <div class="selected-apt-header">
-				                    <h3 class="selected-apt-name">${aptName}</h3>
+				                    <h3 class="selected-apt-name">`+aptName.split('(')[0]+`</h3>
 				                    <span class="selected-apt-label">선택됨</span>
 				                </div>
-				                <div class="selected-apt-location">${aptLocation}</div>
+				                <div class="selected-apt-location">`+aptLocation+`</div>
+								<div class="selected-apt-subway">`+subwayStation+`에서 `+subwayDistance+`m</div>
 				                <div class="selected-apt-details">
 				                    <div class="selected-detail">
-				                        <span class="detail-label">가격</span>
-				                        <span class="detail-value selected-price">${aptPrice}</span>
+				                        <span class="detail-label">가격</span>	
+				                        <span class="detail-value selected-price">`+aptPrice+`</span>
 				                    </div>
 				                    <div class="selected-detail">
 				                        <span class="detail-label">평수</span>
-				                        <span class="detail-value selected-size">${aptSize}</span>
+				                        <span class="detail-value selected-size">`+aptSize+`</span>
 				                    </div>
 				                    <div class="selected-detail">
 				                        <span class="detail-label">층수</span>
-				                        <span class="detail-value selected-floor">${aptFloor}</span>
+				                        <span class="detail-value selected-floor">`+aptFloor+`층</span>
 				                    </div>
 				                    <div class="selected-detail">
 				                        <span class="detail-label">건축년도</span>
-				                        <span class="detail-value selected-year">${aptBuildYear}</span>
+				                        <span class="detail-value selected-year">`+aptBuildYear+`</span>
 				                    </div>
 				                </div>
 				            `;
@@ -263,7 +280,7 @@
 				    console.log('비교 업데이트:', { selectedPrice, selectedSize, selectedFloor, selectedBuildYear });
 				    
 				    const comparisonItems = document.querySelectorAll('.comparison-item');
-				    console.log('비교 항목 개수:', comparisonItems.length);
+				    // console.log('비교 항목 개수:', comparisonItems.length);
 				    
 				    if (comparisonItems.length === 0) {
 				        console.log('비교할 아파트가 없습니다.');
@@ -308,13 +325,13 @@
 
 				// 값 비교 및 스타일 적용 함수
 				function compareValues(element, itemValue, selectedValue, isHigherWorse) {
-				    console.log('값 비교:', { itemValue, selectedValue, isHigherWorse });
+				    //console.log('값 비교:', { itemValue, selectedValue, isHigherWorse });
 				    
 				    // 숫자만 추출
 				    const itemNum = extractNumber(itemValue);
 				    const selectedNum = extractNumber(selectedValue);
 				    
-				    console.log('추출된 숫자:', { itemNum, selectedNum });
+				    //console.log('추출된 숫자:', { itemNum, selectedNum });
 				    
 				    if (itemNum === null || selectedNum === null) {
 				        // 숫자 추출 실패 시 비교 불가
@@ -325,16 +342,16 @@
 				    
 				    if (itemNum === selectedNum) {
 				        // 값이 같으면 중립
-				        console.log('값이 같음');
+				        //console.log('값이 같음');
 				        element.classList.remove('better-value', 'worse-value');
 				    } else if ((itemNum < selectedNum && isHigherWorse) || (itemNum > selectedNum && !isHigherWorse)) {
 				        // 더 좋은 값
-				        console.log('더 좋은 값');
+				        //console.log('더 좋은 값');
 				        element.classList.add('better-value');
 				        element.classList.remove('worse-value');
 				    } else {
 				        // 더 나쁜 값
-				        console.log('더 나쁜 값');
+				        //console.log('더 나쁜 값');
 				        element.classList.add('worse-value');
 				        element.classList.remove('better-value');
 				    }
@@ -355,7 +372,7 @@
 				    
 				    // 쉼표 제거 후 숫자로 변환
 				    const result = parseFloat(matches[0].replace(/,/g, ''));
-				    console.log('추출된 숫자:', result);
+				    //console.log('추출된 숫자:', result);
 				    return result;
 				}
 
@@ -605,10 +622,10 @@
 				            // 필요에 따라 추가 정보 처리
 				            const floorText = apt.floor || "-";
 				            const buildYearText = apt.buildYear ? apt.buildYear + "년" : "-";
-				            const roomsText = apt.rooms || "-";
-				            const bathroomsText = apt.bathrooms || "-";
-				            const maintenanceFeeText = apt.maintenanceFee ? "월 " + apt.maintenanceFee + "만원" : "-";
-				            const distanceText = apt.subwayDistance ? apt.subwayStation + "에서 " + apt.subwayDistance + "m" : "-";
+				            const roomsText = apt.rooms || "-"; //방 갯수
+				            const bathroomsText = apt.bathrooms || "-"; // 화장실갯수
+				            const maintenanceFeeText = apt.maintenanceFee ? "월 " + apt.maintenanceFee + "만원" : "-"; // 관리비
+				            const distanceText = apt.subwayDistance ? apt.subwayStation.split(' ')[0] + "에서 " + apt.subwayDistance + "m" : "-";
 
 				            // 커스텀 오버레이용 HTML 템플릿 (기존 코드 유지)
 				            const overlayContent = `
@@ -627,10 +644,8 @@
 				                            <div class="overlay-distance">`+distanceText+`</div>
 				                        </div>
 				                        <div class="overlay-section overlay-details">
-				                            <div class="detail-item"><span>방/욕실:</span> `+roomsText+`/`+bathroomsText+`</div>
 				                            <div class="detail-item"><span>층수:</span> `+floorText+`</div>
 				                            <div class="detail-item"><span>건축년도:</span> `+buildYearText+`</div>
-				                            <div class="detail-item"><span>관리비:</span> `+maintenanceFeeText+`</div>
 				                        </div>
 				                    </div>
 				                    <div class="overlay-footer">
@@ -667,9 +682,10 @@
 				            const apartmentCard = document.createElement('div');
 				            apartmentCard.className = 'apartment-card';
 				            
-				            // 중요: 데이터 속성 추가 - 이 부분이 누락되어 있었습니다
 				            apartmentCard.dataset.floor = floorText;
 				            apartmentCard.dataset.buildYear = buildYearText;
+							apartmentCard.dataset.subwayDistance = apt.subwayDistance || '정보 없음';
+							apartmentCard.dataset.subwayStation = apt.subwayStation.split(' ')[0] || '정보 없음';
 				            
 				            apartmentCard.innerHTML = `
 				                <div class="apartment-image">
@@ -687,7 +703,7 @@
 				            
 				            // 기존 코드 유지
 				            const nameH3 = apartmentCard.querySelector('.apartment-name');
-				            nameH3.textContent = aptName;
+				            nameH3.textContent = aptName.split('(')[0];
 				            const bonbun3 = apartmentCard.querySelector('.apartment-location');
 				            bonbun3.textContent = locationContent;
 				            const excluUseArSpan = apartmentCard.querySelector('.apartment-details span:nth-child(1)');

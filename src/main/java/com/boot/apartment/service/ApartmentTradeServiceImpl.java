@@ -203,8 +203,13 @@ public class ApartmentTradeServiceImpl implements ApartmentTradeService {
 	}
 
 	private String buildRoadAddress(ApartmentTradeDTO dto) {
+		
 		String roadAddress = dto.getEstateAgentSggNm() + " " + dto.getUmdNm() + " " + dto.getRoadNm() + " "
 				+ Integer.parseInt(dto.getRoadNmBonbun());
+		System.out.println("dto.getEstateAgentSggNm() => "+dto.getEstateAgentSggNm());
+		System.out.println("dto.getUmdNm() => "+dto.getUmdNm());
+		System.out.println("dto.getRoadNm() => "+dto.getRoadNm());
+		System.out.println("Integer.parseInt(dto.getRoadNmBonbun() => "+Integer.parseInt(dto.getRoadNmBonbun()));
 		if (!"00000".equals(dto.getRoadNmBubun())) {
 			roadAddress += "-" + Integer.parseInt(dto.getRoadNmBubun());
 		}
@@ -329,7 +334,7 @@ public class ApartmentTradeServiceImpl implements ApartmentTradeService {
 
 			// 4. GET 요청 보내기
 			URL url = new URL(apiUrl);
-			System.out.println("apiUrl => " + apiUrl ); 
+			System.out.println("apiUrl => " + apiUrl);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
 
