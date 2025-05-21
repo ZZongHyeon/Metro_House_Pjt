@@ -54,6 +54,10 @@
 							        <c:otherwise>
 							            <c:forEach var="apt" items="${interestList}">
 							                <div class="comparison-item" data-apt-id="${apt.apartmentId}">
+												<div class="comparison-heart" data-favorite-id="${apt.favoriteId}">
+												    <i class="fas fa-heart"></i>
+												    <i class="fas fa-heart-broken"></i>
+												</div>
 							                    <div class="comparison-apt-info">
 							                        <h3 class="comparison-apt-name">${apt.aptNm}</h3>
 							                        <div class="comparison-apt-location">${apt.estateAgentSggNm}</div>
@@ -790,13 +794,40 @@
 								            withCredentials: true  // 쿠키를 함께 전송
 								        },
 								        success: function () {
-								            alert('관심등록 완료!');
+								            alert('관심목록에 등록되었습니다.');
+											location.reload()
 								        },
 								        error: function () {
 								            alert('관심등록 실패!');
 								        }
 								    });
 								});
+								// 관심목록 하트 아이콘 클릭 이벤트 처리
+								$(document).ready(() => {
+								  // 관심목록 하트 아이콘 클릭 이벤트
+								  $(document).on("click", ".comparison-heart", function (e) {
+								    e.stopPropagation() // 부모 요소 클릭 이벤트 전파 방지
+
+								    const favoriteId = $(this).data("favorite-id")
+								    console.log("@#asdf => " + favoriteId)
+
+								    if (confirm("정말로 이 아파트를 관심 목록에서 삭제하시겠습니까?")) {
+								      $.ajax({
+								        type: "post",
+								        data: { favoriteId: favoriteId }, // 객체 형태로 전달
+								        url: "apartment_favorite_remove",
+								        success: (data) => {
+								          alert("관심 목록에서 삭제되었습니다.")
+								          location.reload() // 페이지 새로고침
+								        },
+								        error: () => {
+								          alert("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.")
+								        },
+								      })
+								    }
+								  })
+								})
+
             </script>
         </body>
 
