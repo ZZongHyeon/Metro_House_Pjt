@@ -19,15 +19,24 @@ public class ApartmentFavoriteServiceImpl implements ApartmentFavoriteService {
 	@Autowired
 	private SqlSession sqlSession;
 
+	// 관심등록 메소드 구현
 	@Override
-	public int addFavoriteList(HashMap<String, String> param) {
+	public int addFavoriteList(HashMap<String, Object> param) {
+		ApartmentFavoriteDAO dao = sqlSession.getMapper(ApartmentFavoriteDAO.class);
+		return dao.addFavoriteList(param);
+	}
+
+	@Override
+	public int checkFavoriteList(int userNumber, HashMap<String, Object> param) {
+		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int checkFavoriteList(int userNumber, int boardNumber) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int removeFavoriteList(int userNumber, int favoriteId, HashMap<String, String> param) {
+//		System.out.println("@#asdf => " + favoriteId);
+		ApartmentFavoriteDAO dao = sqlSession.getMapper(ApartmentFavoriteDAO.class);// TODO Auto-generated method stub
+		return dao.removeFavoriteList(userNumber, favoriteId, param);
 	}
 
 	@Override
@@ -43,12 +52,6 @@ public class ApartmentFavoriteServiceImpl implements ApartmentFavoriteService {
 	public List<ApartmentFavoriteDTO> getFavoriteListByUserNumber(Map<String, Object> params) {
 		ApartmentFavoriteDAO dao = sqlSession.getMapper(ApartmentFavoriteDAO.class);
 		return dao.getFavoriteListByUserNumber(params);
-	}
-
-	@Override
-	public void removeFavoriteList(int userNumber, int boardNumber) {
-		// TODO Auto-generated method stub
-
 	}
 
 }
