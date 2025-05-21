@@ -206,39 +206,95 @@ public class ApartmentTradeServiceImpl implements ApartmentTradeService {
 		
 		String roadAddress = dto.getEstateAgentSggNm() + " " + dto.getUmdNm() + " " + dto.getRoadNm() + " "
 				+ Integer.parseInt(dto.getRoadNmBonbun());
-		System.out.println("dto.getEstateAgentSggNm() => "+dto.getEstateAgentSggNm());
-		System.out.println("dto.getUmdNm() => "+dto.getUmdNm());
-		System.out.println("dto.getRoadNm() => "+dto.getRoadNm());
-		System.out.println("Integer.parseInt(dto.getRoadNmBonbun() => "+Integer.parseInt(dto.getRoadNmBonbun()));
+//		System.out.println("dto.getEstateAgentSggNm() => "+dto.getEstateAgentSggNm());
+		
+//		System.out.println("dto.getUmdNm() => "+dto.getUmdNm());
+//		System.out.println("dto.getRoadNm() => "+dto.getRoadNm());
+//		System.out.println("Integer.parseInt(dto.getRoadNmBonbun() => "+Integer.parseInt(dto.getRoadNmBonbun()));
+		
+		
 		if (!"00000".equals(dto.getRoadNmBubun())) {
 			roadAddress += "-" + Integer.parseInt(dto.getRoadNmBubun());
 		}
 		return roadAddress + " " + dto.getAptNm();
 	}
 
-	private void setCoordinatesAndSubwayInfo(ApartmentTradeDTO dto, String roadAddress) {
-		JSONArray jsonResponse = getJSONResponse(roadAddress);
-		if (jsonResponse != null && jsonResponse.length() > 0) {
-			JSONObject jsonObject = jsonResponse.getJSONObject(0);
-			JSONObject address = jsonObject.getJSONObject("address");
-			dto.setLat(address.getDouble("y"));
-			dto.setLng(address.getDouble("x"));
+	// 클래스 변수로 실패 카운트 추가
+	private int coordinateLookupFailCount = 0;
 
-			JSONArray Response = getKakaoResponse(dto.getLat(), dto.getLng());
-			if (Response != null && Response.length() > 0) {
-				JSONObject KakaoObject = Response.getJSONObject(0);
-				dto.setSubwayStation(KakaoObject.getString("place_name"));
-				dto.setSubwayDistance(KakaoObject.getString("distance"));
-//                System.out.println("지하철역: " + dto.getSubwayStation());
-//                System.out.println("거리: " + dto.getSubwayDistance());
-			} else {
-				dto.setSubwayStation("지하철역 없음");
-				dto.setSubwayDistance("0");
-				System.out.println("지하철역 없음");
-			}
-		} else {
-			logger.warn("좌표 조회 실패: {}", roadAddress);
-		}
+	private void setCoordinatesAndSubwayInfo(ApartmentTradeDTO dto, String roadAddress) {
+	    // 원래 주소로 먼저 시도
+	    JSONArray jsonResponse = getJSONResponse(roadAddress);
+	    String currentAddress = roadAddress;
+	    
+	    // 첫 시도가 실패하면 주소 수정 시작
+	    while ((jsonResponse == null || jsonResponse.length() == 0) && currentAddress.length() > 0) {
+//	        logger.info("좌표 조회 실패, 주소 수정 시도: {}", currentAddress);
+	        
+	        // 첫 번째 공백이나 쉼표 찾기
+	        int spaceIndex = currentAddress.indexOf(" ");
+	        int commaIndex = currentAddress.indexOf(",");
+	        
+	        int cutIndex = -1;
+	        if (spaceIndex > 0 && commaIndex > 0) {
+	            // 둘 다 존재하면 먼저 나오는 것 선택
+	            cutIndex = Math.min(spaceIndex, commaIndex);
+	        } else if (spaceIndex > 0) {
+	            cutIndex = spaceIndex;
+	        } else if (commaIndex > 0) {
+	            cutIndex = commaIndex;
+	        }
+	        
+	        // 구분자를 찾았으면 주소 자르기
+	        if (cutIndex > 0) {
+	            currentAddress = currentAddress.substring(cutIndex + 1).trim();
+	            // 수정된 주소로 다시 시도
+	            jsonResponse = getJSONResponse(currentAddress);
+	        } else {
+	            // 더 이상 구분자가 없으면 반복 종료
+	            break;
+	        }
+	    }
+	    
+	    // 응답 처리 (찾은 경우)
+	    if (jsonResponse != null && jsonResponse.length() > 0) {
+	        JSONObject jsonObject = jsonResponse.getJSONObject(0);
+	        JSONObject address = jsonObject.getJSONObject("address");
+	        dto.setLat(address.getDouble("y"));
+	        dto.setLng(address.getDouble("x"));
+
+	        // 원래 주소와 다른 경우 성공 로그 기록
+	        if (!currentAddress.equals(roadAddress)) {
+	            logger.info("수정된 주소로 좌표 조회 성공: {}", currentAddress);
+	            logger.info("수정된 주소로 좌표 조회 성공 Y: {}", address.getDouble("y"));
+	            logger.info("수정된 주소로 좌표 조회 성공 X: {}", address.getDouble("x"));
+	        }
+
+	        JSONArray Response = getKakaoResponse(dto.getLat(), dto.getLng());
+	        if (Response != null && Response.length() > 0) {
+	            JSONObject KakaoObject = Response.getJSONObject(0);
+	            dto.setSubwayStation(KakaoObject.getString("place_name"));
+	            dto.setSubwayDistance(KakaoObject.getString("distance"));
+	        } else {
+	            dto.setSubwayStation("지하철역 없음");
+	            dto.setSubwayDistance("0");
+	            System.out.println("지하철역 없음");
+	        }
+	    } else {
+	        // 모든 시도 후에도 실패한 경우 카운트 증가
+	        coordinateLookupFailCount++;
+	        logger.warn("모든 주소 변형 시도 후에도 좌표 조회 실패: {}, 총 실패 횟수: {}", roadAddress, coordinateLookupFailCount);
+	    }
+	}
+
+	// 실패 카운트를 조회하는 메서드 추가
+	public int getCoordinateLookupFailCount() {
+	    return coordinateLookupFailCount;
+	}
+
+	// 실패 카운트를 초기화하는 메서드 추가
+	public void resetCoordinateLookupFailCount() {
+	    coordinateLookupFailCount = 0;
 	}
 
 	@Override

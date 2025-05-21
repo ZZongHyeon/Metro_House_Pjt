@@ -391,296 +391,296 @@ public class ApartmentDownloadServiceImpl implements ApartmentDownloadService {
 
 		// 서울특별시
 		regionCodes.put("11680", "서울특별시 강남구");
-		regionCodes.put("11740", "서울특별시 강동구");
-		regionCodes.put("11305", "서울특별시 강북구");
-		regionCodes.put("11500", "서울특별시 강서구");
-		regionCodes.put("11620", "서울특별시 관악구");
-		regionCodes.put("11215", "서울특별시 광진구");
-		regionCodes.put("11530", "서울특별시 구로구");
-		regionCodes.put("11545", "서울특별시 금천구");
-		regionCodes.put("11350", "서울특별시 노원구");
-		regionCodes.put("11320", "서울특별시 도봉구");
-		regionCodes.put("11230", "서울특별시 동대문구");
-		regionCodes.put("11590", "서울특별시 동작구");
-		regionCodes.put("11440", "서울특별시 마포구");
-		regionCodes.put("11410", "서울특별시 서대문구");
-		regionCodes.put("11650", "서울특별시 서초구");
-		regionCodes.put("11200", "서울특별시 성동구");
-		regionCodes.put("11290", "서울특별시 성북구");
-		regionCodes.put("11710", "서울특별시 송파구");
-		regionCodes.put("11470", "서울특별시 양천구");
-		regionCodes.put("11560", "서울특별시 영등포구");
-		regionCodes.put("11170", "서울특별시 용산구");
-		regionCodes.put("11380", "서울특별시 은평구");
-		regionCodes.put("11110", "서울특별시 종로구");
-		regionCodes.put("11140", "서울특별시 중구");
-		regionCodes.put("11260", "서울특별시 중랑구");
-
-		// 부산광역시
-		regionCodes.put("26440", "부산광역시 강서구");
-		regionCodes.put("26410", "부산광역시 금정구");
-		regionCodes.put("26710", "부산광역시 기장군");
-		regionCodes.put("26290", "부산광역시 남구");
-		regionCodes.put("26170", "부산광역시 동구");
-		regionCodes.put("26260", "부산광역시 동래구");
-		regionCodes.put("26230", "부산광역시 부산진구");
-		regionCodes.put("26320", "부산광역시 북구");
-		regionCodes.put("26530", "부산광역시 사상구");
-		regionCodes.put("26380", "부산광역시 사하구");
-		regionCodes.put("26140", "부산광역시 서구");
-		regionCodes.put("26500", "부산광역시 수영구");
-		regionCodes.put("26470", "부산광역시 연제구");
-		regionCodes.put("26200", "부산광역시 영도구");
-		regionCodes.put("26110", "부산광역시 중구");
-		regionCodes.put("26350", "부산광역시 해운대구");
-
-		// 대구광역시
-		regionCodes.put("27200", "대구광역시 남구");
-		regionCodes.put("27290", "대구광역시 달서구");
-		regionCodes.put("27710", "대구광역시 달성군");
-		regionCodes.put("27140", "대구광역시 동구");
-		regionCodes.put("27230", "대구광역시 북구");
-		regionCodes.put("27170", "대구광역시 서구");
-		regionCodes.put("27260", "대구광역시 수성구");
-		regionCodes.put("27110", "대구광역시 중구");
-
-		// 인천광역시
-		regionCodes.put("28710", "인천광역시 강화군");
-		regionCodes.put("28245", "인천광역시 계양구");
-		regionCodes.put("28200", "인천광역시 남동구");
-		regionCodes.put("28140", "인천광역시 동구");
-		regionCodes.put("28177", "인천광역시 미추홀구");
-		regionCodes.put("28237", "인천광역시 부평구");
-		regionCodes.put("28260", "인천광역시 서구");
-		regionCodes.put("28185", "인천광역시 연수구");
-		regionCodes.put("28720", "인천광역시 옹진군");
-		regionCodes.put("28110", "인천광역시 중구");
-
-		// 광주광역시
-		regionCodes.put("29200", "광주광역시 광산구");
-		regionCodes.put("29155", "광주광역시 남구");
-		regionCodes.put("29110", "광주광역시 동구");
-		regionCodes.put("29170", "광주광역시 북구");
-		regionCodes.put("29140", "광주광역시 서구");
-
-		// 대전광역시
-		regionCodes.put("30230", "대전광역시 대덕구");
-		regionCodes.put("30110", "대전광역시 동구");
-		regionCodes.put("30170", "대전광역시 서구");
-		regionCodes.put("30200", "대전광역시 유성구");
-		regionCodes.put("30140", "대전광역시 중구");
-
-		// 울산광역시
-		regionCodes.put("31140", "울산광역시 남구");
-		regionCodes.put("31170", "울산광역시 동구");
-		regionCodes.put("31200", "울산광역시 북구");
-		regionCodes.put("31710", "울산광역시 울주군");
-		regionCodes.put("31110", "울산광역시 중구");
-
-		// 세종특별자치시
-		regionCodes.put("36110", "세종특별자치시");
-
-		// 경기도
-		regionCodes.put("41820", "경기도 가평군");
-		regionCodes.put("41280", "경기도 고양시");
-		regionCodes.put("41281", "경기도 고양시 덕양구");
-		regionCodes.put("41285", "경기도 고양시 일산동구");
-		regionCodes.put("41287", "경기도 고양시 일산서구");
-		regionCodes.put("41290", "경기도 과천시");
-		regionCodes.put("41210", "경기도 광명시");
-		regionCodes.put("41610", "경기도 광주시");
-		regionCodes.put("41310", "경기도 구리시");
-		regionCodes.put("41410", "경기도 군포시");
-		regionCodes.put("41570", "경기도 김포시");
-		regionCodes.put("41360", "경기도 남양주시");
-		regionCodes.put("41250", "경기도 동두천시");
-		regionCodes.put("41190", "경기도 부천시");
-		regionCodes.put("41130", "경기도 성남시");
-		regionCodes.put("41131", "경기도 성남시 수정구");
-		regionCodes.put("41133", "경기도 성남시 분당구");
-		regionCodes.put("41135", "경기도 성남시 중원구");
-		regionCodes.put("41110", "경기도 수원시");
-		regionCodes.put("41111", "경기도 수원시 장안구");
-		regionCodes.put("41113", "경기도 수원시 팔달구");
-		regionCodes.put("41115", "경기도 수원시 영통구");
-		regionCodes.put("41117", "경기도 수원시 권선구");
-		regionCodes.put("41390", "경기도 시흥시");
-		regionCodes.put("41270", "경기도 안산시");
-		regionCodes.put("41273", "경기도 안산시 단원구");
-		regionCodes.put("41271", "경기도 안산시 상록구");
-		regionCodes.put("41550", "경기도 안성시");
-		regionCodes.put("41170", "경기도 안양시");
-		regionCodes.put("41173", "경기도 안양시 만안구");
-		regionCodes.put("41171", "경기도 안양시 동안구");
-		regionCodes.put("41630", "경기도 양주시");
-		regionCodes.put("41830", "경기도 양평군");
-		regionCodes.put("41670", "경기도 여주시");
-		regionCodes.put("41800", "경기도 연천군");
-		regionCodes.put("41370", "경기도 오산시");
-		regionCodes.put("41460", "경기도 용인시");
-		regionCodes.put("41461", "경기도 용인시 처인구");
-		regionCodes.put("41463", "경기도 용인시 기흥구");
-		regionCodes.put("41465", "경기도 용인시 수지구");
-		regionCodes.put("41430", "경기도 의왕시");
-		regionCodes.put("41150", "경기도 의정부시");
-		regionCodes.put("41500", "경기도 이천시");
-		regionCodes.put("41480", "경기도 파주시");
-		regionCodes.put("41220", "경기도 평택시");
-		regionCodes.put("41650", "경기도 포천시");
-		regionCodes.put("41450", "경기도 하남시");
-		regionCodes.put("41590", "경기도 화성시");
-
-		// 강원도
-		regionCodes.put("42150", "강원도 강릉시");
-		regionCodes.put("42820", "강원도 고성군");
-		regionCodes.put("42170", "강원도 동해시");
-		regionCodes.put("42230", "강원도 삼척시");
-		regionCodes.put("42210", "강원도 속초시");
-		regionCodes.put("42800", "강원도 양구군");
-		regionCodes.put("42830", "강원도 양양군");
-		regionCodes.put("42750", "강원도 영월군");
-		regionCodes.put("42130", "강원도 원주시");
-		regionCodes.put("42810", "강원도 인제군");
-		regionCodes.put("42770", "강원도 정선군");
-		regionCodes.put("42780", "강원도 철원군");
-		regionCodes.put("42110", "강원도 춘천시");
-		regionCodes.put("42190", "강원도 태백시");
-		regionCodes.put("42760", "강원도 평창군");
-		regionCodes.put("42720", "강원도 홍천군");
-		regionCodes.put("42730", "강원도 화천군");
-		regionCodes.put("42790", "강원도 횡성군");
-
-		// 충청북도
-		regionCodes.put("43760", "충청북도 괴산군");
-		regionCodes.put("43800", "충청북도 단양군");
-		regionCodes.put("43720", "충청북도 보은군");
-		regionCodes.put("43740", "충청북도 영동군");
-		regionCodes.put("43730", "충청북도 옥천군");
-		regionCodes.put("43770", "충청북도 음성군");
-		regionCodes.put("43150", "충청북도 제천시");
-		regionCodes.put("43745", "충청북도 증평군");
-		regionCodes.put("43110", "충청북도 청주시");
-		regionCodes.put("43111", "충청북도 청주시 상당구");
-		regionCodes.put("43112", "충청북도 청주시 서원구");
-		regionCodes.put("43113", "충청북도 청주시 흥덕구");
-		regionCodes.put("43114", "충청북도 청주시 청원구");
-		regionCodes.put("43750", "충청북도 진천군");
-		regionCodes.put("43130", "충청북도 충주시");
-
-		// 충청남도
-		regionCodes.put("44250", "충청남도 계룡시");
-		regionCodes.put("44150", "충청남도 공주시");
-		regionCodes.put("44710", "충청남도 금산군");
-		regionCodes.put("44230", "충청남도 논산시");
-		regionCodes.put("44270", "충청남도 당진시");
-		regionCodes.put("44180", "충청남도 보령시");
-		regionCodes.put("44760", "충청남도 부여군");
-		regionCodes.put("44210", "충청남도 서산시");
-		regionCodes.put("44770", "충청남도 서천군");
-		regionCodes.put("44200", "충청남도 아산시");
-		regionCodes.put("44810", "충청남도 예산군");
-		regionCodes.put("44130", "충청남도 천안시");
-		regionCodes.put("44131", "충청남도 천안시 동남구");
-		regionCodes.put("44133", "충청남도 천안시 서북구");
-		regionCodes.put("44790", "충청남도 청양군");
-		regionCodes.put("44825", "충청남도 태안군");
-		regionCodes.put("44800", "충청남도 홍성군");
-
-		// 전라북도
-		regionCodes.put("45790", "전라북도 고창군");
-		regionCodes.put("45130", "전라북도 군산시");
-		regionCodes.put("45210", "전라북도 김제시");
-		regionCodes.put("45190", "전라북도 남원시");
-		regionCodes.put("45730", "전라북도 무주군");
-		regionCodes.put("45800", "전라북도 부안군");
-		regionCodes.put("45770", "전라북도 순창군");
-		regionCodes.put("45710", "전라북도 완주군");
-		regionCodes.put("45140", "전라북도 익산시");
-		regionCodes.put("45750", "전라북도 임실군");
-		regionCodes.put("45740", "전라북도 장수군");
-		regionCodes.put("45110", "전라북도 전주시");
-		regionCodes.put("45111", "전라북도 전주시 완산구");
-		regionCodes.put("45113", "전라북도 전주시 덕진구");
-		regionCodes.put("45180", "전라북도 정읍시");
-		regionCodes.put("45720", "전라북도 진안군");
-
-		// 전라남도
-		regionCodes.put("46810", "전라남도 강진군");
-		regionCodes.put("46770", "전라남도 고흥군");
-		regionCodes.put("46720", "전라남도 곡성군");
-		regionCodes.put("46230", "전라남도 광양시");
-		regionCodes.put("46730", "전라남도 구례군");
-		regionCodes.put("46170", "전라남도 나주시");
-		regionCodes.put("46710", "전라남도 담양군");
-		regionCodes.put("46110", "전라남도 목포시");
-		regionCodes.put("46840", "전라남도 무안군");
-		regionCodes.put("46780", "전라남도 보성군");
-		regionCodes.put("46910", "전라남도 신안군");
-		regionCodes.put("46130", "전라남도 순천시");
-		regionCodes.put("46870", "전라남도 영광군");
-		regionCodes.put("46830", "전라남도 영암군");
-		regionCodes.put("46890", "전라남도 완도군");
-		regionCodes.put("46880", "전라남도 장성군");
-		regionCodes.put("46800", "전라남도 장흥군");
-		regionCodes.put("46900", "전라남도 진도군");
-		regionCodes.put("46860", "전라남도 함평군");
-		regionCodes.put("46820", "전라남도 해남군");
-		regionCodes.put("46790", "전라남도 화순군");
-
-		// 경상북도
-		regionCodes.put("47290", "경상북도 경산시");
-		regionCodes.put("47130", "경상북도 경주시");
-		regionCodes.put("47830", "경상북도 고령군");
-		regionCodes.put("47190", "경상북도 구미시");
-		regionCodes.put("47720", "경상북도 군위군");
-		regionCodes.put("47150", "경상북도 김천시");
-		regionCodes.put("47280", "경상북도 문경시");
-		regionCodes.put("47250", "경상북도 봉화군");
-		regionCodes.put("47170", "경상북도 상주시");
-		regionCodes.put("47840", "경상북도 성주군");
-		regionCodes.put("47210", "경상북도 안동시");
-		regionCodes.put("47770", "경상북도 영덕군");
-		regionCodes.put("47760", "경상북도 영양군");
-		regionCodes.put("47750", "경상북도 영주시");
-		regionCodes.put("47230", "경상북도 영천시");
-		regionCodes.put("47900", "경상북도 예천군");
-		regionCodes.put("47940", "경상북도 울릉군");
-		regionCodes.put("47930", "경상북도 울진군");
-		regionCodes.put("47730", "경상북도 의성군");
-		regionCodes.put("47110", "경상북도 포항시");
-		regionCodes.put("47111", "경상북도 포항시 남구");
-		regionCodes.put("47113", "경상북도 포항시 북구");
-		regionCodes.put("47850", "경상북도 청도군");
-		regionCodes.put("47820", "경상북도 청송군");
-		regionCodes.put("47790", "경상북도 칠곡군");
-
-		// 경상남도
-		regionCodes.put("48310", "경상남도 거제시");
-		regionCodes.put("48880", "경상남도 거창군");
-		regionCodes.put("48820", "경상남도 고성군");
-		regionCodes.put("48250", "경상남도 김해시");
-		regionCodes.put("48840", "경상남도 남해군");
-		regionCodes.put("48270", "경상남도 밀양시");
-		regionCodes.put("48240", "경상남도 사천시");
-		regionCodes.put("48860", "경상남도 산청군");
-		regionCodes.put("48330", "경상남도 양산시");
-		regionCodes.put("48720", "경상남도 의령군");
-		regionCodes.put("48170", "경상남도 진주시");
-		regionCodes.put("48740", "경상남도 창녕군");
-		regionCodes.put("48120", "경상남도 창원시");
-		regionCodes.put("48121", "경상남도 창원시 의창구");
-		regionCodes.put("48123", "경상남도 창원시 성산구");
-		regionCodes.put("48125", "경상남도 창원시 마산합포구");
-		regionCodes.put("48127", "경상남도 창원시 마산회원구");
-		regionCodes.put("48129", "경상남도 창원시 진해구");
-		regionCodes.put("48850", "경상남도 하동군");
-		regionCodes.put("48730", "경상남도 함안군");
-		regionCodes.put("48870", "경상남도 함양군");
-		regionCodes.put("48890", "경상남도 합천군");
-
-		// 제주특별자치도
-		regionCodes.put("50130", "제주특별자치도 서귀포시");
-		regionCodes.put("50110", "제주특별자치도 제주시");
+//		regionCodes.put("11740", "서울특별시 강동구");
+//		regionCodes.put("11305", "서울특별시 강북구");
+//		regionCodes.put("11500", "서울특별시 강서구");
+//		regionCodes.put("11620", "서울특별시 관악구");
+//		regionCodes.put("11215", "서울특별시 광진구");
+//		regionCodes.put("11530", "서울특별시 구로구");
+//		regionCodes.put("11545", "서울특별시 금천구");
+//		regionCodes.put("11350", "서울특별시 노원구");
+//		regionCodes.put("11320", "서울특별시 도봉구");
+//		regionCodes.put("11230", "서울특별시 동대문구");
+//		regionCodes.put("11590", "서울특별시 동작구");
+//		regionCodes.put("11440", "서울특별시 마포구");
+//		regionCodes.put("11410", "서울특별시 서대문구");
+//		regionCodes.put("11650", "서울특별시 서초구");
+//		regionCodes.put("11200", "서울특별시 성동구");
+//		regionCodes.put("11290", "서울특별시 성북구");
+//		regionCodes.put("11710", "서울특별시 송파구");
+//		regionCodes.put("11470", "서울특별시 양천구");
+//		regionCodes.put("11560", "서울특별시 영등포구");
+//		regionCodes.put("11170", "서울특별시 용산구");
+//		regionCodes.put("11380", "서울특별시 은평구");
+//		regionCodes.put("11110", "서울특별시 종로구");
+//		regionCodes.put("11140", "서울특별시 중구");
+//		regionCodes.put("11260", "서울특별시 중랑구");
+//
+//		// 부산광역시
+//		regionCodes.put("26440", "부산광역시 강서구");
+//		regionCodes.put("26410", "부산광역시 금정구");
+//		regionCodes.put("26710", "부산광역시 기장군");
+//		regionCodes.put("26290", "부산광역시 남구");
+//		regionCodes.put("26170", "부산광역시 동구");
+//		regionCodes.put("26260", "부산광역시 동래구");
+//		regionCodes.put("26230", "부산광역시 부산진구");
+//		regionCodes.put("26320", "부산광역시 북구");
+//		regionCodes.put("26530", "부산광역시 사상구");
+//		regionCodes.put("26380", "부산광역시 사하구");
+//		regionCodes.put("26140", "부산광역시 서구");
+//		regionCodes.put("26500", "부산광역시 수영구");
+//		regionCodes.put("26470", "부산광역시 연제구");
+//		regionCodes.put("26200", "부산광역시 영도구");
+//		regionCodes.put("26110", "부산광역시 중구");
+//		regionCodes.put("26350", "부산광역시 해운대구");
+//
+//		// 대구광역시
+//		regionCodes.put("27200", "대구광역시 남구");
+//		regionCodes.put("27290", "대구광역시 달서구");
+//		regionCodes.put("27710", "대구광역시 달성군");
+//		regionCodes.put("27140", "대구광역시 동구");
+//		regionCodes.put("27230", "대구광역시 북구");
+//		regionCodes.put("27170", "대구광역시 서구");
+//		regionCodes.put("27260", "대구광역시 수성구");
+//		regionCodes.put("27110", "대구광역시 중구");
+//
+//		// 인천광역시
+//		regionCodes.put("28710", "인천광역시 강화군");
+//		regionCodes.put("28245", "인천광역시 계양구");
+//		regionCodes.put("28200", "인천광역시 남동구");
+//		regionCodes.put("28140", "인천광역시 동구");
+//		regionCodes.put("28177", "인천광역시 미추홀구");
+//		regionCodes.put("28237", "인천광역시 부평구");
+//		regionCodes.put("28260", "인천광역시 서구");
+//		regionCodes.put("28185", "인천광역시 연수구");
+//		regionCodes.put("28720", "인천광역시 옹진군");
+//		regionCodes.put("28110", "인천광역시 중구");
+//
+//		// 광주광역시
+//		regionCodes.put("29200", "광주광역시 광산구");
+//		regionCodes.put("29155", "광주광역시 남구");
+//		regionCodes.put("29110", "광주광역시 동구");
+//		regionCodes.put("29170", "광주광역시 북구");
+//		regionCodes.put("29140", "광주광역시 서구");
+//
+//		// 대전광역시
+//		regionCodes.put("30230", "대전광역시 대덕구");
+//		regionCodes.put("30110", "대전광역시 동구");
+//		regionCodes.put("30170", "대전광역시 서구");
+//		regionCodes.put("30200", "대전광역시 유성구");
+//		regionCodes.put("30140", "대전광역시 중구");
+//
+//		// 울산광역시
+//		regionCodes.put("31140", "울산광역시 남구");
+//		regionCodes.put("31170", "울산광역시 동구");
+//		regionCodes.put("31200", "울산광역시 북구");
+//		regionCodes.put("31710", "울산광역시 울주군");
+//		regionCodes.put("31110", "울산광역시 중구");
+//
+//		// 세종특별자치시
+//		regionCodes.put("36110", "세종특별자치시");
+//
+//		// 경기도
+//		regionCodes.put("41820", "경기도 가평군");
+//		regionCodes.put("41280", "경기도 고양시");
+//		regionCodes.put("41281", "경기도 고양시 덕양구");
+//		regionCodes.put("41285", "경기도 고양시 일산동구");
+//		regionCodes.put("41287", "경기도 고양시 일산서구");
+//		regionCodes.put("41290", "경기도 과천시");
+//		regionCodes.put("41210", "경기도 광명시");
+//		regionCodes.put("41610", "경기도 광주시");
+//		regionCodes.put("41310", "경기도 구리시");
+//		regionCodes.put("41410", "경기도 군포시");
+//		regionCodes.put("41570", "경기도 김포시");
+//		regionCodes.put("41360", "경기도 남양주시");
+//		regionCodes.put("41250", "경기도 동두천시");
+//		regionCodes.put("41190", "경기도 부천시");
+//		regionCodes.put("41130", "경기도 성남시");
+//		regionCodes.put("41131", "경기도 성남시 수정구");
+//		regionCodes.put("41133", "경기도 성남시 분당구");
+//		regionCodes.put("41135", "경기도 성남시 중원구");
+//		regionCodes.put("41110", "경기도 수원시");
+//		regionCodes.put("41111", "경기도 수원시 장안구");
+//		regionCodes.put("41113", "경기도 수원시 팔달구");
+//		regionCodes.put("41115", "경기도 수원시 영통구");
+//		regionCodes.put("41117", "경기도 수원시 권선구");
+//		regionCodes.put("41390", "경기도 시흥시");
+//		regionCodes.put("41270", "경기도 안산시");
+//		regionCodes.put("41273", "경기도 안산시 단원구");
+//		regionCodes.put("41271", "경기도 안산시 상록구");
+//		regionCodes.put("41550", "경기도 안성시");
+//		regionCodes.put("41170", "경기도 안양시");
+//		regionCodes.put("41173", "경기도 안양시 만안구");
+//		regionCodes.put("41171", "경기도 안양시 동안구");
+//		regionCodes.put("41630", "경기도 양주시");
+//		regionCodes.put("41830", "경기도 양평군");
+//		regionCodes.put("41670", "경기도 여주시");
+//		regionCodes.put("41800", "경기도 연천군");
+//		regionCodes.put("41370", "경기도 오산시");
+//		regionCodes.put("41460", "경기도 용인시");
+//		regionCodes.put("41461", "경기도 용인시 처인구");
+//		regionCodes.put("41463", "경기도 용인시 기흥구");
+//		regionCodes.put("41465", "경기도 용인시 수지구");
+//		regionCodes.put("41430", "경기도 의왕시");
+//		regionCodes.put("41150", "경기도 의정부시");
+//		regionCodes.put("41500", "경기도 이천시");
+//		regionCodes.put("41480", "경기도 파주시");
+//		regionCodes.put("41220", "경기도 평택시");
+//		regionCodes.put("41650", "경기도 포천시");
+//		regionCodes.put("41450", "경기도 하남시");
+//		regionCodes.put("41590", "경기도 화성시");
+//
+//		// 강원도
+//		regionCodes.put("42150", "강원도 강릉시");
+//		regionCodes.put("42820", "강원도 고성군");
+//		regionCodes.put("42170", "강원도 동해시");
+//		regionCodes.put("42230", "강원도 삼척시");
+//		regionCodes.put("42210", "강원도 속초시");
+//		regionCodes.put("42800", "강원도 양구군");
+//		regionCodes.put("42830", "강원도 양양군");
+//		regionCodes.put("42750", "강원도 영월군");
+//		regionCodes.put("42130", "강원도 원주시");
+//		regionCodes.put("42810", "강원도 인제군");
+//		regionCodes.put("42770", "강원도 정선군");
+//		regionCodes.put("42780", "강원도 철원군");
+//		regionCodes.put("42110", "강원도 춘천시");
+//		regionCodes.put("42190", "강원도 태백시");
+//		regionCodes.put("42760", "강원도 평창군");
+//		regionCodes.put("42720", "강원도 홍천군");
+//		regionCodes.put("42730", "강원도 화천군");
+//		regionCodes.put("42790", "강원도 횡성군");
+//
+//		// 충청북도
+//		regionCodes.put("43760", "충청북도 괴산군");
+//		regionCodes.put("43800", "충청북도 단양군");
+//		regionCodes.put("43720", "충청북도 보은군");
+//		regionCodes.put("43740", "충청북도 영동군");
+//		regionCodes.put("43730", "충청북도 옥천군");
+//		regionCodes.put("43770", "충청북도 음성군");
+//		regionCodes.put("43150", "충청북도 제천시");
+//		regionCodes.put("43745", "충청북도 증평군");
+//		regionCodes.put("43110", "충청북도 청주시");
+//		regionCodes.put("43111", "충청북도 청주시 상당구");
+//		regionCodes.put("43112", "충청북도 청주시 서원구");
+//		regionCodes.put("43113", "충청북도 청주시 흥덕구");
+//		regionCodes.put("43114", "충청북도 청주시 청원구");
+//		regionCodes.put("43750", "충청북도 진천군");
+//		regionCodes.put("43130", "충청북도 충주시");
+//
+//		// 충청남도
+//		regionCodes.put("44250", "충청남도 계룡시");
+//		regionCodes.put("44150", "충청남도 공주시");
+//		regionCodes.put("44710", "충청남도 금산군");
+//		regionCodes.put("44230", "충청남도 논산시");
+//		regionCodes.put("44270", "충청남도 당진시");
+//		regionCodes.put("44180", "충청남도 보령시");
+//		regionCodes.put("44760", "충청남도 부여군");
+//		regionCodes.put("44210", "충청남도 서산시");
+//		regionCodes.put("44770", "충청남도 서천군");
+//		regionCodes.put("44200", "충청남도 아산시");
+//		regionCodes.put("44810", "충청남도 예산군");
+//		regionCodes.put("44130", "충청남도 천안시");
+//		regionCodes.put("44131", "충청남도 천안시 동남구");
+//		regionCodes.put("44133", "충청남도 천안시 서북구");
+//		regionCodes.put("44790", "충청남도 청양군");
+//		regionCodes.put("44825", "충청남도 태안군");
+//		regionCodes.put("44800", "충청남도 홍성군");
+//
+//		// 전라북도
+//		regionCodes.put("45790", "전라북도 고창군");
+//		regionCodes.put("45130", "전라북도 군산시");
+//		regionCodes.put("45210", "전라북도 김제시");
+//		regionCodes.put("45190", "전라북도 남원시");
+//		regionCodes.put("45730", "전라북도 무주군");
+//		regionCodes.put("45800", "전라북도 부안군");
+//		regionCodes.put("45770", "전라북도 순창군");
+//		regionCodes.put("45710", "전라북도 완주군");
+//		regionCodes.put("45140", "전라북도 익산시");
+//		regionCodes.put("45750", "전라북도 임실군");
+//		regionCodes.put("45740", "전라북도 장수군");
+//		regionCodes.put("45110", "전라북도 전주시");
+//		regionCodes.put("45111", "전라북도 전주시 완산구");
+//		regionCodes.put("45113", "전라북도 전주시 덕진구");
+//		regionCodes.put("45180", "전라북도 정읍시");
+//		regionCodes.put("45720", "전라북도 진안군");
+//
+//		// 전라남도
+//		regionCodes.put("46810", "전라남도 강진군");
+//		regionCodes.put("46770", "전라남도 고흥군");
+//		regionCodes.put("46720", "전라남도 곡성군");
+//		regionCodes.put("46230", "전라남도 광양시");
+//		regionCodes.put("46730", "전라남도 구례군");
+//		regionCodes.put("46170", "전라남도 나주시");
+//		regionCodes.put("46710", "전라남도 담양군");
+//		regionCodes.put("46110", "전라남도 목포시");
+//		regionCodes.put("46840", "전라남도 무안군");
+//		regionCodes.put("46780", "전라남도 보성군");
+//		regionCodes.put("46910", "전라남도 신안군");
+//		regionCodes.put("46130", "전라남도 순천시");
+//		regionCodes.put("46870", "전라남도 영광군");
+//		regionCodes.put("46830", "전라남도 영암군");
+//		regionCodes.put("46890", "전라남도 완도군");
+//		regionCodes.put("46880", "전라남도 장성군");
+//		regionCodes.put("46800", "전라남도 장흥군");
+//		regionCodes.put("46900", "전라남도 진도군");
+//		regionCodes.put("46860", "전라남도 함평군");
+//		regionCodes.put("46820", "전라남도 해남군");
+//		regionCodes.put("46790", "전라남도 화순군");
+//
+//		// 경상북도
+//		regionCodes.put("47290", "경상북도 경산시");
+//		regionCodes.put("47130", "경상북도 경주시");
+//		regionCodes.put("47830", "경상북도 고령군");
+//		regionCodes.put("47190", "경상북도 구미시");
+//		regionCodes.put("47720", "경상북도 군위군");
+//		regionCodes.put("47150", "경상북도 김천시");
+//		regionCodes.put("47280", "경상북도 문경시");
+//		regionCodes.put("47250", "경상북도 봉화군");
+//		regionCodes.put("47170", "경상북도 상주시");
+//		regionCodes.put("47840", "경상북도 성주군");
+//		regionCodes.put("47210", "경상북도 안동시");
+//		regionCodes.put("47770", "경상북도 영덕군");
+//		regionCodes.put("47760", "경상북도 영양군");
+//		regionCodes.put("47750", "경상북도 영주시");
+//		regionCodes.put("47230", "경상북도 영천시");
+//		regionCodes.put("47900", "경상북도 예천군");
+//		regionCodes.put("47940", "경상북도 울릉군");
+//		regionCodes.put("47930", "경상북도 울진군");
+//		regionCodes.put("47730", "경상북도 의성군");
+//		regionCodes.put("47110", "경상북도 포항시");
+//		regionCodes.put("47111", "경상북도 포항시 남구");
+//		regionCodes.put("47113", "경상북도 포항시 북구");
+//		regionCodes.put("47850", "경상북도 청도군");
+//		regionCodes.put("47820", "경상북도 청송군");
+//		regionCodes.put("47790", "경상북도 칠곡군");
+//
+//		// 경상남도
+//		regionCodes.put("48310", "경상남도 거제시");
+//		regionCodes.put("48880", "경상남도 거창군");
+//		regionCodes.put("48820", "경상남도 고성군");
+//		regionCodes.put("48250", "경상남도 김해시");
+//		regionCodes.put("48840", "경상남도 남해군");
+//		regionCodes.put("48270", "경상남도 밀양시");
+//		regionCodes.put("48240", "경상남도 사천시");
+//		regionCodes.put("48860", "경상남도 산청군");
+//		regionCodes.put("48330", "경상남도 양산시");
+//		regionCodes.put("48720", "경상남도 의령군");
+//		regionCodes.put("48170", "경상남도 진주시");
+//		regionCodes.put("48740", "경상남도 창녕군");
+//		regionCodes.put("48120", "경상남도 창원시");
+//		regionCodes.put("48121", "경상남도 창원시 의창구");
+//		regionCodes.put("48123", "경상남도 창원시 성산구");
+//		regionCodes.put("48125", "경상남도 창원시 마산합포구");
+//		regionCodes.put("48127", "경상남도 창원시 마산회원구");
+//		regionCodes.put("48129", "경상남도 창원시 진해구");
+//		regionCodes.put("48850", "경상남도 하동군");
+//		regionCodes.put("48730", "경상남도 함안군");
+//		regionCodes.put("48870", "경상남도 함양군");
+//		regionCodes.put("48890", "경상남도 합천군");
+//
+//		// 제주특별자치도
+//		regionCodes.put("50130", "제주특별자치도 서귀포시");
+//		regionCodes.put("50110", "제주특별자치도 제주시");
 		return regionCodes;
 	}
 }

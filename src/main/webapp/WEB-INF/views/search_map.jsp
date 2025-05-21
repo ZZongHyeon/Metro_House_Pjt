@@ -159,12 +159,12 @@
 			                    <i class="fas fa-building"></i>
 			                    주변 아파트 목록
 			                </div>
-			                <div class="apartment-list" id="apartmentList">
-			                    <!-- 아파트 목록이 여기에 표시됩니다 -->
-			                    <p style="text-align: center; padding: 50px 0; color: var(--gray-500);" id="noResultsMessage">
-			                        검색 결과가 없습니다. <br> 지하철역을 검색해보세요.
-			                    </p>
-			                </div>
+							<div class="apartment-list" id="apartmentList">
+							    <!-- 아파트 목록이 여기에 표시됩니다 -->
+							    <p style="text-align: center; padding: 50px 0; color: var(--gray-500);" id="loadingMessage">
+							        <i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i> 데이터를 불러오는 중...
+							    </p>
+							</div>
 			            </div>
 			        </div>
 			    </div>
@@ -238,33 +238,39 @@
 				            }
 				            
 				            // 선택된 아파트 정보 HTML 생성
-				            const html = `
-				                <div class="selected-apt-header">
-				                    <h3 class="selected-apt-name">`+aptName.split('(')[0]+`</h3>
-				                    <span class="selected-apt-label">선택됨</span>
-				                </div>
-				                <div class="selected-apt-location">`+aptLocation+`</div>
-								<div class="selected-apt-subway">`+subwayStation+`에서 `+subwayDistance+`m</div>
-				                <div class="selected-apt-details">
-				                    <div class="selected-detail">
-				                        <span class="detail-label">가격</span>	
-				                        <span class="detail-value selected-price">`+aptPrice+`</span>
-				                    </div>
-				                    <div class="selected-detail">
-				                        <span class="detail-label">평수</span>
-				                        <span class="detail-value selected-size">`+aptSize+`</span>
-				                    </div>
-				                    <div class="selected-detail">
-				                        <span class="detail-label">층수</span>
-				                        <span class="detail-value selected-floor">`+aptFloor+`층</span>
-				                    </div>
-				                    <div class="selected-detail">
-				                        <span class="detail-label">건축년도</span>
-				                        <span class="detail-value selected-year">`+aptBuildYear+`</span>
-				                    </div>
-				                </div>
-				            `;
-				            
+							let html = 
+							    '<div class="selected-apt-header">' +
+							        '<h3 class="selected-apt-name">' + aptName.split('(')[0] + '</h3>' +
+							        '<span class="selected-apt-label">선택됨</span>' +
+							    '</div>' +
+							    '<div class="selected-apt-location">' + aptLocation + '</div>';
+
+							// 지하철 정보 조건부 추가
+							if (subwayStation && subwayStation !== '지하철역') {
+							    html += '<div class="selected-apt-subway">' + subwayStation + '에서 ' + subwayDistance + 'm</div>';
+							} else {
+							    html += '<div class="selected-apt-subway">지하철역정보없음</div>';
+							}
+
+							html += 
+							    '<div class="selected-apt-details">' +
+							        '<div class="selected-detail">' +
+							            '<span class="detail-label">가격</span>' +
+							            '<span class="detail-value selected-price">' + aptPrice + '</span>' +
+							        '</div>' +
+							        '<div class="selected-detail">' +
+							            '<span class="detail-label">평수</span>' +
+							            '<span class="detail-value selected-size">' + aptSize + '</span>' +
+							        '</div>' +
+							        '<div class="selected-detail">' +
+							            '<span class="detail-label">층수</span>' +
+							            '<span class="detail-value selected-floor">' + aptFloor + '층</span>' +
+							        '</div>' +
+							        '<div class="selected-detail">' +
+							            '<span class="detail-label">건축년도</span>' +
+							            '<span class="detail-value selected-year">' + aptBuildYear + '</span>' +
+							        '</div>' +
+							    '</div>';
 				            // HTML 설정
 				            selectedApartment.innerHTML = html;
 				            console.log('선택된 아파트 정보가 업데이트되었습니다');
@@ -294,7 +300,7 @@
 				            const priceElement = item.querySelector('.comparison-detail:nth-child(1) .detail-value');
 				            if (priceElement) {
 				                const itemPrice = priceElement.textContent;
-				                compareValues(priceElement, itemPrice, selectedPrice, true); // 가격은 높을수록 불리
+				                compareValues(priceElement, itemPrice, selectedPrice, false); // 가격은 높을수록 불리
 				            }
 				            
 				            // 평수 비교
@@ -562,6 +568,13 @@
 				        String(now.getMonth() + 1).padStart(2, '0');
 				    console.log('API 호출 파라미터:', {sigunguCode, yearMonth});
 
+					// 로딩 메시지 표시
+					const apartmentListContainer = document.getElementById('apartmentList');
+					apartmentListContainer.innerHTML = `
+					<p style="text-align: center; padding: 50px 0; color: var(--gray-500);" id="loadingMessage">
+					    <i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i> 데이터를 불러오는 중...
+					</p>`;
+					
 				    $.ajax({
 				        url: '/api/apartments/trade',
 				        method: 'GET',
@@ -577,6 +590,13 @@
 				            console.error('아파트 데이터 조회 실패:', error);
 				            console.error('상태 코드:', xhr.status);
 				            console.error('응답 텍스트:', xhr.responseText);
+							// 에러 발생 시 메시지 표시
+							apartmentListContainer.innerHTML = `
+							<p style="text-align: center; padding: 50px 0; color: var(--danger);" id="errorMessage">
+							    <i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i> 
+							    데이터를 불러오는 중 오류가 발생했습니다.
+							</p>`;
+							
 				        }
 				    });
 				}
@@ -592,13 +612,13 @@
 				    const apartmentListContainer = document.getElementById('apartmentList');
 				    apartmentListContainer.innerHTML = '';
 
-				    if (!apartments || apartments.length === 0) {
-				        apartmentListContainer.innerHTML = `
-				        <p style="grid-column: 1 / -1; text-align: center; padding: 50px 0; color: var(--gray-500);" id="noResultsMessage">
-				            검색 결과가 없습니다.
-				        </p>`;
-				        return;
-				    }
+					if (!apartments || apartments.length === 0) {
+					    apartmentListContainer.innerHTML = `
+					    <p style="text-align: center; padding: 50px 0; color: var(--gray-500);" id="noResultsMessage">
+					        검색 결과가 없습니다. <br> 지하철역을 검색해보세요.
+					    </p>`;
+					    return;
+					}
 
 				    apartments.forEach((apt, idx) => {
 				        if (apt.lat && apt.lng) {
@@ -628,7 +648,7 @@
 				            const distanceText = apt.subwayDistance ? apt.subwayStation.split(' ')[0] + "에서 " + apt.subwayDistance + "m" : "-";
 
 				            // 커스텀 오버레이용 HTML 템플릿 (기존 코드 유지)
-				            const overlayContent = `
+				            let overlayContent = `
 				                <div class="custom-overlay apartment-overlay">
 				                    <div class="overlay-header">
 				                        <div class="title">`+aptName+`</div>
@@ -640,8 +660,16 @@
 				                            <div class="overlay-size">`+excluUseAr+`</div>
 				                        </div>
 				                        <div class="overlay-section">
-				                            <div class="overlay-address">`+addressText+`</div>
-				                            <div class="overlay-distance">`+distanceText+`</div>
+				                            <div class="overlay-address">`+addressText+`</div>`;
+											if(distanceText !== '지하철역에서 0m') {
+												overlayContent += `<div class="overlay-distance">`+distanceText+`</div>`;
+											} else {
+												overlayContent += `<div class="overlay-distance">지하철역정보없음</div>`;
+											}
+				                            
+											
+											
+											overlayContent +=`
 				                        </div>
 				                        <div class="overlay-section overlay-details">
 				                            <div class="detail-item"><span>층수:</span> `+floorText+`</div>
