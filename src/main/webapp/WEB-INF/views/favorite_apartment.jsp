@@ -95,9 +95,9 @@
                         <div class="apartment-icon">
                             <i class="fas fa-building"></i>
                         </div>
-                        <div class="apartment-favorite" onclick="removeFavorite('${favorite.favoriteId}')">
-                            <i class="fas fa-heart"></i>
-                        </div>
+						<div class="apartment-favorite" onclick="removeFavorite('${favorite.favoriteId}')" data-favorite-id="${favorite.favoriteId}">
+						    <i class="fas fa-heart"></i>
+						</div>
                         <div class="apartment-badge">관심 등록</div>
                     </div>
                     <div class="apartment-content">
@@ -215,6 +215,23 @@
     <script>
         // 페이지 로드 시 URL 파라미터에 따라 필터 값 설정
         document.addEventListener('DOMContentLoaded', function() {
+			
+			const favoriteButtons = document.querySelectorAll('.apartment-favorite');
+
+			favoriteButtons.forEach(button => {
+			    button.addEventListener('mouseenter', function() {
+			        const icon = this.querySelector('i');
+			        icon.classList.remove('fa-heart');
+			        icon.classList.add('fa-heart-broken');
+			    });
+			    
+			    button.addEventListener('mouseleave', function() {
+			        const icon = this.querySelector('i');
+			        icon.classList.remove('fa-heart-broken');
+			        icon.classList.add('fa-heart');
+			    });
+			});
+			
             // URL 파라미터 가져오기
             const urlParams = new URLSearchParams(window.location.search);
             
@@ -375,22 +392,23 @@
             }
         });
 
-        function removeFavorite(favoriteId) {
-            if (confirm('정말로 이 아파트를 관심 목록에서 삭제하시겠습니까?')) {
-                $.ajax({
-                    type: "post",
-                    data: { favoriteId: favoriteId },
-                    url: "apartment_favorite_remove",
-                    success: function(data) {
-                        alert("관심 목록에서 삭제되었습니다.");
-                        location.reload(); // 페이지 새로고침
-                    },
-                    error: function() {
-                        alert("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-                    }
-                });
-            }
-        }
+		function removeFavorite(favoriteId) {
+		    console.log("@#asdf => " + favoriteId);
+		    if (confirm('정말로 이 아파트를 관심 목록에서 삭제하시겠습니까?')) {
+		        $.ajax({
+		            type: "post",
+		            data: { favoriteId: favoriteId },  // 객체 형태로 전달
+		            url: "apartment_favorite_remove",
+		            success: function(data) {
+		                alert("관심 목록에서 삭제되었습니다.");
+		                location.reload(); // 페이지 새로고침
+		            },
+		            error: function() {
+		                alert("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+		            }
+		        });
+		    }
+		}
         
         // 필터 초기화 버튼
         document.querySelector('.filter-reset').addEventListener('click', function() {
@@ -432,6 +450,7 @@
 		    // 페이지 이동
 		    window.location.href = url.toString();
 		});
+		
     </script>
 </body>
 </html>

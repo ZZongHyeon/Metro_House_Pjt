@@ -7,6 +7,9 @@
     SELECT DISTINCT
         f.FAVORITEID as favoriteId,
         f.USERNUMBER as userNumber,
+        f.LAT as lat,
+        f.LNG as lng,
+        f.DEALAMOUNT as dealAmount,
         f.CREATEDAT as createdAt,
         i.APARTMENTID as apartmentId,
         i.APTNM as aptNm,
@@ -14,22 +17,23 @@
         i.EXCLUUSEAR as excluUseAr,
         i.FLOOR as floor,
         i.BUILDYEAR as buildYear,
-        i.DEALAMOUNT as dealAmount,
         i.ROADNM as roadNm,
         i.JIBUN as jibun,
         i.UMDNM as umdNm,
         i.SUBWAYSTATION as subwayStation,
-        i.SUBWAYDISTANCE as subwayDistance,
-        i.LAT as lat,
-        i.LNG as lng
+        i.SUBWAYDISTANCE as subwayDistance
     FROM 
         APARTMENT_FAVORITE f
     LEFT JOIN 
-        APARTMENTINFO i ON f.APARTMENTID = i.APARTMENTID
+        APARTMENTINFO i ON (
+            ABS(f.LAT - i.LAT) &lt; 0.0000001
+            AND ABS(f.LNG - i.LNG) &lt; 0.0000001
+            AND f.DEALAMOUNT = i.DEALAMOUNT
+        )
     WHERE 
         f.USERNUMBER = #{userNumber}
+        AND i.APARTMENTID IS NOT NULL
     ORDER BY 
         f.CREATEDAT DESC
 </select>
-
 </mapper>
