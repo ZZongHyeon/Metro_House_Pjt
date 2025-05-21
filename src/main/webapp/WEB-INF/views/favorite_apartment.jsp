@@ -104,7 +104,7 @@
                         <h3 class="apartment-title">${favorite.aptNm}</h3>
                         <div class="apartment-location">
                             <i class="fas fa-map-marker-alt"></i>
-                            ${favorite.estateAgentSggNm}asdf
+                            ${favorite.estateAgentSggNm}
                         </div>
                         <div class="apartment-details">
                             <div class="detail-item">
