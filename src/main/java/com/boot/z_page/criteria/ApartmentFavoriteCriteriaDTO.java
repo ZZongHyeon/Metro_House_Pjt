@@ -11,7 +11,7 @@ public class ApartmentFavoriteCriteriaDTO {
     private String keyword;
 
     public ApartmentFavoriteCriteriaDTO() {
-        this(1, 1, 9);
+        this(1, 1, 6);
     }
 
     public ApartmentFavoriteCriteriaDTO(int pageNum, int commentPageNum, int amount) {
