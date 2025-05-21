@@ -50,8 +50,9 @@ public class ApartmentFavoriteServiceImpl implements ApartmentFavoriteService {
 	}
 
 	@Override
-	public void removeFavoriteList(int userNumber, int boardNumber) {
-		// TODO Auto-generated method stub
+	public int removeFavoriteList(int userNumber, int favoriteId) {
+		ApartmentFavoriteDAO dao = sqlSession.getMapper(ApartmentFavoriteDAO.class);
+		return dao.removeFavoriteList(userNumber, favoriteId);
 
 	}
 

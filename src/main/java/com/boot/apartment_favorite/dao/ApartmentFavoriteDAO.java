@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.boot.apartment_favorite.dto.ApartmentFavoriteDTO;
 
 public interface ApartmentFavoriteDAO {
@@ -18,7 +20,7 @@ public interface ApartmentFavoriteDAO {
 	public List<ApartmentFavoriteDTO> getFavoriteListByUserNumber(Map<String, Object> params); // 유저 전체 관심목록 리스트 사이드바 +
 																								// 관심아파트 jsp select
 
-	public void removeFavoriteList(int userNumber, int boardNumber); // 삭제(관심아파트 페이지에서 하트눌렀을 때) delete
+	public int removeFavoriteList(@Param("userNumber")int userNumber, @Param("favoriteId")int favoriteId); // 삭제(관심아파트 페이지에서 하트눌렀을 때) userNumber, favoriteId
 
 //	public int getFavoriteListCountByBoardNumber(int boardNumber); // ??
 

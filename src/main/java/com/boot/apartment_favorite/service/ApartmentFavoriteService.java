@@ -18,5 +18,5 @@ public interface ApartmentFavoriteService {
 //	public List<ApartmentFavoriteDTO> getFavoriteListByUserNumber(int userNumber, ApartmentFavoriteCriteriaDTO apartmentFavoriteCriteriaDTO); // 유저 전체 관심목록 리스트 사이드바 + 관심아파트 jsp select
 	public List<ApartmentFavoriteDTO> getFavoriteListByUserNumber(Map<String, Object> params); // 유저 전체 관심목록 리스트 사이드바 + 관심아파트 jsp select
 
-	public void removeFavoriteList(int userNumber, int boardNumber); // 삭제(관심아파트 페이지에서 하트눌렀을 때) delete
+	public int removeFavoriteList(int userNumber, int favoriteId); // 삭제(관심아파트 페이지에서 하트눌렀을 때) delete
 }
