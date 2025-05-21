@@ -4,7 +4,7 @@
 
 <mapper namespace="com.boot.apartment_comparison.dao.ApartmentComparisonDAO">
 <select id="getFavoriteListByUserNumber" parameterType="Integer" resultType="com.boot.apartment_comparison.dto.ApartmentComparisonDTO">
-    SELECT DISTINCT
+    SELECT 
         f.FAVORITEID as favoriteId,
         f.USERNUMBER as userNumber,
         f.LAT as lat,
@@ -24,15 +24,23 @@
         i.SUBWAYDISTANCE as subwayDistance
     FROM 
         APARTMENT_FAVORITE f
-    LEFT JOIN 
-        APARTMENTINFO i ON (
-            ABS(f.LAT - i.LAT) &lt; 0.0000001
-            AND ABS(f.LNG - i.LNG) &lt; 0.0000001
-            AND f.DEALAMOUNT = i.DEALAMOUNT
-        )
+    JOIN 
+        (SELECT 
+            MIN(APARTMENTID) as min_id, LAT, LNG, DEALAMOUNT
+         FROM 
+            APARTMENTINFO
+         GROUP BY 
+            LAT, LNG, DEALAMOUNT) grp
+    ON 
+        ABS(f.LAT - grp.LAT) &lt; 0.0000001
+        AND ABS(f.LNG - grp.LNG) &lt; 0.0000001
+        AND f.DEALAMOUNT = grp.DEALAMOUNT
+    JOIN 
+        APARTMENTINFO i
+    ON 
+        i.APARTMENTID = grp.min_id
     WHERE 
         f.USERNUMBER = #{userNumber}
-        AND i.APARTMENTID IS NOT NULL
     ORDER BY 
         f.CREATEDAT DESC
 </select>

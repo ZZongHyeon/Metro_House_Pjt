@@ -648,7 +648,7 @@
 				            const distanceText = apt.subwayDistance ? apt.subwayStation.split(' ')[0] + "에서 " + apt.subwayDistance + "m" : "-";
 							const lng = apt.lng;
 							const lat = apt.lat;
-							
+
 				            // 커스텀 오버레이용 HTML 템플릿 (기존 코드 유지)
 				            let overlayContent = `
 				                <div class="custom-overlay apartment-overlay">
@@ -668,6 +668,9 @@
 											} else {
 												overlayContent += `<div class="overlay-distance">지하철역정보없음</div>`;
 											}
+				                            
+											
+											
 											overlayContent +=`
 				                        </div>
 				                        <div class="overlay-section overlay-details">
@@ -676,12 +679,10 @@
 				                        </div>
 				                    </div>
 				                    <div class="overlay-footer">
-										<button class="overlay-button favorite" style="width: 100%;" data-lat="`+ lat + `" data-lng="` + lng + `" data-dealamount="` + dealAmount + `">관심 등록</button>
+				                        <button class="overlay-button favorite" style="width: 100%;" data-lat="`+ lat + `" data-lng="` + lng + `" data-dealamount="` + dealAmount.replace('만원', '').trim() + `">관심 등록</button>
 				                    </div>
 				                </div>
 				            `;
-							
-							
 				            // 커스텀 오버레이 생성 (초기에는 지도에 표시하지 않음)
 				            const apartmentOverlay = new kakao.maps.CustomOverlay({
 				                position: position,
@@ -764,40 +765,38 @@
 				    // 중요: 모든 카드가 생성된 후 이벤트 리스너 다시 연결
 				    attachEventListenersToCards();
 				}
-				
 				//관심등록 처리용 ajax
-				$(document).on('click', '.favorite', function () {
-				    const lat = $(this).data('lat');
-				    const lng = $(this).data('lng');
-				    const dealAmount = $(this).data('dealamount');
-				    // console.log("전송 전 확인:", lat, lng, dealAmount);
-				    console.log("✅ 관심등록 클릭됨 - 데이터 확인:", {lat, lng, dealAmount}); // 콘솔 로그 찍어봄. 값 잘받아오는데 뭐가문제고;;
+								$(document).on('click', '.favorite', function () {
+								    const lat = $(this).data('lat');
+								    const lng = $(this).data('lng');
+								    const dealAmount = $(this).data('dealamount');
+								    // console.log("전송 전 확인:", lat, lng, dealAmount);
+								    console.log("✅ 관심등록 클릭됨 - 데이터 확인:", {lat, lng, dealAmount}); // 콘솔 로그 찍어봄. 값 잘받아오는데 뭐가문제고;;
 
-				    if (!lat || !lng) {
-				        alert('위도 또는 경도 정보가 없습니다.');
-				        return;
-				    }
-				    $.ajax({
-				        url: '/favorite/insert',
-				        type: 'POST',
-				        contentType: 'application/json',
-				        data: JSON.stringify({
-				            lat: lat,
-				            lng: lng,
-				            dealAmount: dealAmount
-				        }),
-				        xhrFields: {
-				            withCredentials: true  // 쿠키를 함께 전송
-				        },
-				        success: function () {
-				            alert('관심등록 완료!');
-				        },
-				        error: function () {
-				            alert('관심등록 실패!');
-				        }
-				    });
-				});
-
+								    if (!lat || !lng) {
+								        alert('위도 또는 경도 정보가 없습니다.');
+								        return;
+								    }
+								    $.ajax({
+								        url: '/favorite/insert',
+								        type: 'POST',
+								        contentType: 'application/json',
+								        data: JSON.stringify({
+								            lat: lat,
+								            lng: lng,
+								            dealAmount: dealAmount
+								        }),
+								        xhrFields: {
+								            withCredentials: true  // 쿠키를 함께 전송
+								        },
+								        success: function () {
+								            alert('관심등록 완료!');
+								        },
+								        error: function () {
+								            alert('관심등록 실패!');
+								        }
+								    });
+								});
             </script>
         </body>
 
