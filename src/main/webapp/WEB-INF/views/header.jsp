@@ -142,7 +142,7 @@
                                         </div>
                                         <div class="dropdown-item-content">
                                             <div class="dropdown-item-title">아파트 데이터 다운로드 <span class="admin-badge">Admin</span></div>
-                                            <div class="dropdown-item-description">아파트 데이터 다운로드</div>
+                                            <div class="dropdown-item-description">클릭하면 서버에서 디비로 전송하니 서버건들지마세요<br>백엔드 건들이고 저장하면 다시 시작해야합니다<br>프론트단은 가능</div>
                                         </div>
                                     </a>
                                 </div>
