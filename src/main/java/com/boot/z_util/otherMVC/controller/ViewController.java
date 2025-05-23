@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.boot.apartment.dto.ApartmentTradeDTO;
-import com.boot.apartment_recommend.dto.ApartmentRecommendDTO;
-import com.boot.apartment_recommend.service.ApartmentRecommendService;
+import com.boot.apartment_recommend_detail.dto.ApartmentDTO;
+import com.boot.apartment_recommend_detail.service.ApartmentRecommendService;
 import com.boot.user.dto.BasicUserDTO;
 import com.boot.user.dto.UserDTO;
 import com.boot.z_config.security.OAuth2AuthenticationSuccessHandler;
@@ -83,7 +83,7 @@ public class ViewController {
 //		System.out.println("user :" + user);
 		if (user != null) {
 //			System.out.println("user != null");
-			List<ApartmentRecommendDTO> apartmentList = apartmentRecommendService.recommend(user);
+			List<ApartmentDTO> apartmentList = apartmentRecommendService.recommend(user);
 			System.out.println("apartmentList => " + apartmentList);
 			model.addAttribute("apartmentList", apartmentList);
 		}

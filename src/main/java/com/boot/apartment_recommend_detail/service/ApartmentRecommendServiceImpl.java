@@ -1,4 +1,4 @@
-package com.boot.apartment_recommend.service;
+package com.boot.apartment_recommend_detail.service;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.boot.apartment_recommend.dao.ApartmentRecommendDAO;
-import com.boot.apartment_recommend.dto.ApartmentRecommendDTO;
+import com.boot.apartment_recommend_detail.dao.ApartmentRecommendDAO;
+import com.boot.apartment_recommend_detail.dto.ApartmentDTO;
 import com.boot.user.dto.BasicUserDTO;
 
 @Service
@@ -16,9 +16,9 @@ public class ApartmentRecommendServiceImpl implements ApartmentRecommendService 
 	private SqlSession sqlSession;
 
 	@Override
-	public List<ApartmentRecommendDTO> recommend(BasicUserDTO user) {
+	public List<ApartmentDTO> recommend(BasicUserDTO user) {
 		ApartmentRecommendDAO dao = sqlSession.getMapper(ApartmentRecommendDAO.class);
-		List<ApartmentRecommendDTO> list = dao.recommend(user);
+		List<ApartmentDTO> list = dao.recommend(user);
 		return list;
 	}
 

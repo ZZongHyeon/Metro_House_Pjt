@@ -1,4 +1,4 @@
-package com.boot.apartment_recommend.dto;
+package com.boot.apartment_recommend_detail.dto;
 
 import com.boot.apartment.dto.ApartmentTradeDTO;
 
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ApartmentRecommendDTO {
+public class ApartmentDTO {
 	private int apartmentId;
     private String sggCd;
     private String umdNm;
@@ -52,5 +52,7 @@ public class ApartmentRecommendDTO {
     private String subwayStation; // 지하철역 이름
     private String subwayDistance; // 거리
 
+    // 조회수
+    private int viewCount;
 
 }

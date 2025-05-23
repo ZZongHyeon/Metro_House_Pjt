@@ -87,7 +87,7 @@ public class ApartmentFavoriteController {
 		model.addAttribute("district", district);
 		model.addAttribute("priceRange", priceRange);
 		model.addAttribute("sort", sort);
-		return "favorite_apartment";
+		return "apartment/apartment_favorite";
 	}
 
 	// 관심등록 insert
