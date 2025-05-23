@@ -23,7 +23,8 @@ public class ApartmentFavoriteController {
 	// 관심목록 삭제
 	@PostMapping("/apartment_favorite_remove")
 	@ResponseBody
-	public ResponseEntity<Map<String, Object>> removeFavorite(@RequestParam("favoriteId") int favoriteId, HttpServletRequest request) {
+	public ResponseEntity<Map<String, Object>> removeFavorite(@RequestParam("favoriteId") int favoriteId,
+			HttpServletRequest request) {
 
 		Map<String, Object> response = new HashMap<>();
 
@@ -95,33 +96,24 @@ public class ApartmentFavoriteController {
 	@ResponseBody
 	public ResponseEntity<String> insertFavorite(@RequestBody HashMap<String, Object> param,
 			HttpServletRequest request) {
-		System.out.println("param 전체 => " + param);// 전체 파라미터 로그찍어보기
+//		System.out.println("param 전체 => " + param);// 전체 파라미터 로그찍어보기
 		BasicUserDTO user = (BasicUserDTO) request.getAttribute("user");
-		System.out.println("user => " + user);
 		if (user == null) {
 			return ResponseEntity.status(401).body("로그인이 필요합니다.");
 		}
 		try {
 			// lat, lng 파라미터 체크
-			String latStr = param.get("lat") != null ? param.get("lat").toString().trim() : "";
-			String lngStr = param.get("lng") != null ? param.get("lng").toString().trim() : "";
-			System.out.println("latStr =>" + latStr); // 위도경도 로그 찍어봄(값 잘 전달되는지? )
-			System.out.println("lngStr =>" + lngStr);
-//            System.out.println("여기왓소.");
-			if (latStr.isEmpty() || lngStr.isEmpty()) {
-//                System.out.println("여기왓소.1");
-				return ResponseEntity.badRequest().body("위도/경도 값이 누락되었습니다.");
-			}
-
 //            System.out.println("여기왓소.2");
 //            double lat = Double.parseDouble(latStr);
 //            double lng = Double.parseDouble(lngStr);
 
 //            System.out.println("여기왓소.3");
-
+			System.out.println("test asdf");
 			param.put("userNumber", user.getUserNumber());
 //            System.out.println("여기왓당.");
+			System.out.println("param 전체 => " + param);// 전체 파라미터 로그찍어보기
 			int result = apartmentFavoriteService.addFavoriteList(param);
+			System.out.println("param 전체 => " + param);// 전체 파라미터 로그찍어보기
 //            System.out.println("여기왓당.2");
 
 			if (result > 0) {

@@ -7,11 +7,9 @@
     SELECT 
         f.FAVORITEID as favoriteId,
         f.USERNUMBER as userNumber,
-        f.LAT as lat,
-        f.LNG as lng,
-        f.DEALAMOUNT as dealAmount,
         f.CREATEDAT as createdAt,
         i.APARTMENTID as apartmentId,
+        i.DEALAMOUNT as dealAmount,
         i.APTNM as aptNm,
         i.ESTATEAGENTSGGNM as estateAgentSggNm,
         i.EXCLUUSEAR as excluUseAr,
@@ -25,20 +23,9 @@
     FROM 
         APARTMENT_FAVORITE f
     JOIN 
-        (SELECT 
-            MIN(APARTMENTID) as min_id, LAT, LNG, DEALAMOUNT
-         FROM 
-            APARTMENTINFO
-         GROUP BY 
-            LAT, LNG, DEALAMOUNT) grp
-    ON 
-        ABS(f.LAT - grp.LAT) &lt; 0.0000001
-        AND ABS(f.LNG - grp.LNG) &lt; 0.0000001
-        AND f.DEALAMOUNT = grp.DEALAMOUNT
-    JOIN 
         APARTMENTINFO i
     ON 
-        i.APARTMENTID = grp.min_id
+        f.APARTMENTID = i.APARTMENTID
     WHERE 
         f.USERNUMBER = #{userNumber}
     ORDER BY 

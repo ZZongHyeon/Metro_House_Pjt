@@ -48,7 +48,7 @@ public class ApartmentDownloadController {
     public ResponseEntity<?> downloadHistoricalData(@RequestBody Map<String, Object> request) {
         try {
             int years = (Integer) request.getOrDefault("years", 10);
-            System.out.println("years => " + years);
+//            System.out.println("years => " + years);
             
             int count = apartmentDownloadService.downloadHistoricalApartmentinfo(years);
             return ResponseEntity.ok(Map.of(

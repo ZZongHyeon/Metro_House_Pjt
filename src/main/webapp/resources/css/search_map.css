@@ -62,10 +62,40 @@ main.content {
 	margin: 5px 0;
 	font-size: 15px;
 }
-
-.search-info strong {
-	color: var(--primary);
+/* 검색 필터 컨테이너 스타일 */
+.search-filters {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
 }
+
+/* 각 필터 항목 고정 너비 설정 */
+.search-filter {
+    width: 280px; /* 고정 너비 설정 */
+    flex-shrink: 0; /* 너비 축소 방지 */
+}
+
+/* 선택 요소 스타일 */
+.filter-select {
+    width: 100%; /* 부모 요소의 너비를 채움 */
+    padding: 8px 12px;
+    border: 1px solid var(--gray-300);
+    border-radius: 4px;
+    font-size: 14px;
+    height: 40px; /* 높이 고정 */
+    background-color: white;
+}
+
+/* 라벨 스타일 */
+.filter-label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-700);
+}
+
 
 /* 지도와 아파트 목록을 감싸는 컨테이너 */
 .map-apartment-container {
@@ -381,8 +411,6 @@ main.content {
 	margin-top: 10px;
 	background-color: white;
 	border-radius: 12px;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1),
-		0 10px 15px -5px rgba(0, 0, 0, 0.05);
 	overflow: hidden;
 	transition: all 0.3s ease;
 	border: 1px solid var(--gray-200);
@@ -538,13 +566,15 @@ main.content {
 	gap: 15px;
 	overflow-y: auto;
 	max-height: 1000px;
+	padding-right: 10px;
 }
 
 .comparison-item {
-	border: 1px solid var(--gray-200);
-	border-radius: var(--border-radius);
-	padding: 15px;
-	transition: all 0.2s ease;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--border-radius);
+    padding: 15px;
+    transition: all 0.2s ease;
+    position: relative;
 }
 
 .comparison-item:hover {

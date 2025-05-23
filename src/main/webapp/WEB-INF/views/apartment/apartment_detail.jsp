@@ -594,20 +594,13 @@
 
 	    // 관심목록에 추가
 	    function addToFavorites(apartmentId) {
-	        // 아파트 정보에서 필요한 데이터 가져오기
-	        const lat = 0; // 실제 위도 값으로 대체 필요
-	        const lng = 0; // 실제 경도 값으로 대체 필요
-	        const dealAmount = '${apartment.dealAmount}' || 0;
-	        
+			const apartmentIdInt = parseInt(apartmentId);
 	        $.ajax({
 	            url: '/favorite/insert',
 	            type: 'POST',
 	            contentType: 'application/json',
 	            data: JSON.stringify({
-	                apartmentId: apartmentId,
-	                lat: lat,
-	                lng: lng,
-	                dealAmount: dealAmount
+	                apartmentId: apartmentIdInt
 	            }),
 	            xhrFields: {
 	                withCredentials: true
