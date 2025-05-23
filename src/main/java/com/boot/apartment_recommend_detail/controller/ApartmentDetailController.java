@@ -69,8 +69,8 @@ public class ApartmentDetailController {
         
         List<Map<String, Object>> priceData = apartmentGraphService.getYearlyPriceDataByAptSeq(aptSeq);
         
-        System.out.println("test => " + priceData);
-        System.out.println("aptSeq => " + aptSeq);
+//        System.out.println("test => " + priceData);
+//        System.out.println("aptSeq => " + aptSeq);
         // JSON으로 변환하여 모델에 추가
         try {
             ObjectMapper objectMapper = new ObjectMapper();
