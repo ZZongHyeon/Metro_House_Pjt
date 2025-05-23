@@ -15,5 +15,5 @@ public interface ApartmentTradeService {
 
 	// public String getSigunguCodeFromAddress(String address);
 //    public String recommend(UserDTO loginUser);
-	List<ApartmentTradeDTO> recommend(BasicUserDTO loginUser);
+//	List<ApartmentTradeDTO> recommend(BasicUserDTO loginUser);
 }

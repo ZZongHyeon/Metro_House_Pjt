@@ -422,35 +422,34 @@ public class ApartmentTradeServiceImpl implements ApartmentTradeService {
 			return Collections.emptyList();
 		}
 	}
-
-	@Override
-	public List<ApartmentTradeDTO> recommend(BasicUserDTO loginUser) {
-		if (loginUser != null) {
-			String userAddress = loginUser.getUserAddress();
-
-			if (userAddress != null && !userAddress.isEmpty()) {
-//                System.out.println("주소: " + userAddress);
-				String[] addressParts = userAddress.split(" ");
-				if (addressParts.length >= 2) {
-					String city = addressParts[0];
-					String district = addressParts[1];
-					String query = city + " " + district;
-
-					JSONArray jsonResponse = getJSONResponse(query);
-					if (jsonResponse != null && jsonResponse.length() > 0) {
-						JSONObject jsonObject = jsonResponse.getJSONObject(0);
-						JSONObject address = jsonObject.getJSONObject("address");
-						String sggcode = address.getString("b_code").substring(0, 5);
-//                        System.out.println("추천 시군구 코드: " + sggcode);
-
-						// 추천 아파트 리스트 가져오기
-						return getTradeData(sggcode, "202504", "3");
-					}
-				}
-			}
-		}
-		return new ArrayList<>(); // 아무것도 없을 경우 빈 리스트 반환
-
-	}
+//	@Override
+//	public List<ApartmentTradeDTO> recommend(BasicUserDTO loginUser) {
+//		if (loginUser != null) {
+//			String userAddress = loginUser.getUserAddress();
+//
+//			if (userAddress != null && !userAddress.isEmpty()) {
+////                System.out.println("주소: " + userAddress);
+//				String[] addressParts = userAddress.split(" ");
+//				if (addressParts.length >= 2) {
+//					String city = addressParts[0];
+//					String district = addressParts[1];
+//					String query = city + " " + district;
+//
+//					JSONArray jsonResponse = getJSONResponse(query);
+//					if (jsonResponse != null && jsonResponse.length() > 0) {
+//						JSONObject jsonObject = jsonResponse.getJSONObject(0);
+//						JSONObject address = jsonObject.getJSONObject("address");
+//						String sggcode = address.getString("b_code").substring(0, 5);
+////                        System.out.println("추천 시군구 코드: " + sggcode);
+//
+//						// 추천 아파트 리스트 가져오기
+//						return getTradeData(sggcode, "202504", "3");
+//					}
+//				}
+//			}
+//		}
+//		return new ArrayList<>(); // 아무것도 없을 경우 빈 리스트 반환
+//
+//	}
 
 }

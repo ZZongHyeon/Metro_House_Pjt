@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.boot.apartment.dto.ApartmentTradeDTO;
-import com.boot.apartment.service.ApartmentTradeService;
+import com.boot.apartment_recommend.dto.ApartmentRecommendDTO;
+import com.boot.apartment_recommend.service.ApartmentRecommendService;
 import com.boot.user.dto.BasicUserDTO;
 import com.boot.user.dto.UserDTO;
 import com.boot.z_config.security.OAuth2AuthenticationSuccessHandler;
@@ -33,7 +34,7 @@ public class ViewController {
     private final OAuth2AuthenticationSuccessHandler OAuth2AuthenticationSuccessHandler;
 	private int todayViews = 0;
 	@Autowired
-	private ApartmentTradeService apartmentTradeService;
+	private ApartmentRecommendService apartmentRecommendService;
 
     ViewController(OAuth2AuthenticationSuccessHandler OAuth2AuthenticationSuccessHandler) {
         this.OAuth2AuthenticationSuccessHandler = OAuth2AuthenticationSuccessHandler;
@@ -82,7 +83,8 @@ public class ViewController {
 //		System.out.println("user :" + user);
 		if (user != null) {
 //			System.out.println("user != null");
-			List<ApartmentTradeDTO> apartmentList = apartmentTradeService.recommend(user);
+			List<ApartmentRecommendDTO> apartmentList = apartmentRecommendService.recommend(user);
+			System.out.println("apartmentList => " + apartmentList);
 			model.addAttribute("apartmentList", apartmentList);
 		}
 

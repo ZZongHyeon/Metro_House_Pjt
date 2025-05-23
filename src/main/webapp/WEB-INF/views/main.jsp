@@ -230,9 +230,9 @@
                 <h2 class="section-title">
                     <i class="fas fa-thumbs-up"></i> 추천 아파트
                 </h2>
-                <a href="/recommended_apartments" class="action-link"> 더보기
-                    <i class="fas fa-chevron-right"></i>
-                </a>
+<!--                <a href="/recommended_apartments" class="action-link"> 더보기-->
+<!--                    <i class="fas fa-chevron-right"></i>-->
+<!--                </a>-->
             </div>
 
             <div class="books-grid">
@@ -270,10 +270,7 @@
                                             <%--                                            <fmt:formatNumber value="${apartment.price}"--%>
                                             ${apartment.dealAmount}만원
                                     </div>
-                                        <%--                                        <a href="/apartment_detail?apartmentId=${apartment.apartmentId}"--%>
-
-                                        <%--                                            상세보기 구현 할지말지 몰?루?                                        --%>
-                                    <a href="/apartment_detail?apartmentId=${apartment.aptSeq}"
+                                    <a href="/apartment_detail?apartmentId=${apartment.apartmentId}"
                                        class="book-detail-button">상세보기</a>
                                 </div>
                             </div>
