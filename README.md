@@ -200,9 +200,6 @@ create table apartment_favorite(
     apartmentId number,
     userNumber number,
     createdAt date default sysdate,
-    lat NUMBER(12,8),
-    lng NUMBER(12,8),
-    dealamount varchar2(100),
 
     FOREIGN KEY (apartmentId) REFERENCES APARTMENTINFO(apartmentId)ON DELETE CASCADE,
     FOREIGN KEY (userNumber) REFERENCES USERINFO(userNumber)ON DELETE CASCADE
