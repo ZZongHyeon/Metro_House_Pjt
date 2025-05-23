@@ -9,14 +9,17 @@ import com.boot.apartment.dto.ApartmentTradeDTO;
 
 @Mapper
 public interface ApartmentDownloadDAO {
-
-//	int insertApartmentInfoBatch(Map<String, Object> params);
-
-	List<ApartmentTradeDTO> getApartmentDataByYearMonth(Map<String, Object> params);
-
-	Integer countApartmentDataByYearMonth(Map<String, Object> params);
-
-	int deleteApartmentDataByYearMonth(Map<String, Object> params);
-
-	void insertApartmentInfo(ApartmentTradeDTO apartmentInfo);
+    // 기존 메서드
+    void insertApartmentInfo(ApartmentTradeDTO apartmentTradeDTO);
+    List<ApartmentTradeDTO> getApartmentDataByYearMonth(Map<String, Object> params);
+    Integer countApartmentDataByYearMonth(Map<String, Object> params);
+    int deleteApartmentDataByYearMonth(Map<String, Object> params);
+    
+    // 새로 추가된 메서드
+    void insertToQueue(ApartmentTradeDTO apartmentTradeDTO);
+    int deleteProcessedQueueData();
+    int resetQueueProcessedStatus();
+    List<ApartmentTradeDTO> getQueueData();
+    Integer countQueueData();
+    void executeProcedure(Map<String, Object> params);
 }

@@ -69,8 +69,6 @@
                             <span class="toggle-icon"><i class="fa-solid fa-chevron-down"></i></span>
                         </button>
                         
-
-                        
                         <!-- 드롭다운 메뉴 -->
                         <div class="dropdown-menu">
                             <!-- 드롭다운 헤더 -->
@@ -117,41 +115,61 @@
                                     </a>
                                 </div>
 
-								
-<!--								<div class="downloadTest" id="downloadBtn" style="cursor: pointer; padding: 10px 15px; background-color: #4CAF50; color: white; border-radius: 4px; display: inline-block; margin: 10px 0;">-->
-<!--								    <i class="fa-solid fa-download"></i> 아파트 데이터 다운로드-->
-<!--								</div>-->
-								
-								
                                 <!-- 관리자 섹션 -->
                                 <c:if test="${user.userAdmin == 1}">
                                 <div class="dropdown-section">
                                     <div class="dropdown-section-title">관리자</div>
-                                    <a href="admin_view" class="dropdown-item admin-item">
-                                        <div class="dropdown-icon-wrapper">
-                                            <i class="dropdown-icon fa-solid fa-gear"></i>
-                                        </div>
-                                        <div class="dropdown-item-content">
-                                            <div class="dropdown-item-title">관리자모드 <span class="admin-badge">Admin</span></div>
-                                            <div class="dropdown-item-description">사이트 관리 및 설정</div>
-                                        </div>
-                                    </a>
-                                    <a href="down" class="dropdown-item admin-item">
-                                        <div class="dropdown-icon-wrapper">
-                                            <i class="dropdown-icon fa-solid fa-download"></i>
-                                        </div>
-                                        <div class="dropdown-item-content">
-                                            <div class="dropdown-item-title">아파트 데이터 다운로드 <span class="admin-badge">Admin</span></div>
-                                            <div class="dropdown-item-description">클릭하면 서버에서 디비로 전송하니 서버건들지마세요<br>백엔드 건들이고 저장하면 다시 시작해야합니다<br>프론트단은 가능</div>
-                                        </div>
-                                    </a>
-                                    <a href="down" class="dropdown-item admin-item">
+<!--                                    <a href="admin_view" class="dropdown-item admin-item">-->
+<!--                                        <div class="dropdown-icon-wrapper">-->
+<!--                                            <i class="dropdown-icon fa-solid fa-gear"></i>-->
+<!--                                        </div>-->
+<!--                                        <div class="dropdown-item-content">-->
+<!--                                            <div class="dropdown-item-title">관리자모드 <span class="admin-badge">Admin</span></div>-->
+<!--                                            <div class="dropdown-item-description">사이트 관리 및 설정</div>-->
+<!--                                        </div>-->
+<!--                                    </a>-->
+                                    
+                                    <!-- 최신 데이터 다운로드 -->
+                                    <a href="#" class="dropdown-item admin-item" id="currentDataDownload">
                                         <div class="dropdown-icon-wrapper">
                                             <i class="dropdown-icon fa-solid fa-download"></i>
                                         </div>
                                         <div class="dropdown-item-content">
-                                            <div class="dropdown-item-title">아파트 데이터 동기화 <span class="admin-badge">Admin</span></div>
-                                            <div class="dropdown-item-description">데이터 다운 다 받고 눌러주세요.</div>
+                                            <div class="dropdown-item-title">최신 데이터 다운로드 <span class="admin-badge">Admin</span></div>
+                                            <div class="dropdown-item-description">현재 월 아파트 거래 데이터를 APARTMENTINFO 테이블에 저장</div>
+                                        </div>
+                                    </a>
+                                    
+                                    <!-- 과거 데이터 다운로드 -->
+                                    <a href="#" class="dropdown-item admin-item" id="historicalDataDownload">
+                                        <div class="dropdown-icon-wrapper">
+                                            <i class="dropdown-icon fa-solid fa-database"></i>
+                                        </div>
+                                        <div class="dropdown-item-content">
+                                            <div class="dropdown-item-title">1. 과거 데이터 다운로드 <span class="admin-badge">Admin</span></div>
+                                            <div class="dropdown-item-description">과거 데이터 1월기준 다운로드<br>시간이 오래 걸릴 수 있습니다</div>
+                                        </div>
+                                    </a>
+                                    
+                                    <!-- 데이터 동기화 (프로시저 실행) -->
+                                    <a href="#" class="dropdown-item admin-item" id="dataSynchronization">
+                                        <div class="dropdown-icon-wrapper">
+                                            <i class="dropdown-icon fa-solid fa-sync"></i>
+                                        </div>
+                                        <div class="dropdown-item-content">
+                                            <div class="dropdown-item-title">2. 데이터 동기화 <span class="admin-badge">Admin</span></div>
+                                            <div class="dropdown-item-description">과거 데이터를 년별 정리<br>(과거 데이터 다운로드 후 실행)</div>
+                                        </div>
+                                    </a>
+                                    
+                                    <!-- 큐 데이터 정리 -->
+                                    <a href="#" class="dropdown-item admin-item" id="queueCleanup">
+                                        <div class="dropdown-icon-wrapper">
+                                            <i class="dropdown-icon fa-solid fa-trash-can"></i>
+                                        </div>
+                                        <div class="dropdown-item-content">
+                                            <div class="dropdown-item-title">3. 큐 데이터 정리 <span class="admin-badge">Admin</span></div>
+                                            <div class="dropdown-item-description">처리 완료된 큐 데이터 삭제<br>(동기화 후 실행)</div>
                                         </div>
                                     </a>
                                 </div>
@@ -184,6 +202,7 @@
             </div>
         </div>
     </header>
+	
 	<!-- 토큰 만료 시간 관리 컴포넌트 -->
 	<c:if test="${user != null}">
 	<div class="token-expiry-manager" id="tokenExpiryManager">
@@ -261,129 +280,236 @@
             if (window.scrollY > 10) {
                 header.classList.add('scrolled');
             }
+
+            // 관리자 기능 이벤트 리스너
+            setupAdminFunctions();
         });
+
+        function setupAdminFunctions() {
+            // 최신 데이터 다운로드
+            const currentDataBtn = document.getElementById('currentDataDownload');
+            if (currentDataBtn) {
+                currentDataBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    executeCurrentDataDownload();
+                });
+            }
+
+            // 과거 데이터 다운로드
+            const historicalDataBtn = document.getElementById('historicalDataDownload');
+            if (historicalDataBtn) {
+                historicalDataBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    executeHistoricalDataDownload();
+                });
+            }
+
+            // 데이터 동기화
+            const syncBtn = document.getElementById('dataSynchronization');
+            if (syncBtn) {
+                syncBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    executeDataSynchronization();
+                });
+            }
+
+            // 큐 데이터 정리
+            const cleanupBtn = document.getElementById('queueCleanup');
+            if (cleanupBtn) {
+                cleanupBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    executeQueueCleanup();
+                });
+            }
+        }
+
+        // 최신 데이터 다운로드 함수
+        function executeCurrentDataDownload() {
+            const btn = document.getElementById('currentDataDownload');
+            if (!confirm('최신 아파트 거래 데이터를 다운로드하시겠습니까?\n(현재 월 데이터가 APARTMENTINFO 테이블에 저장됩니다)')) {
+                return;
+            }
+
+            setButtonLoading(btn, true);
+
+            fetch('/api/apartment/download', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Current data download response:', data);
+                
+                if (data.status === 'success') {
+                    alert(`최신 데이터 다운로드 완료!\n저장된 데이터 수: ${data.count}개`);
+                } else {
+                    alert('다운로드 실패: ' + (data.message || '알 수 없는 오류'));
+                }
+                
+                setButtonLoading(btn, false);
+            })
+            .catch(error => {
+                console.error('최신 데이터 다운로드 중 오류:', error);
+                alert('다운로드 중 오류가 발생했습니다: ' + error.message);
+                setButtonLoading(btn, false);
+            });
+        }
+
+        // 과거 데이터 다운로드 함수
+		function executeHistoricalDataDownload() {
+		    const btn = document.getElementById('historicalDataDownload');
+		    if (!confirm('과거 아파트 거래 데이터를 다운로드하시겠습니까?\n\n주의사항:\n- 시간이 매우 오래 걸릴 수 있습니다\n- 데이터가 APARTMENTINFO_QUEUE 테이블에 저장됩니다\n- 다운로드 중에는 브라우저를 닫지 마세요')) {
+		        return;
+		    }
+
+		    const yearsInput = prompt('몇 년치 데이터를 다운로드하시겠습니까? (기본값: 10년)', '10');
+		    
+		    if (yearsInput === null) {
+		        return;
+		    }
+		    
+		    const years = parseInt(yearsInput.trim() || '10');
+		    
+		    if (isNaN(years) || years <= 0 || years > 20) {
+		        alert('올바른 년수를 입력해주세요. (1-20년 사이)');
+		        return;
+		    }
+
+		    console.log('전송할 년수:', years);
+
+		    setButtonLoading(btn, true);
+
+		    fetch('/api/apartment/download-historical', {
+		        method: 'POST',
+		        headers: {
+		            'Content-Type': 'application/json',
+		            'Accept': 'application/json'
+		        },
+		        body: JSON.stringify({ years: years })
+		    })
+		    .then(response => response.json())
+		    .then(data => {
+		        console.log('Historical data download response:', data);
+		        
+		        if (data.status === 'success') {
+		            alert(`과거 ${years}년치 데이터 다운로드 완료!\n저장된 데이터 수: ${data.count}개\n\n다음 단계: 데이터 동기화를 실행해주세요.`);
+		        } else {
+		            alert('다운로드 실패: ' + (data.message || '알 수 없는 오류'));
+		        }
+		        
+		        setButtonLoading(btn, false);
+		    })
+		    .catch(error => {
+		        console.error('과거 데이터 다운로드 중 오류:', error);
+		        alert('다운로드 중 오류가 발생했습니다: ' + error.message);
+		        setButtonLoading(btn, false);
+		    });
+		}
+
+        // 데이터 동기화 함수
+        function executeDataSynchronization() {
+            const btn = document.getElementById('dataSynchronization');
+            if (!confirm('큐에 저장된 데이터를 년별 테이블로 정리하시겠습니까?\n\n주의사항:\n- 과거 데이터 다운로드가 완료된 후 실행해야 합니다\n- 처리 시간이 오래 걸릴 수 있습니다')) {
+                return;
+            }
+
+            setButtonLoading(btn, true);
+
+			fetch('/api/apartment/execute-procedure', {
+			    method: 'POST',
+			    headers: {
+			        'Content-Type': 'application/json',
+			        'Accept': 'application/json'
+			    },
+			    body: JSON.stringify({
+			        procedure: 'process_apartmentinfo_queue'
+			    })
+			})
+            .then(response => response.json())
+            .then(data => {
+                console.log('Data synchronization response:', data);
+                
+                if (data.success) {
+                    alert(`데이터 동기화 완료!\n처리된 데이터 수: ${data.processedCount}\n생성된 테이블 수: ${data.tableCount}\n\n다음 단계: 큐 데이터 정리를 실행해주세요.`);
+                } else {
+                    if (data.message && data.message.includes('처리할 데이터가 없습니다')) {
+                        alert('처리할 데이터가 없습니다.\n먼저 과거 데이터 다운로드를 실행해주세요.');
+                    } else {
+                        alert('동기화 실패: ' + (data.message || '알 수 없는 오류'));
+                    }
+                }
+                
+                setButtonLoading(btn, false);
+            })
+            .catch(error => {
+                console.error('데이터 동기화 중 오류:', error);
+                alert('동기화 중 오류가 발생했습니다: ' + error.message);
+                setButtonLoading(btn, false);
+            });
+        }
+
+        // 큐 데이터 정리 함수
+        function executeQueueCleanup() {
+            const btn = document.getElementById('queueCleanup');
+            if (!confirm('처리 완료된 큐 데이터를 삭제하시겠습니까?\n\n주의사항:\n- 데이터 동기화가 완료된 후 실행해야 합니다\n- 삭제된 데이터는 복구할 수 없습니다')) {
+                return;
+            }
+
+            setButtonLoading(btn, true);
+
+            fetch('/api/apartment/clean-queue', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Queue cleanup response:', data);
+                
+                if (data.status === 'success') {
+                    alert(`큐 데이터 정리 완료!\n삭제된 데이터 수: ${data.count}개`);
+                } else {
+                    alert('정리 실패: ' + (data.message || '알 수 없는 오류'));
+                }
+                
+                setButtonLoading(btn, false);
+            })
+            .catch(error => {
+                console.error('큐 데이터 정리 중 오류:', error);
+                alert('정리 중 오류가 발생했습니다: ' + error.message);
+                setButtonLoading(btn, false);
+            });
+        }
+
+        // 버튼 로딩 상태 설정
+        function setButtonLoading(button, isLoading) {
+            const iconWrapper = button.querySelector('.dropdown-icon-wrapper');
+            const titleElement = button.querySelector('.dropdown-item-title');
+            
+            if (isLoading) {
+                button.style.pointerEvents = 'none';
+                button.dataset.originalIcon = iconWrapper.innerHTML;
+                button.dataset.originalTitle = titleElement.innerHTML;
+                
+                iconWrapper.innerHTML = '<i class="dropdown-icon fa-solid fa-spinner fa-spin"></i>';
+                
+                const adminBadge = titleElement.querySelector('.admin-badge');
+                const badgeHtml = adminBadge ? adminBadge.outerHTML : '';
+                titleElement.innerHTML = '처리 중... ' + badgeHtml;
+            } else {
+                button.style.pointerEvents = 'auto';
+                
+                if (button.dataset.originalIcon) {
+                    iconWrapper.innerHTML = button.dataset.originalIcon;
+                }
+                if (button.dataset.originalTitle) {
+                    titleElement.innerHTML = button.dataset.originalTitle;
+                }
+            }
+        }
     </script>
-	
-	<script>
-		document.addEventListener('DOMContentLoaded', function() {
-		    // 다운로드 링크 이벤트 리스너 (클래스로 선택)
-		    const downloadLink = document.querySelector('a.dropdown-item.admin-item[href="down"]');
-		    
-		    if (downloadLink) {
-		        downloadLink.addEventListener('click', function(event) {
-		            // 기본 링크 동작 방지
-		            event.preventDefault();
-		            
-		            // 링크 상태 변경 (비활성화 및 로딩 표시)
-		            downloadLink.style.pointerEvents = 'none';
-		            const iconWrapper = downloadLink.querySelector('.dropdown-icon-wrapper');
-		            const originalIcon = iconWrapper.innerHTML;
-		            iconWrapper.innerHTML = '<i class="dropdown-icon fa-solid fa-spinner fa-spin"></i>';
-		            
-		            const titleElement = downloadLink.querySelector('.dropdown-item-title');
-		            const originalTitle = titleElement.innerHTML;
-		            titleElement.innerHTML = '데이터 수집 중... <span class="admin-badge">Admin</span>';
-		            
-		            // 현재 연월 계산 (기본값: 이전 달)
-		            const today = new Date();
-		            const lastMonth = new Date(today.getFullYear(), today.getMonth() - 1);
-		            const yearMonth = lastMonth.getFullYear().toString() + 
-		                             (lastMonth.getMonth() + 1).toString().padStart(2, '0');
-		            
-		            // API 호출
-		            fetch('/download?yearMonth=' + yearMonth)
-		                .then(response => {
-		                    if (!response.ok) {
-		                        throw new Error('서버 응답 오류: ' + response.status);
-		                    }
-		                    return response.json();
-		                })
-		                .then(data => {
-		                    // 성공 메시지 표시
-		                    alert('아파트 데이터 수집 및 저장이 완료되었습니다.\n총 ' + data.length + '개의 데이터가 저장되었습니다.');
-		                    
-		                    // 링크 상태 복원
-		                    iconWrapper.innerHTML = originalIcon;
-		                    titleElement.innerHTML = originalTitle;
-		                    downloadLink.style.pointerEvents = 'auto';
-		                })
-		                .catch(error => {
-		                    // 오류 메시지 표시
-		                    console.error('데이터 수집 중 오류 발생:', error);
-		                    alert('데이터 수집 중 오류가 발생했습니다: ' + error.message);
-		                    
-		                    // 링크 상태 복원
-		                    iconWrapper.innerHTML = originalIcon;
-		                    titleElement.innerHTML = originalTitle;
-		                    downloadLink.style.pointerEvents = 'auto';
-		                });
-		        });
-		    } else {
-		        console.error('아파트 데이터 다운로드 링크를 찾을 수 없습니다.');
-		    }
-		});
-		
-		document.addEventListener('DOMContentLoaded', function() {
-		    // 아파트 데이터 동기화 링크 이벤트 리스너
-		    const syncLink = document.querySelector('a.dropdown-item.admin-item:nth-of-type(3)');
-		    
-		    if (syncLink) {
-		        syncLink.addEventListener('click', function(event) {
-		            // 기본 링크 동작 방지
-		            event.preventDefault();
-		            
-		            // 링크 상태 변경 (비활성화 및 로딩 표시)
-		            syncLink.style.pointerEvents = 'none';
-		            const iconWrapper = syncLink.querySelector('.dropdown-icon-wrapper');
-		            const originalIcon = iconWrapper.innerHTML;
-		            iconWrapper.innerHTML = '<i class="dropdown-icon fa-solid fa-spinner fa-spin"></i>';
-		            
-		            const titleElement = syncLink.querySelector('.dropdown-item-title');
-		            const originalTitle = titleElement.innerHTML;
-		            titleElement.innerHTML = '데이터 동기화 중... <span class="admin-badge">Admin</span>';
-		            
-		            // SQL 프로시저 실행 API 호출
-		            fetch('/execute-procedure', {
-		                method: 'POST',
-		                headers: {
-		                    'Content-Type': 'application/json'
-		                },
-		                body: JSON.stringify({
-		                    procedure: 'process_apartmentinfo_queue'
-		                })
-		            })
-		            .then(response => {
-		                if (!response.ok) {
-		                    throw new Error('서버 응답 오류: ' + response.status);
-		                }
-		                return response.json();
-		            })
-		            .then(data => {
-		                // 성공 메시지 표시
-		                alert('아파트 데이터 동기화가 완료되었습니다.');
-		                
-		                // 링크 상태 복원
-		                iconWrapper.innerHTML = originalIcon;
-		                titleElement.innerHTML = originalTitle;
-		                syncLink.style.pointerEvents = 'auto';
-		            })
-		            .catch(error => {
-		                // 오류 메시지 표시
-		                console.error('데이터 동기화 중 오류 발생:', error);
-		                alert('데이터 동기화 중 오류가 발생했습니다: ' + error.message);
-		                
-		                // 링크 상태 복원
-		                iconWrapper.innerHTML = originalIcon;
-		                titleElement.innerHTML = originalTitle;
-		                syncLink.style.pointerEvents = 'auto';
-		            });
-		        });
-		    } else {
-		        console.error('아파트 데이터 동기화 링크를 찾을 수 없습니다.');
-		    }
-		});
-		
-		
-	</script>
 </body>
 </html>
