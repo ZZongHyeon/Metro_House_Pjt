@@ -175,6 +175,7 @@ public class ApartmentTradeServiceImpl implements ApartmentTradeService {
 			String sggNm = getContent(item, "estateAgentSggNm");
 
 			dto.setAptNm(aptNm);
+			dto.setAptSeq(getContent(item, "aptSeq"));
 			dto.setDealAmount(getContent(item, "dealAmount"));
 			dto.setBonbun(getContent(item, "bonbun"));
 			dto.setExcluUseAr(getContent(item, "excluUseAr"));
@@ -303,7 +304,7 @@ public class ApartmentTradeServiceImpl implements ApartmentTradeService {
 			// 파라미터 설정 부분은 동일
 			Map<String, String> params = new HashMap<>();
 			params.put("LAWD_CD", sigunguCode);
-			yearMonth = "202504";
+			yearMonth = "202503";
 			params.put("DEAL_YMD", yearMonth);
 			params.put("serviceKey",
 					"22fGZX%2F%2BosjsjNmKoII0P11MjKHTnhRv0qcPtQrOqcgk1L1dS3GIJtsohLG7VM9Qc7wcIKwoyvwWh%2BhsR2nymw%3D%3D");
@@ -390,7 +391,7 @@ public class ApartmentTradeServiceImpl implements ApartmentTradeService {
 
 			// 4. GET 요청 보내기
 			URL url = new URL(apiUrl);
-			System.out.println("apiUrl => " + apiUrl);
+//			System.out.println("apiUrl => " + apiUrl);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
 

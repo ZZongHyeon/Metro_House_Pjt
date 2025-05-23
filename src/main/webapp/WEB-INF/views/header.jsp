@@ -145,6 +145,15 @@
                                             <div class="dropdown-item-description">클릭하면 서버에서 디비로 전송하니 서버건들지마세요<br>백엔드 건들이고 저장하면 다시 시작해야합니다<br>프론트단은 가능</div>
                                         </div>
                                     </a>
+                                    <a href="down" class="dropdown-item admin-item">
+                                        <div class="dropdown-icon-wrapper">
+                                            <i class="dropdown-icon fa-solid fa-download"></i>
+                                        </div>
+                                        <div class="dropdown-item-content">
+                                            <div class="dropdown-item-title">아파트 데이터 동기화 <span class="admin-badge">Admin</span></div>
+                                            <div class="dropdown-item-description">데이터 다운 다 받고 눌러주세요.</div>
+                                        </div>
+                                    </a>
                                 </div>
                                 </c:if>
                             </div>
@@ -313,6 +322,68 @@
 		        console.error('아파트 데이터 다운로드 링크를 찾을 수 없습니다.');
 		    }
 		});
+		
+		document.addEventListener('DOMContentLoaded', function() {
+		    // 아파트 데이터 동기화 링크 이벤트 리스너
+		    const syncLink = document.querySelector('a.dropdown-item.admin-item:nth-of-type(3)');
+		    
+		    if (syncLink) {
+		        syncLink.addEventListener('click', function(event) {
+		            // 기본 링크 동작 방지
+		            event.preventDefault();
+		            
+		            // 링크 상태 변경 (비활성화 및 로딩 표시)
+		            syncLink.style.pointerEvents = 'none';
+		            const iconWrapper = syncLink.querySelector('.dropdown-icon-wrapper');
+		            const originalIcon = iconWrapper.innerHTML;
+		            iconWrapper.innerHTML = '<i class="dropdown-icon fa-solid fa-spinner fa-spin"></i>';
+		            
+		            const titleElement = syncLink.querySelector('.dropdown-item-title');
+		            const originalTitle = titleElement.innerHTML;
+		            titleElement.innerHTML = '데이터 동기화 중... <span class="admin-badge">Admin</span>';
+		            
+		            // SQL 프로시저 실행 API 호출
+		            fetch('/execute-procedure', {
+		                method: 'POST',
+		                headers: {
+		                    'Content-Type': 'application/json'
+		                },
+		                body: JSON.stringify({
+		                    procedure: 'process_apartmentinfo_queue'
+		                })
+		            })
+		            .then(response => {
+		                if (!response.ok) {
+		                    throw new Error('서버 응답 오류: ' + response.status);
+		                }
+		                return response.json();
+		            })
+		            .then(data => {
+		                // 성공 메시지 표시
+		                alert('아파트 데이터 동기화가 완료되었습니다.');
+		                
+		                // 링크 상태 복원
+		                iconWrapper.innerHTML = originalIcon;
+		                titleElement.innerHTML = originalTitle;
+		                syncLink.style.pointerEvents = 'auto';
+		            })
+		            .catch(error => {
+		                // 오류 메시지 표시
+		                console.error('데이터 동기화 중 오류 발생:', error);
+		                alert('데이터 동기화 중 오류가 발생했습니다: ' + error.message);
+		                
+		                // 링크 상태 복원
+		                iconWrapper.innerHTML = originalIcon;
+		                titleElement.innerHTML = originalTitle;
+		                syncLink.style.pointerEvents = 'auto';
+		            });
+		        });
+		    } else {
+		        console.error('아파트 데이터 동기화 링크를 찾을 수 없습니다.');
+		    }
+		});
+		
+		
 	</script>
 </body>
 </html>

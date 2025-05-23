@@ -20,7 +20,8 @@
             <script src="/resources/js/subway_section.js"></script>
             <script src="/resources/js/main.js"></script>
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        </head>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.8.0/proj4.js"></script>
+		</head>
 
         <body>
             <jsp:include page="header.jsp" />
@@ -59,7 +60,10 @@
 												    <i class="fas fa-heart-broken"></i>
 												</div>
 							                    <div class="comparison-apt-info">
-							                        <h3 class="comparison-apt-name">${apt.aptNm}</h3>
+<!--							                        <h3 class="comparison-apt-name">${apt.aptNm}</h3>-->
+							                        <h3 class="comparison-apt-name">
+														${fn:split(apt.aptNm, '(')[0]}
+													</h3>
 							                        <div class="comparison-apt-location">${apt.estateAgentSggNm}</div>
 													<c:choose>
 													    <c:when test="${not empty apt.subwayStation}">
@@ -172,7 +176,7 @@
 			            </div>
 			        </div>
 			    </div>
-            <script>
+			<script>
 				// 아파트 카드 클릭 시 비교 정보 표시
 				document.addEventListener('DOMContentLoaded', function() {
 				    // 아파트 데이터가 로드된 후에 이벤트 리스너를 추가하기 위한 MutationObserver 설정
@@ -563,6 +567,23 @@
 				        }
 				    });
 				});
+				// 좌표계 정의 (EPSG:5179 - 한국 지역 TM 표준 중부원점)
+				proj4.defs('EPSG:5179', '+proj=tmerc +lat_0=38 +lon_0=127.5 +k=0.9996 +x_0=1000000 +y_0=2000000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs');
+				proj4.defs('EPSG:4326', '+proj=longlat +datum=WGS84 +no_defs');
+
+				// TM -> WGS84 변환 함수
+				function convertTMToWGS84(x, y) {
+					return proj4('EPSG:5179', 'EPSG:4326', [x, y]);
+				}
+
+
+				let drawnPolygons = []; // 폴리곤
+
+				function clearPolygons() {
+					drawnPolygons.forEach(polygon => polygon.setMap(null));
+					drawnPolygons = [];
+				}
+
 
 				function getApartmentData(sigunguCode) {
 				    // 현재 날짜 객체 생성
@@ -603,6 +624,66 @@
 							
 				        }
 				    });
+					clearPolygons();
+					$.getJSON('resources/json/sig2025.json', function(geojson) {
+						geojson.features.forEach(function(feature) {
+							if (feature.properties.SIG_CD === sigunguCode) {
+								// 좌표 변환
+
+								var coordsArray = feature.geometry.coordinates;
+
+								// Polygon: [ [ [lng, lat], ... ] ]
+								// MultiPolygon: [ [ [ [lng, lat], ... ] ], ... ]
+								let paths = [];
+								if (feature.geometry.type === 'Polygon') {
+									// paths = coordsArray.map(ring =>
+									// 		ring.map(coord => new kakao.maps.LatLng(coord[1], coord[0]))
+									// );
+									coordsArray.forEach(ring => {
+										const transformedRing = ring.map(coord => {
+											// TM -> WGS84 변환
+											const wgs84 = convertTMToWGS84(coord[0], coord[1]);
+											return new kakao.maps.LatLng(wgs84[1], wgs84[0]); // 위도, 경도 순서
+										});
+										paths.push(transformedRing);
+									});
+
+								} else if (feature.geometry.type === 'MultiPolygon') {
+									// paths = [];
+									// coordsArray.forEach(polygon => {
+									// 	polygon.forEach(ring => {
+									// 		paths.push(ring.map(coord => new kakao.maps.LatLng(coord[1], coord[0])));
+									// 	});
+									// });
+									// MultiPolygon은 여러 개의 Polygon 배열
+									coordsArray.forEach(polygon => {
+										polygon.forEach(ring => {
+											const transformedRing = ring.map(coord => {
+												// TM -> WGS84 변환
+												const wgs84 = convertTMToWGS84(coord[0], coord[1]);
+												return new kakao.maps.LatLng(wgs84[1], wgs84[0]); // 위도, 경도 순서
+											});
+											paths.push(transformedRing);
+										});
+									});
+								}
+
+								// 폴리곤 그리기
+								paths.forEach(path => {
+									var polygon = new kakao.maps.Polygon({
+										path: path,
+										strokeWeight: 2,
+										strokeColor: 'red',
+										strokeOpacity: 0.8,
+										fillColor: 'rgb(155, 155, 155)',
+										fillOpacity: 0.3
+									});
+									polygon.setMap(map);
+									drawnPolygons.push(polygon); // 배열에 저장
+								});
+							}
+						});
+					});
 				}
 
 				let apartmentMarkers = [];
@@ -829,6 +910,7 @@
 								})
 
             </script>
+
         </body>
 
         </html>

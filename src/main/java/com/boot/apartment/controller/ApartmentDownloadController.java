@@ -6,11 +6,16 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.boot.apartment.dto.ApartmentTradeDTO;
@@ -26,9 +31,30 @@ import lombok.extern.slf4j.Slf4j;
 public class ApartmentDownloadController {
 	private final ApartmentDownloadService apartmentDownloadService;
 
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+
+	@PostMapping("/execute-procedure")
+	@ResponseBody
+	public Map<String, Object> executeProcedure(@RequestBody Map<String, String> request) {
+		String procedure = request.get("procedure");
+		Map<String, Object> response = new HashMap<>();
+
+		try {
+			jdbcTemplate.execute("EXEC " + procedure);
+			response.put("success", true);
+		} catch (Exception e) {
+			response.put("success", false);
+			response.put("error", e.getMessage());
+		}
+
+		return response;
+	}
+
 	@GetMapping("/download")
 	public ResponseEntity<?> downloadApartmentinfo(@RequestParam(required = false) String yearMonth,
 			HttpServletRequest request) {
+		yearMonth = "202503";
 		BasicUserDTO user = (BasicUserDTO) request.getAttribute("user");
 		if (user.getUserAdmin() != 1) {
 			return ResponseEntity.status(404).build();
