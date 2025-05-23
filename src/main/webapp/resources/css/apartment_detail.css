@@ -218,8 +218,8 @@ body {
 }
 
 .apartment-category {
-  background-color: var(--primary-light);
-  color: var(--primary);
+  background-color: var(--primary);
+  color: #fff;
   padding: 0.25rem 0.5rem;
   border-radius: 2rem;
   font-size: 0.75rem;
@@ -229,7 +229,7 @@ body {
 
 .apartment-price {
   background-color: var(--secondary-light);
-  color: var(--secondary);
+  color: #fff;
   padding: 0.25rem 0.5rem;
   border-radius: 2rem;
   font-size: 0.75rem;
@@ -237,10 +237,7 @@ body {
   transition: all 0.2s;
 }
 
-.apartment-category:hover {
-  background-color: var(--primary);
-  color: white;
-}
+
 
 .apartment-image-section {
   display: flex;
@@ -370,7 +367,8 @@ body {
 }
 
 .secondary-button:hover {
-  background-color: var(--primary-light);
+  background-color: var(--primary);
+  color: #fff;
 }
 
 .danger-button {
@@ -857,7 +855,6 @@ textarea.form-control {
   padding: 3rem 1rem;
   background-color: #f8f9fa;
   border-radius: 8px;
-  margin: 2rem 0;
 }
 
 .no-reviews-content {
