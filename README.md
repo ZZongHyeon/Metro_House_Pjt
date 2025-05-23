@@ -260,7 +260,6 @@ CREATE TABLE "METRO_HOUSE"."APARTMENTINFO_QUEUE"
 CREATE INDEX idx_apartmentqueue_id ON APARTMENTINFO_QUEUE(apartmentid);
 
 ----------------------------------------------------------------------------------------------apartment procedure
-
 create or replace PROCEDURE process_apartmentinfo_queue IS
     CURSOR cur IS
   SELECT * FROM APARTMENTINFO_QUEUE WHERE PROCESSED = 'N' FOR UPDATE SKIP LOCKED;
@@ -281,7 +280,45 @@ BEGIN
             v_table_name := 'A_' || rec.DEALYEAR || '_' || rec.DEALMONTH || '_' || rec.SGGCD;
             SELECT COUNT(*) INTO v_count FROM user_tables WHERE table_name = UPPER(v_table_name);
             IF v_count = 0 THEN
-                v_sql := 'CREATE TABLE ' || v_table_name || ' ( ... )'; -- 테이블 정의 생략
+                v_sql := 'CREATE TABLE ' || v_table_name || ' (
+                    APARTMENTID         NUMBER PRIMARY KEY,
+                    SGGCD               VARCHAR2(10),
+                    UMDNM               VARCHAR2(100),
+                    APTNM               VARCHAR2(200),
+                    JIBUN               VARCHAR2(100),
+                    EXCLUUSEAR          VARCHAR2(50),
+                    DEALYEAR            VARCHAR2(4),
+                    DEALMONTH           VARCHAR2(2),
+                    DEALDAY             VARCHAR2(2),
+                    DEALAMOUNT          VARCHAR2(100),
+                    FLOOR               VARCHAR2(10),
+                    BUILDYEAR           VARCHAR2(4),
+                    CDEALTYPE           VARCHAR2(50),
+                    CDEALDAY            VARCHAR2(50),
+                    DEALINGGBN          VARCHAR2(50),
+                    ESTATEAGENTSGGNM    VARCHAR2(100),
+                    RGSTDATE            VARCHAR2(50),
+                    APTDONG             VARCHAR2(50),
+                    SLERGBN             VARCHAR2(50),
+                    BUYERGBN            VARCHAR2(50),
+                    LANDLEASEHOLDGBN    VARCHAR2(50),
+                    APTSEQ              VARCHAR2(50),
+                    BONBUN              VARCHAR2(50),
+                    BUBUN               VARCHAR2(50),
+                    LANDCD              VARCHAR2(50),
+                    ROADNM              VARCHAR2(200),
+                    ROADNMBONBUN        VARCHAR2(50),
+                    ROADNMBUBUN         VARCHAR2(50),
+                    ROADNMCD            VARCHAR2(50),
+                    ROADNMSEQ           VARCHAR2(50),
+                    ROADNMSGGCD         VARCHAR2(50),
+                    ROADNMBCD           VARCHAR2(50),
+                    UMDCD               VARCHAR2(50),
+                    LAT                 NUMBER(12,8),
+                    LNG                 NUMBER(12,8),
+                    SUBWAYSTATION       VARCHAR2(100),
+                    SUBWAYDISTANCE      VARCHAR2(50)
+                )'; -- 테이블 정의 생략
                 EXECUTE IMMEDIATE v_sql;
             END IF;
         END LOOP;
