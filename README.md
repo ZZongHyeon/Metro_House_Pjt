@@ -277,7 +277,7 @@ BEGIN
         v_sql        VARCHAR2(4000);
     BEGIN
         FOR rec IN tab_cur LOOP
-            v_table_name := 'A_' || rec.DEALYEAR || '_' || rec.DEALMONTH || '_' || rec.SGGCD;
+            v_table_name := 'Z_' || rec.DEALYEAR || '_' || rec.DEALMONTH || '_' || rec.SGGCD;
             SELECT COUNT(*) INTO v_count FROM user_tables WHERE table_name = UPPER(v_table_name);
             IF v_count = 0 THEN
                 v_sql := 'CREATE TABLE ' || v_table_name || ' (
