@@ -225,7 +225,9 @@
                     </div>
                 </div>
                 <div class="overlay-footer">
-                    <button class="overlay-button favorite" style="width: 100%;" data-lat="`+lat+`" data-lng="`+lng+`" data-dealamount="`+dealAmountRaw+`" data-apt-id="`+uniqueAptIdForFavorite+`">관심 등록</button>
+                    <button class="overlay-button favorite" style="width: 100%;" data-lat="`+lat+`" data-lng="`+lng+`" data-dealamount="`+dealAmountRaw+`" data-apt-id="`+uniqueAptIdForFavorite+`">
+						<i class="fas fa-heart"></i>관심 등록
+					</button>
                 </div>
             </div>
         `;

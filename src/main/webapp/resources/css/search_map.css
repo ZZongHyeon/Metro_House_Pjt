@@ -394,16 +394,12 @@ main.content {
 }
 
 .overlay-button.favorite:hover {
-	background-color: var(--primary-light);
-}
-
-.overlay-button.contact {
 	background-color: var(--primary);
-	color: white;
+	color: #fff;
 }
 
-.overlay-button.contact:hover {
-	background-color: var(--primary-dark);
+.overlay-button i{
+	margin-right: 5px;
 }
 
 /* 아파트 카드 스타일 개선 */
