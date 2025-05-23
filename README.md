@@ -212,5 +212,190 @@ START WITH 1
 INCREMENT BY 1
 NOCACHE
 NOCYCLE;
+
+
+
+-------------------------------------------------------------------------아파트 큐(년,월,시군구코드)
+CREATE TABLE "METRO_HOUSE"."APARTMENTINFO_QUEUE" 
+   (   "QUEUE_ID" NUMBER, 
+   "APARTMENTID" NUMBER, 
+   "SGGCD" VARCHAR2(10), 
+   "UMDNM" VARCHAR2(100), 
+   "APTNM" VARCHAR2(200), 
+   "JIBUN" VARCHAR2(100), 
+   "EXCLUUSEAR" VARCHAR2(50), 
+   "DEALYEAR" VARCHAR2(4), 
+   "DEALMONTH" VARCHAR2(2), 
+   "DEALDAY" VARCHAR2(2), 
+   "DEALAMOUNT" VARCHAR2(100), 
+   "FLOOR" VARCHAR2(10), 
+   "BUILDYEAR" VARCHAR2(4), 
+   "CDEALTYPE" VARCHAR2(50), 
+   "CDEALDAY" VARCHAR2(50), 
+   "DEALINGGBN" VARCHAR2(50), 
+   "ESTATEAGENTSGGNM" VARCHAR2(100), 
+   "RGSTDATE" VARCHAR2(50), 
+   "APTDONG" VARCHAR2(50), 
+   "SLERGBN" VARCHAR2(50), 
+   "BUYERGBN" VARCHAR2(50), 
+   "LANDLEASEHOLDGBN" VARCHAR2(50), 
+   "APTSEQ" VARCHAR2(50), 
+   "BONBUN" VARCHAR2(50), 
+   "BUBUN" VARCHAR2(50), 
+   "LANDCD" VARCHAR2(50), 
+   "ROADNM" VARCHAR2(200), 
+   "ROADNMBONBUN" VARCHAR2(50), 
+   "ROADNMBUBUN" VARCHAR2(50), 
+   "ROADNMCD" VARCHAR2(50), 
+   "ROADNMSEQ" VARCHAR2(50), 
+   "ROADNMSGGCD" VARCHAR2(50), 
+   "ROADNMBCD" VARCHAR2(50), 
+   "UMDCD" VARCHAR2(50), 
+   "LAT" NUMBER(12,8), 
+   "LNG" NUMBER(12,8), 
+   "SUBWAYSTATION" VARCHAR2(100), 
+   "SUBWAYDISTANCE" VARCHAR2(50), 
+   "PROCESSED" CHAR(1) DEFAULT 'N'
+   )
+CREATE INDEX idx_apartmentqueue_id ON APARTMENTINFO_QUEUE(apartmentid);
+
+----------------------------------------------------------------------------------------------apartment procedure
+
+create or replace PROCEDURE process_apartmentinfo_queue IS
+    CURSOR cur IS
+  SELECT * FROM APARTMENTINFO_QUEUE WHERE PROCESSED = 'N' FOR UPDATE SKIP LOCKED;
+BEGIN
+-------------------------------------------------------------------
+    -- [여기] 커서 루프 전에 필요한 동적 테이블을 미리 모두 생성
+    -------------------------------------------------------------------
+    DECLARE
+        CURSOR tab_cur IS
+            SELECT DISTINCT DEALYEAR, DEALMONTH, SGGCD
+              FROM APARTMENTINFO_QUEUE
+             WHERE PROCESSED = 'N';
+        v_table_name VARCHAR2(100);
+        v_count      NUMBER;
+        v_sql        VARCHAR2(4000);
+    BEGIN
+        FOR rec IN tab_cur LOOP
+            v_table_name := 'A_' || rec.DEALYEAR || '_' || rec.DEALMONTH || '_' || rec.SGGCD;
+            SELECT COUNT(*) INTO v_count FROM user_tables WHERE table_name = UPPER(v_table_name);
+            IF v_count = 0 THEN
+                v_sql := 'CREATE TABLE ' || v_table_name || ' ( ... )'; -- 테이블 정의 생략
+                EXECUTE IMMEDIATE v_sql;
+            END IF;
+        END LOOP;
+    END;
+    -------------------------------------------------------------------
+    -- [여기까지] 미리 테이블 생성
+    -------------------------------------------------------------------
+    FOR rec IN cur LOOP
+        -- 동적 테이블명 생성
+        DECLARE
+            v_table_name VARCHAR2(100);
+            v_sql        VARCHAR2(4000);
+            v_count      NUMBER;
+            v_dup_count  NUMBER;
+        BEGIN
+            v_table_name := 'A_' || rec.DEALYEAR || '_' || rec.DEALMONTH || '_' || rec.SGGCD;
+
+            -- 테이블 존재 여부 확인
+            SELECT COUNT(*) INTO v_count FROM user_tables WHERE table_name = UPPER(v_table_name);
+
+            IF v_count = 0 THEN
+                v_sql := 'CREATE TABLE ' || v_table_name || ' (
+                    APARTMENTID         NUMBER PRIMARY KEY,
+                    SGGCD               VARCHAR2(10),
+                    UMDNM               VARCHAR2(100),
+                    APTNM               VARCHAR2(200),
+                    JIBUN               VARCHAR2(100),
+                    EXCLUUSEAR          VARCHAR2(50),
+                    DEALYEAR            VARCHAR2(4),
+                    DEALMONTH           VARCHAR2(2),
+                    DEALDAY             VARCHAR2(2),
+                    DEALAMOUNT          VARCHAR2(100),
+                    FLOOR               VARCHAR2(10),
+                    BUILDYEAR           VARCHAR2(4),
+                    CDEALTYPE           VARCHAR2(50),
+                    CDEALDAY            VARCHAR2(50),
+                    DEALINGGBN          VARCHAR2(50),
+                    ESTATEAGENTSGGNM    VARCHAR2(100),
+                    RGSTDATE            VARCHAR2(50),
+                    APTDONG             VARCHAR2(50),
+                    SLERGBN             VARCHAR2(50),
+                    BUYERGBN            VARCHAR2(50),
+                    LANDLEASEHOLDGBN    VARCHAR2(50),
+                    APTSEQ              VARCHAR2(50),
+                    BONBUN              VARCHAR2(50),
+                    BUBUN               VARCHAR2(50),
+                    LANDCD              VARCHAR2(50),
+                    ROADNM              VARCHAR2(200),
+                    ROADNMBONBUN        VARCHAR2(50),
+                    ROADNMBUBUN         VARCHAR2(50),
+                    ROADNMCD            VARCHAR2(50),
+                    ROADNMSEQ           VARCHAR2(50),
+                    ROADNMSGGCD         VARCHAR2(50),
+                    ROADNMBCD           VARCHAR2(50),
+                    UMDCD               VARCHAR2(50),
+                    LAT                 NUMBER(12,8),
+                    LNG                 NUMBER(12,8),
+                    SUBWAYSTATION       VARCHAR2(100),
+                    SUBWAYDISTANCE      VARCHAR2(50)
+                )';
+                EXECUTE IMMEDIATE v_sql;
+            END IF;
+
+            -- 중복 체크
+            v_sql := 'SELECT COUNT(*) FROM ' || v_table_name || ' WHERE APARTMENTID = :1';
+            EXECUTE IMMEDIATE v_sql INTO v_dup_count USING rec.APARTMENTID;
+
+            IF v_dup_count = 0 THEN
+                -- 데이터 INSERT
+                v_sql := 'INSERT INTO ' || v_table_name || ' (
+                    APARTMENTID, SGGCD, UMDNM, APTNM, JIBUN, EXCLUUSEAR, DEALYEAR, DEALMONTH, DEALDAY,
+                    DEALAMOUNT, FLOOR, BUILDYEAR, CDEALTYPE, CDEALDAY, DEALINGGBN, ESTATEAGENTSGGNM,
+                    RGSTDATE, APTDONG, SLERGBN, BUYERGBN, LANDLEASEHOLDGBN, APTSEQ, BONBUN, BUBUN,
+                    LANDCD, ROADNM, ROADNMBONBUN, ROADNMBUBUN, ROADNMCD, ROADNMSEQ, ROADNMSGGCD,
+                    ROADNMBCD, UMDCD, LAT, LNG, SUBWAYSTATION, SUBWAYDISTANCE
+                ) VALUES (
+                    :1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15, :16, :17, :18, :19, :20, :21, :22, :23, :24, :25, :26, :27, :28, :29, :30, :31, :32, :33, :34, :35, :36, :37
+                )';
+
+                EXECUTE IMMEDIATE v_sql USING
+                    rec.APARTMENTID, rec.SGGCD, rec.UMDNM, rec.APTNM, rec.JIBUN, rec.EXCLUUSEAR, rec.DEALYEAR, rec.DEALMONTH, rec.DEALDAY,
+                    rec.DEALAMOUNT, rec.FLOOR, rec.BUILDYEAR, rec.CDEALTYPE, rec.CDEALDAY, rec.DEALINGGBN, rec.ESTATEAGENTSGGNM,
+                    rec.RGSTDATE, rec.APTDONG, rec.SLERGBN, rec.BUYERGBN, rec.LANDLEASEHOLDGBN, rec.APTSEQ, rec.BONBUN, rec.BUBUN,
+                    rec.LANDCD, rec.ROADNM, rec.ROADNMBONBUN, rec.ROADNMBUBUN, rec.ROADNMCD, rec.ROADNMSEQ, rec.ROADNMSGGCD,
+                    rec.ROADNMBCD, rec.UMDCD, rec.LAT, rec.LNG, rec.SUBWAYSTATION, rec.SUBWAYDISTANCE;
+            END IF;
+
+            -- 처리 완료 표시
+            UPDATE APARTMENTINFO_QUEUE SET PROCESSED = 'Y' WHERE CURRENT OF cur;
+        END;
+    END LOOP;
+END;
+----------------------------------------------------------------------------------------------apartment trigger
+create or replace TRIGGER trg_apartmentinfo_insert
+AFTER INSERT ON apartmentinfo
+FOR EACH ROW
+BEGIN
+  INSERT INTO apartmentinfo_queue (
+    apartmentId, sggcd, umdnm, aptnm, jibun, excluusear,
+    dealYear, dealMonth, dealDay, dealAmount, floor, buildYear, cdealType, cdealDay,
+    dealingGbn, estateAgentSggnm, rgstDate, aptDong, slerGbn, buyerGbn,
+    landLeaseHoldGbn, aptSeq, bonbun, bubun, landCd, roadNm, roadNmBonbun,
+    roadNmBubun, roadNmCd, roadNmSeq, roadNmSggcd, roadNmBcd, umdcd,
+    lat, lng, subwayStation, subwayDistance
+  ) VALUES (
+    :NEW.apartmentId, :NEW.sggcd, :NEW.umdnm, :NEW.aptnm, :NEW.jibun, :NEW.excluusear,
+    :NEW.dealYear, :NEW.dealMonth, :NEW.dealDay, :NEW.dealAmount, :NEW.floor, :NEW.buildYear, :NEW.cdealType, :NEW.cdealDay,
+    :NEW.dealingGbn, :NEW.estateAgentSggnm, :NEW.rgstDate, :NEW.aptDong, :NEW.slerGbn, :NEW.buyerGbn,
+    :NEW.landLeaseHoldGbn, :NEW.aptSeq, :NEW.bonbun, :NEW.bubun, :NEW.landCd, :NEW.roadNm, :NEW.roadNmBonbun,
+    :NEW.roadNmBubun, :NEW.roadNmCd, :NEW.roadNmSeq, :NEW.roadNmSggcd, :NEW.roadNmBcd, :NEW.umdcd,
+    :NEW.lat, :NEW.lng, :NEW.subwayStation, :NEW.subwayDistance
+  );
+END;
+
+
   </code></pre>
 </details>
