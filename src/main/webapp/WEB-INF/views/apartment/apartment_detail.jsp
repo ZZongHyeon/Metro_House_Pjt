@@ -16,6 +16,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/resources/css/board_view.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/apartment_detail.css">
+	
+	<!-- Chart.js -->
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -90,9 +93,17 @@
                     </ul>
 
                     <div class="tab-content">
-                        <div id="description" class="tab-panel active" role="tabpanel">
-                            그래프넣을예정
-                        </div>
+<!--                        <div id="description" class="tab-panel active" role="tabpanel">-->
+<!--                            그래프넣을예정-->
+<!--                        </div>-->
+						<div id="description" class="tab-panel active" role="tabpanel">
+						    <div class="price-graph-container">
+						        <h3 class="graph-title">실제 거래 데이터</h3>
+						        <div class="price-graph">
+						            <canvas id="priceChart"></canvas>
+						        </div>
+						    </div>
+						</div>
 
                         <div id="reviews" class="tab-panel" role="tabpanel">
                             <div class="reviews-section">
@@ -294,594 +305,720 @@
             </div>
         </div>
     </div>
+	<script>
+	    // 페이징처리
+	    var actionForm = $("#actionForm");
 
-    <script>
-        // 페이징처리
-        var actionForm = $("#actionForm");
+	    // 페이지번호 처리
+	    $(".paginate_button a").on("click", function (e) {
+	        e.preventDefault();
+	        console.log("click했음");
+	        console.log("@# href => " + $(this).attr("href"));
 
-        // 페이지번호 처리
-		$(".paginate_button a").on("click", function (e) {
-		    e.preventDefault();
-		    console.log("click했음");
-		    console.log("@# href => " + $(this).attr("href"));
+	        // 현재 활성화된 탭 확인 및 저장
+	        const activeTab = document.querySelector('.tab-item.active');
+	        if (activeTab && activeTab.dataset.tab === 'reviews') {
+	            sessionStorage.setItem("activeTab", "reviews");
+	        }
 
-		    // 현재 활성화된 탭 확인 및 저장
-		    const activeTab = document.querySelector('.tab-item.active');
-		    if (activeTab && activeTab.dataset.tab === 'reviews') {
-		        sessionStorage.setItem("activeTab", "reviews");
+	        // 페이지 번호 설정
+	        actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+
+	        // 폼 제출
+	        actionForm.submit();
+	    });
+
+	    // JWT 토큰 관리 함수들
+	    function getJwtToken() {
+	        return localStorage.getItem('jwtToken');
+	    }
+
+	    function setJwtToken(token) {
+	        localStorage.setItem('jwtToken', token);
+	    }
+
+	    function removeJwtToken() {
+	        localStorage.removeItem('jwtToken');
+	    }
+
+	    function getCurrentUser() {
+	        // 테스트를 위해 임시로 사용자 정보 하드코딩
+	        return {
+	            userNumber: 1,
+	            userName: "테스트사용자",
+	            userAdmin: 0
+	        };
+	    }
+
+	    // AJAX 요청에 JWT 토큰 헤더 추가
+	    function setupAjaxWithJWT() {
+	        $.ajaxSetup({
+	            beforeSend: function(xhr) {
+	                const token = getJwtToken();
+	                if (token) {
+	                    xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+	                }
+	            }
+	        });
+	    }
+
+	    function checkUserPermissions() {
+	        const user = getCurrentUser();
+	        if (user && user.userAdmin === 1) {
+	            $('#adminMenuContainer').show();
+	        }
+	    }
+
+	    function updateReviewActionButtons() {
+	        const currentUser = getCurrentUser();
+	        if (!currentUser) return;
+
+	        $('.review-edit-delete').each(function() {
+	            const reviewUserNumber = parseInt($(this).data('user-number'));
+	            if (currentUser.userNumber === reviewUserNumber || currentUser.userAdmin === 1) {
+	                $(this).show();
+	            }
+	        });
+	    }
+
+	    function updateHelpfulButtonsUI() {
+	        $('.review-card').each(function() {
+	            const likeButton = $(this).find('.review-action-icon.like');
+	            
+	            if (likeButton.hasClass('active')) {
+	                likeButton.removeClass('far').addClass('fas');
+	            } else {
+	                likeButton.removeClass('fas').addClass('far');
+	            }
+	        });
+	    }
+
+	    function markHelpful(reviewId, element) {
+	        const isActive = $(element).hasClass('active');
+	        
+	        $.ajax({
+	            type: "post",
+	            url: isActive ? "review_unhelpful" : "review_helpful",
+	            data: { reviewId: reviewId },
+	            success: function(response) {
+	                if (response.success) {
+	                    if (isActive) {
+	                        $(element).removeClass('active fas').addClass('far');
+	                    } else {
+	                        $(element).removeClass('far').addClass('fas active');
+	                    }
+	                    
+	                    const helpfulCountElement = $(element).closest('.helpful-container').find('.helpful-count');
+	                    if (helpfulCountElement.length > 0) {
+	                        helpfulCountElement.text(response.helpfulCount);
+	                    }
+	                    
+	                    saveHelpfulState(reviewId, !isActive);
+	                } else {
+	                    alert(response.message || '도움됨 처리 중 오류가 발생했습니다.');
+	                }
+	            },
+	            error: function(xhr) {
+	                let errorMessage = '서버 통신 중 오류가 발생했습니다.';
+	                try {
+	                    const response = JSON.parse(xhr.responseText);
+	                    if (response.message) {
+	                        errorMessage = response.message;
+	                    }
+	                } catch (e) {
+	                    console.error('JSON 파싱 오류:', e);
+	                }
+	                alert(errorMessage);
+	            }
+	        });
+	    }
+
+	    function saveHelpfulState(reviewId, isHelpful) {
+	        const currentUser = getCurrentUser();
+	        if (!currentUser) return;
+	        
+	        const userNumber = currentUser.userNumber;
+	        const storageKey = `helpful_${userNumber}`;
+	        
+	        let helpfulData = JSON.parse(localStorage.getItem(storageKey) || '{}');
+	        helpfulData[reviewId] = isHelpful;
+	        
+	        localStorage.setItem(storageKey, JSON.stringify(helpfulData));
+	    }
+
+	    function restoreHelpfulState() {
+	        const currentUser = getCurrentUser();
+	        if (!currentUser) return;
+	        
+	        const userNumber = currentUser.userNumber;
+	        const storageKey = `helpful_${userNumber}`;
+	        
+	        const helpfulData = JSON.parse(localStorage.getItem(storageKey) || '{}');
+	        
+	        $('.review-card').each(function() {
+	            const reviewId = $(this).find('.review-id-hidden').val();
+	            const likeButton = $(this).find('.review-action-icon.like');
+	            
+	            if (likeButton.hasClass('active')) {
+	                likeButton.removeClass('far').addClass('fas');
+	            } else if (helpfulData[reviewId]) {
+	                likeButton.addClass('active');
+	                likeButton.removeClass('far').addClass('fas');
+	            }
+	        });
+	    }
+
+	    // 리뷰 폼 초기화
+	    function resetReviewForm() {
+	        document.getElementById('reviewForm').reset();
+	        document.getElementById('ratingInput').value = 0;
+	        document.getElementById('reviewId').value = '';
+	        document.querySelectorAll('.rating-input i').forEach(star => {
+	            star.className = 'far fa-star';
+	        });
+	        document.querySelector('.form-title').textContent = '리뷰 작성하기';
+	        document.querySelector('.form-actions button.primary-button').textContent = '리뷰 등록';
+	    }
+
+	    // 리뷰 제출
+	    function submitReview() {
+	        const reviewId = document.getElementById('reviewId').value;
+	        const apartmentId = document.getElementById('apartmentIdInput').value;
+	        const rating = document.getElementById('ratingInput').value;
+	        const title = document.getElementById('reviewTitle').value;
+	        const content = document.getElementById('reviewContent').value;
+	        
+	        if (rating === '0') {
+	            alert('리뷰를 등록하려면 평점을 선택해주세요.');
+	            return;
+	        }
+	        
+	        if (!title || !title.trim()) {
+	            alert('리뷰 제목을 입력해주세요.');
+	            return;
+	        }
+	        
+	        if (!content || !content.trim()) {
+	            alert('리뷰 내용을 입력해주세요.');
+	            return;
+	        }
+	        
+	        const url = reviewId ? "updateReview" : "insertReview";
+	        
+	        const requestData = {
+	            apartmentId: apartmentId,
+	            reviewRating: rating,
+	            reviewTitle: title,
+	            reviewContent: content
+	        };
+	        
+	        if (reviewId) {
+	            requestData.reviewId = reviewId;
+	        }
+	        
+	        $.ajax({
+	            type: "post",
+	            url: url,
+	            data: requestData,
+	            success: function(response) {
+	                if (response.success) {
+	                    alert(response.message);
+	                    resetReviewForm();
+	                    
+	                    setTimeout(function() {
+	                        sessionStorage.setItem("activeTab", "reviews");
+	                        location.reload();
+	                    }, 1000);
+	                } else {
+	                    alert(response.message || '처리 중 오류가 발생했습니다.');
+	                }
+	            },
+	            error: function(xhr, status, error) {
+	                console.error("AJAX 오류:", status, error);
+	                console.error("응답 텍스트:", xhr.responseText);
+	                
+	                let errorMessage = '서버 통신 중 오류가 발생했습니다.';
+	                
+	                try {
+	                    if (xhr.responseJSON && xhr.responseJSON.message) {
+	                        errorMessage = xhr.responseJSON.message;
+	                    } else if (xhr.responseText) {
+	                        try {
+	                            const response = JSON.parse(xhr.responseText);
+	                            if (response.message) {
+	                                errorMessage = response.message;
+	                            }
+	                        } catch (e) {
+	                            console.error("JSON 파싱 오류:", e);
+	                            errorMessage = xhr.responseText;
+	                        }
+	                    }
+	                } catch (e) {
+	                    console.error("응답 처리 오류:", e);
+	                }
+	                
+	                alert(errorMessage);
+	            }
+	        });
+	    }
+
+	    // 리뷰 삭제 확인
+	    function confirmDeleteReview(reviewId) {
+	        if (confirm('정말로 이 리뷰를 삭제하시겠습니까?')) {
+	            deleteReview(reviewId);
+	        }
+	    }
+
+	    // 리뷰 삭제 실행
+	    function deleteReview(reviewId) {
+	        $.ajax({
+	            type: "post",
+	            url: "deleteReview",
+	            data: { reviewId: reviewId },
+	            success: function(response) {
+	                if (response.success) {
+	                    alert('리뷰가 성공적으로 삭제되었습니다.');
+	                    setTimeout(() => {
+	                        sessionStorage.setItem("activeTab", "reviews");
+	                        location.reload();
+	                    }, 1000);
+	                } else {
+	                    alert(response.message || '리뷰 삭제에 실패했습니다.');
+	                }
+	            },
+	            error: function() {
+	                alert('서버 통신 중 오류가 발생했습니다.');
+	            }
+	        });
+	    }
+
+	    // 관심목록에 추가
+	    function addToFavorites(apartmentId) {
+	        // 아파트 정보에서 필요한 데이터 가져오기
+	        const lat = 0; // 실제 위도 값으로 대체 필요
+	        const lng = 0; // 실제 경도 값으로 대체 필요
+	        const dealAmount = '${apartment.dealAmount}' || 0;
+	        
+	        $.ajax({
+	            url: '/favorite/insert',
+	            type: 'POST',
+	            contentType: 'application/json',
+	            data: JSON.stringify({
+	                apartmentId: apartmentId,
+	                lat: lat,
+	                lng: lng,
+	                dealAmount: dealAmount
+	            }),
+	            xhrFields: {
+	                withCredentials: true
+	            },
+	            success: function () {
+	                alert('관심목록에 등록되었습니다.');
+	                location.reload();
+	            },
+	            error: function () {
+	                alert('관심등록 실패!');
+	            }
+	        });
+	    }
+
+		// 가격 데이터 그래프 생성 함수
+		function createPriceChart() {
+		    // 서버에서 전달받은 가격 데이터
+		    const priceData = ${priceDataJson};
+		    
+		    // 디버깅: 실제 데이터 구조 확인
+		    console.log('Price Data:', priceData);
+		    
+		    if (priceData && priceData.length > 0) {
+		        // 첫 번째 항목의 키 확인
+		        const firstItem = priceData[0];
+		        console.log('First item keys:', Object.keys(firstItem));
+		        
+		        // 연도별로 그룹화하고 평균 계산 (JavaScript에서 처리)
+		        const yearlyData = {};
+		        
+		        priceData.forEach(item => {
+		            // 대문자 키로 접근 (YEAR, PRICE)
+		            const year = item.YEAR || item.year;
+		            const priceStr = String(item.PRICE || item.price || '0');
+		            
+		            // 데이터 유효성 검사 추가
+		            if (!year || !priceStr) {
+		                console.warn('Invalid data item:', item);
+		                return; // 이 항목은 건너뜀
+		            }
+		            
+		            // 안전하게 숫자로 변환 (쉼표 제거 후)
+		            const price = parseFloat(priceStr.replace(/,/g, ''));
+		            
+		            if (isNaN(price)) {
+		                console.warn('Invalid price value:', priceStr);
+		                return; // 유효하지 않은 가격은 건너뜀
+		            }
+		            
+		            if (!yearlyData[year]) {
+		                yearlyData[year] = {
+		                    total: 0,
+		                    count: 0
+		                };
+		            }
+		            
+		            yearlyData[year].total += price;
+		            yearlyData[year].count += 1;
+		        });
+		        
+		        // 연도별 평균 계산
+		        const years = Object.keys(yearlyData).sort();
+		        const avgPrices = years.map(year => {
+		            return Math.round(yearlyData[year].total / yearlyData[year].count);
+		        });
+		        
+		        // 데이터가 있는지 확인
+		        if (years.length === 0) {
+		            $('#priceChart').parent().html('<div class="no-data-message">거래 데이터가 없습니다.</div>');
+		            return;
+		        }
+		        
+		        console.log('Processed years:', years);
+		        console.log('Processed prices:', avgPrices);
+		        
+		        const ctx = document.getElementById('priceChart').getContext('2d');
+		        new Chart(ctx, {
+		            type: 'line',
+		            data: {
+		                labels: years,
+		                datasets: [{
+		                    label: '평균 거래가격 (만원)',
+		                    data: avgPrices,
+		                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+		                    borderColor: 'rgba(75, 192, 192, 1)',
+		                    borderWidth: 2,
+		                    tension: 0.1,
+		                    pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+		                    pointRadius: 5,
+		                    pointHoverRadius: 7
+		                }]
+		            },
+		            options: {
+		                responsive: true,
+		                maintainAspectRatio: false,
+		                scales: {
+		                    y: {
+		                        beginAtZero: false,
+		                        title: {
+		                            display: true,
+		                            text: '가격 (만원)'
+		                        },
+		                        ticks: {
+		                            callback: function(value) {
+		                                return value.toLocaleString() + '만원';
+		                            }
+		                        }
+		                    },
+		                    x: {
+		                        title: {
+		                            display: true,
+		                            text: '연도'
+		                        }
+		                    }
+		                },
+		                plugins: {
+		                    title: {
+		                        display: true,
+		                        text: '${apartment.aptNm} 연도별 평균 거래가격',
+		                        font: {
+		                            size: 16
+		                        }
+		                    },
+		                    tooltip: {
+		                        callbacks: {
+		                            label: function(context) {
+		                                return context.dataset.label + ': ' + context.parsed.y.toLocaleString() + '만원';
+		                            }
+		                        }
+		                    }
+		                }
+		            }
+		        });
+		    } else {
+		        $('#priceChart').parent().html('<div class="no-data-message">거래 데이터가 없습니다.</div>');
 		    }
+		}
 
-		    // 페이지 번호 설정
-		    actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+	    // 페이지 로드 시 초기화
+	    $(document).ready(function() {
+	        setupAjaxWithJWT();
+	        checkUserPermissions();
+	        updateReviewActionButtons();
+	        restoreHelpfulState();
+	        
+	        // 가격 그래프 생성
+	        createPriceChart();
+	        
+	        // 페이지 로드 시 탭 상태 복원
+	        const activeTab = sessionStorage.getItem("activeTab");
+	        if (activeTab === "reviews") {
+	            document.querySelectorAll('.tab-item').forEach(tab => {
+	                tab.classList.remove('active');
+	                if (tab.dataset.tab === 'reviews') {
+	                    tab.classList.add('active');
+	                }
+	            });
+	            
+	            document.querySelectorAll('.tab-panel').forEach(panel => {
+	                panel.classList.remove('active');
+	                if (panel.id === 'reviews') {
+	                    panel.classList.add('active');
+	                }
+	            });
+	            
+	            sessionStorage.removeItem("activeTab");
+	        }
+	        
+	        // 탭 기능
+	        document.querySelectorAll('.tab-item').forEach(tab => {
+	            tab.addEventListener('click', () => {
+	                document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+	                tab.classList.add('active');
+	                
+	                document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+	                document.getElementById(tab.dataset.tab).classList.add('active');
+	                
+	                sessionStorage.removeItem("activeTab");
+	            });
+	        });
 
-		    // 폼 제출
-		    actionForm.submit();
-		});
+	        // 별점 선택 기능
+	        document.querySelectorAll('.rating-input i').forEach(star => {
+	            star.addEventListener('click', () => {
+	                const rating = parseInt(star.dataset.rating);
+	                document.getElementById('ratingInput').value = rating;
+	                
+	                document.querySelectorAll('.rating-input i').forEach((s, index) => {
+	                    if (index < rating) {
+	                        s.className = 'fas fa-star';
+	                    } else {
+	                        s.className = 'far fa-star';
+	                    }
+	                });
+	            });
+	            
+	            star.addEventListener('mouseenter', () => {
+	                const rating = parseInt(star.dataset.rating);
+	                
+	                document.querySelectorAll('.rating-input i').forEach((s, index) => {
+	                    if (index < rating) {
+	                        s.className = 'fas fa-star';
+	                    } else {
+	                        s.className = 'far fa-star';
+	                    }
+	                });
+	            });
+	            
+	            star.addEventListener('mouseleave', () => {
+	                const currentRating = parseInt(document.getElementById('ratingInput').value);
+	                
+	                document.querySelectorAll('.rating-input i').forEach((s, index) => {
+	                    if (index < currentRating) {
+	                        s.className = 'fas fa-star';
+	                    } else {
+	                        s.className = 'far fa-star';
+	                    }
+	                });
+	            });
+	        });
 
-        // JWT 토큰 관리 함수들
-        function getJwtToken() {
-            return localStorage.getItem('jwtToken');
-        }
+	        // 리뷰 수정 버튼 클릭 이벤트
+	        $(document).on('click', '.review-action-icon.edit', function(e) {
+	            e.preventDefault();
+	            
+	            var reviewCard = $(this).closest('.review-card');
+	            var reviewId = reviewCard.find('.review-id-hidden').val();
+	            
+	            var reviewTitle = reviewCard.find('.review-title').text().trim();
+	            var reviewContent = reviewCard.find('.review-content p').text().trim();
+	            var reviewRating = reviewCard.find('.review-rating .fas.fa-star').length;
+	            
+	            reviewCard.data('originalTitle', reviewTitle);
+	            reviewCard.data('originalContent', reviewContent);
+	            reviewCard.data('originalRating', reviewRating);
+	            
+	            var titleInput = $('<input>').attr({
+	                'type': 'text',
+	                'class': 'edit-review-title',
+	                'value': reviewTitle,
+	                'placeholder': '리뷰 제목'
+	            });
+	            reviewCard.find('.review-title').empty().append(titleInput);
+	            
+	            var contentTextarea = $('<textarea>').attr({
+	                'class': 'edit-review-content',
+	                'placeholder': '리뷰 내용'
+	            }).text(reviewContent);
+	            reviewCard.find('.review-content').empty().append(contentTextarea);
+	            
+	            var ratingDiv = $('<div>').attr('class', 'edit-rating');
+	            var ratingInput = $('<input>').attr({
+	                'type': 'hidden',
+	                'id': 'edit-rating-value',
+	                'value': reviewRating
+	            });
+	            
+	            for (var i = 1; i <= 5; i++) {
+	                var starClass = (i <= reviewRating) ? 'fas fa-star' : 'far fa-star';
+	                var star = $('<i>').attr({
+	                    'class': starClass + ' edit-star',
+	                    'data-value': i
+	                });
+	                ratingDiv.append(star);
+	            }
+	            
+	            reviewCard.find('.review-rating').empty().append(ratingDiv).append(ratingInput);
+	            
+	            reviewCard.find('.edit-star').on('click', function() {
+	                var value = $(this).data('value');
+	                
+	                reviewCard.find('.edit-star').each(function(index) {
+	                    if (index < value) {
+	                        $(this).removeClass('far').addClass('fas');
+	                    } else {
+	                        $(this).removeClass('fas').addClass('far');
+	                    }
+	                });
+	                
+	                reviewCard.find('#edit-rating-value').val(value);
+	            });
+	            
+	            var cancelButton = $('<button>').attr({
+	                'type': 'button',
+	                'class': 'action-button secondary-button cancel-edit'
+	            }).text('취소');
+	            
+	            var saveButton = $('<button>').attr({
+	                'type': 'button',
+	                'class': 'action-button primary-button save-edit',
+	                'data-review-id': reviewId
+	            }).text('저장');
+	            
+	            var actionsDiv = $('<div>').attr('class', 'edit-actions')
+	                .append(cancelButton)
+	                .append(saveButton);
+	            
+	            reviewCard.find('.review-content').append(actionsDiv);
+	            reviewCard.addClass('editing');
+	        });
+	        
+	        // 취소 버튼 클릭 이벤트
+	        $(document).on('click', '.cancel-edit', function() {
+	            var reviewCard = $(this).closest('.review-card');
+	            
+	            var originalTitle = reviewCard.data('originalTitle');
+	            var originalContent = reviewCard.data('originalContent');
+	            var originalRating = reviewCard.data('originalRating');
+	            
+	            reviewCard.find('.review-title').html(originalTitle);
+	            reviewCard.find('.review-content').html('<p>' + originalContent + '</p>');
+	            
+	            var ratingHtml = '';
+	            for (var i = 1; i <= 5; i++) {
+	                if (i <= originalRating) {
+	                    ratingHtml += '<i class="fas fa-star"></i>';
+	                } else {
+	                    ratingHtml += '<i class="far fa-star"></i>';
+	                }
+	            }
+	            reviewCard.find('.review-rating').html(ratingHtml);
+	            reviewCard.removeClass('editing');
+	        });
+	        
+	        // 저장 버튼 클릭 이벤트
+	        $(document).on('click', '.save-edit', function() {
+	            var reviewCard = $(this).closest('.review-card');
+	            var reviewId = $(this).data('review-id');
+	            
+	            var editedTitle = reviewCard.find('.edit-review-title').val();
+	            var editedContent = reviewCard.find('.edit-review-content').val();
+	            var editedRating = parseInt(reviewCard.find('#edit-rating-value').val());
+	            
+	            if (!editedTitle || !editedTitle.trim()) {
+	                alert('리뷰 제목을 입력해주세요.');
+	                return;
+	            }
+	            
+	            if (!editedContent || !editedContent.trim()) {
+	                alert('리뷰 내용을 입력해주세요.');
+	                return;
+	            }
+	            
+	            if (isNaN(editedRating) || editedRating < 1 || editedRating > 5) {
+	                alert('유효한 별점을 선택해주세요.');
+	                return;
+	            }
+	            
+	            $.ajax({
+	                type: "post",
+	                url: "updateReview",
+	                data: {
+	                    reviewId: reviewId,
+	                    reviewTitle: editedTitle,
+	                    reviewContent: editedContent,
+	                    reviewRating: editedRating
+	                },
+	                success: function(response) {
+	                    if (response.success) {
+	                        reviewCard.find('.review-title').html(editedTitle);
+	                        reviewCard.find('.review-content').html('<p>' + editedContent + '</p>');
+	                        
+	                        var ratingHtml = '';
+	                        for (var i = 1; i <= 5; i++) {
+	                            if (i <= editedRating) {
+	                                ratingHtml += '<i class="fas fa-star"></i>';
+	                            } else {
+	                                ratingHtml += '<i class="far fa-star"></i>';
+	                            }
+	                        }
+	                        reviewCard.find('.review-rating').html(ratingHtml);
+	                        reviewCard.removeClass('editing');
+	                        
+	                        alert('리뷰가 성공적으로 수정되었습니다.');
+	                    } else {
+	                        alert(response.message || '리뷰 수정에 실패했습니다.');
+	                    }
+	                },
+	                error: function(xhr, status, error) {
+	                    console.error("AJAX 오류:", status, error);
+	                    console.error("응답 텍스트:", xhr.responseText);
+	                    
+	                    var errorMessage = '리뷰 수정 중 오류가 발생했습니다.';
+	                    try {
+	                        var response = JSON.parse(xhr.responseText);
+	                        if (response.message) {
+	                            errorMessage = response.message;
+	                        }
+	                    } catch (e) {
+	                        console.error('JSON 파싱 오류:', e);
+	                        errorMessage = xhr.responseText;
+	                    }
+	                    
+	                    alert(errorMessage);
+	                }
+	            });
+	        });
 
-        function setJwtToken(token) {
-            localStorage.setItem('jwtToken', token);
-        }
-
-        function removeJwtToken() {
-            localStorage.removeItem('jwtToken');
-        }
-
-        function getCurrentUser() {
-            // 테스트를 위해 임시로 사용자 정보 하드코딩
-            return {
-                userNumber: 1,
-                userName: "테스트사용자",
-                userAdmin: 0
-            };
-        }
-
-        // AJAX 요청에 JWT 토큰 헤더 추가
-        function setupAjaxWithJWT() {
-            $.ajaxSetup({
-                beforeSend: function(xhr) {
-                    const token = getJwtToken();
-                    if (token) {
-                        xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-                    }
-                }
-            });
-        }
-
-        function checkUserPermissions() {
-            const user = getCurrentUser();
-            if (user && user.userAdmin === 1) {
-                $('#adminMenuContainer').show();
-            }
-        }
-
-        function updateReviewActionButtons() {
-            const currentUser = getCurrentUser();
-            if (!currentUser) return;
-
-            $('.review-edit-delete').each(function() {
-                const reviewUserNumber = parseInt($(this).data('user-number'));
-                if (currentUser.userNumber === reviewUserNumber || currentUser.userAdmin === 1) {
-                    $(this).show();
-                }
-            });
-        }
-
-        function updateHelpfulButtonsUI() {
-            $('.review-card').each(function() {
-                const likeButton = $(this).find('.review-action-icon.like');
-                
-                if (likeButton.hasClass('active')) {
-                    likeButton.removeClass('far').addClass('fas');
-                } else {
-                    likeButton.removeClass('fas').addClass('far');
-                }
-            });
-        }
-
-        function markHelpful(reviewId, element) {
-            const isActive = $(element).hasClass('active');
-            
-            $.ajax({
-                type: "post",
-                url: isActive ? "review_unhelpful" : "review_helpful",
-                data: { reviewId: reviewId },
-                success: function(response) {
-                    if (response.success) {
-                        if (isActive) {
-                            $(element).removeClass('active fas').addClass('far');
-                        } else {
-                            $(element).removeClass('far').addClass('fas active');
-                        }
-                        
-                        const helpfulCountElement = $(element).closest('.helpful-container').find('.helpful-count');
-                        if (helpfulCountElement.length > 0) {
-                            helpfulCountElement.text(response.helpfulCount);
-                        }
-                        
-                        saveHelpfulState(reviewId, !isActive);
-                    } else {
-                        alert(response.message || '도움됨 처리 중 오류가 발생했습니다.');
-                    }
-                },
-                error: function(xhr) {
-                    let errorMessage = '서버 통신 중 오류가 발생했습니다.';
-                    try {
-                        const response = JSON.parse(xhr.responseText);
-                        if (response.message) {
-                            errorMessage = response.message;
-                        }
-                    } catch (e) {
-                        console.error('JSON 파싱 오류:', e);
-                    }
-                    alert(errorMessage);
-                }
-            });
-        }
-
-        function saveHelpfulState(reviewId, isHelpful) {
-            const currentUser = getCurrentUser();
-            if (!currentUser) return;
-            
-            const userNumber = currentUser.userNumber;
-            const storageKey = `helpful_${userNumber}`;
-            
-            let helpfulData = JSON.parse(localStorage.getItem(storageKey) || '{}');
-            helpfulData[reviewId] = isHelpful;
-            
-            localStorage.setItem(storageKey, JSON.stringify(helpfulData));
-        }
-
-        function restoreHelpfulState() {
-            const currentUser = getCurrentUser();
-            if (!currentUser) return;
-            
-            const userNumber = currentUser.userNumber;
-            const storageKey = `helpful_${userNumber}`;
-            
-            const helpfulData = JSON.parse(localStorage.getItem(storageKey) || '{}');
-            
-            $('.review-card').each(function() {
-                const reviewId = $(this).find('.review-id-hidden').val();
-                const likeButton = $(this).find('.review-action-icon.like');
-                
-                if (likeButton.hasClass('active')) {
-                    likeButton.removeClass('far').addClass('fas');
-                } else if (helpfulData[reviewId]) {
-                    likeButton.addClass('active');
-                    likeButton.removeClass('far').addClass('fas');
-                }
-            });
-        }
-
-        // 리뷰 폼 초기화
-        function resetReviewForm() {
-            document.getElementById('reviewForm').reset();
-            document.getElementById('ratingInput').value = 0;
-            document.getElementById('reviewId').value = '';
-            document.querySelectorAll('.rating-input i').forEach(star => {
-                star.className = 'far fa-star';
-            });
-            document.querySelector('.form-title').textContent = '리뷰 작성하기';
-            document.querySelector('.form-actions button.primary-button').textContent = '리뷰 등록';
-        }
-
-        // 리뷰 제출
-        function submitReview() {
-            const reviewId = document.getElementById('reviewId').value;
-            const apartmentId = document.getElementById('apartmentIdInput').value;
-            const rating = document.getElementById('ratingInput').value;
-            const title = document.getElementById('reviewTitle').value;
-            const content = document.getElementById('reviewContent').value;
-            
-            if (rating === '0') {
-                alert('리뷰를 등록하려면 평점을 선택해주세요.');
-                return;
-            }
-            
-            if (!title || !title.trim()) {
-                alert('리뷰 제목을 입력해주세요.');
-                return;
-            }
-            
-            if (!content || !content.trim()) {
-                alert('리뷰 내용을 입력해주세요.');
-                return;
-            }
-            
-            const url = reviewId ? "updateReview" : "insertReview";
-            
-            const requestData = {
-                apartmentId: apartmentId,
-                reviewRating: rating,
-                reviewTitle: title,
-                reviewContent: content
-            };
-            
-            if (reviewId) {
-                requestData.reviewId = reviewId;
-            }
-            
-            $.ajax({
-                type: "post",
-                url: url,
-                data: requestData,
-                success: function(response) {
-                    if (response.success) {
-                        alert(response.message);
-                        resetReviewForm();
-                        
-                        setTimeout(function() {
-                            sessionStorage.setItem("activeTab", "reviews");
-                            location.reload();
-                        }, 1000);
-                    } else {
-                        alert(response.message || '처리 중 오류가 발생했습니다.');
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error("AJAX 오류:", status, error);
-                    console.error("응답 텍스트:", xhr.responseText);
-                    
-                    let errorMessage = '서버 통신 중 오류가 발생했습니다.';
-                    
-                    try {
-                        if (xhr.responseJSON && xhr.responseJSON.message) {
-                            errorMessage = xhr.responseJSON.message;
-                        } else if (xhr.responseText) {
-                            try {
-                                const response = JSON.parse(xhr.responseText);
-                                if (response.message) {
-                                    errorMessage = response.message;
-                                }
-                            } catch (e) {
-                                console.error("JSON 파싱 오류:", e);
-                                errorMessage = xhr.responseText;
-                            }
-                        }
-                    } catch (e) {
-                        console.error("응답 처리 오류:", e);
-                    }
-                    
-                    alert(errorMessage);
-                }
-            });
-        }
-
-        // 리뷰 삭제 확인
-        function confirmDeleteReview(reviewId) {
-            if (confirm('정말로 이 리뷰를 삭제하시겠습니까?')) {
-                deleteReview(reviewId);
-            }
-        }
-
-        // 리뷰 삭제 실행
-        function deleteReview(reviewId) {
-            $.ajax({
-                type: "post",
-                url: "deleteReview",
-                data: { reviewId: reviewId },
-                success: function(response) {
-                    if (response.success) {
-                        alert('리뷰가 성공적으로 삭제되었습니다.');
-                        setTimeout(() => {
-                            sessionStorage.setItem("activeTab", "reviews");
-                            location.reload();
-                        }, 1000);
-                    } else {
-                        alert(response.message || '리뷰 삭제에 실패했습니다.');
-                    }
-                },
-                error: function() {
-                    alert('서버 통신 중 오류가 발생했습니다.');
-                }
-            });
-        }
-
-        // 관심목록에 추가
-        function addToFavorites(apartmentId) {
-            // 아파트 정보에서 필요한 데이터 가져오기
-            const lat = 0; // 실제 위도 값으로 대체 필요
-            const lng = 0; // 실제 경도 값으로 대체 필요
-            const dealAmount = '${apartment.dealAmount}' || 0;
-            
-            $.ajax({
-                url: '/favorite/insert',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    apartmentId: apartmentId,
-                    lat: lat,
-                    lng: lng,
-                    dealAmount: dealAmount
-                }),
-                xhrFields: {
-                    withCredentials: true
-                },
-                success: function () {
-                    alert('관심목록에 등록되었습니다.');
-                    location.reload();
-                },
-                error: function () {
-                    alert('관심등록 실패!');
-                }
-            });
-        }
-
-        // 페이지 로드 시 초기화
-        $(document).ready(function() {
-            setupAjaxWithJWT();
-            checkUserPermissions();
-            updateReviewActionButtons();
-            restoreHelpfulState();
-            
-            // 페이지 로드 시 탭 상태 복원
-            const activeTab = sessionStorage.getItem("activeTab");
-            if (activeTab === "reviews") {
-                document.querySelectorAll('.tab-item').forEach(tab => {
-                    tab.classList.remove('active');
-                    if (tab.dataset.tab === 'reviews') {
-                        tab.classList.add('active');
-                    }
-                });
-                
-                document.querySelectorAll('.tab-panel').forEach(panel => {
-                    panel.classList.remove('active');
-                    if (panel.id === 'reviews') {
-                        panel.classList.add('active');
-                    }
-                });
-                
-                sessionStorage.removeItem("activeTab");
-            }
-            
-            // 탭 기능
-            document.querySelectorAll('.tab-item').forEach(tab => {
-                tab.addEventListener('click', () => {
-                    document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-                    
-                    document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
-                    document.getElementById(tab.dataset.tab).classList.add('active');
-                    
-                    sessionStorage.removeItem("activeTab");
-                });
-            });
-
-            // 별점 선택 기능
-            document.querySelectorAll('.rating-input i').forEach(star => {
-                star.addEventListener('click', () => {
-                    const rating = parseInt(star.dataset.rating);
-                    document.getElementById('ratingInput').value = rating;
-                    
-                    document.querySelectorAll('.rating-input i').forEach((s, index) => {
-                        if (index < rating) {
-                            s.className = 'fas fa-star';
-                        } else {
-                            s.className = 'far fa-star';
-                        }
-                    });
-                });
-                
-                star.addEventListener('mouseenter', () => {
-                    const rating = parseInt(star.dataset.rating);
-                    
-                    document.querySelectorAll('.rating-input i').forEach((s, index) => {
-                        if (index < rating) {
-                            s.className = 'fas fa-star';
-                        } else {
-                            s.className = 'far fa-star';
-                        }
-                    });
-                });
-                
-                star.addEventListener('mouseleave', () => {
-                    const currentRating = parseInt(document.getElementById('ratingInput').value);
-                    
-                    document.querySelectorAll('.rating-input i').forEach((s, index) => {
-                        if (index < currentRating) {
-                            s.className = 'fas fa-star';
-                        } else {
-                            s.className = 'far fa-star';
-                        }
-                    });
-                });
-            });
-
-            // 리뷰 수정 버튼 클릭 이벤트
-            $(document).on('click', '.review-action-icon.edit', function(e) {
-                e.preventDefault();
-                
-                var reviewCard = $(this).closest('.review-card');
-                var reviewId = reviewCard.find('.review-id-hidden').val();
-                
-                var reviewTitle = reviewCard.find('.review-title').text().trim();
-                var reviewContent = reviewCard.find('.review-content p').text().trim();
-                var reviewRating = reviewCard.find('.review-rating .fas.fa-star').length;
-                
-                reviewCard.data('originalTitle', reviewTitle);
-                reviewCard.data('originalContent', reviewContent);
-                reviewCard.data('originalRating', reviewRating);
-                
-                var titleInput = $('<input>').attr({
-                    'type': 'text',
-                    'class': 'edit-review-title',
-                    'value': reviewTitle,
-                    'placeholder': '리뷰 제목'
-                });
-                reviewCard.find('.review-title').empty().append(titleInput);
-                
-                var contentTextarea = $('<textarea>').attr({
-                    'class': 'edit-review-content',
-                    'placeholder': '리뷰 내용'
-                }).text(reviewContent);
-                reviewCard.find('.review-content').empty().append(contentTextarea);
-                
-                var ratingDiv = $('<div>').attr('class', 'edit-rating');
-                var ratingInput = $('<input>').attr({
-                    'type': 'hidden',
-                    'id': 'edit-rating-value',
-                    'value': reviewRating
-                });
-                
-                for (var i = 1; i <= 5; i++) {
-                    var starClass = (i <= reviewRating) ? 'fas fa-star' : 'far fa-star';
-                    var star = $('<i>').attr({
-                        'class': starClass + ' edit-star',
-                        'data-value': i
-                    });
-                    ratingDiv.append(star);
-                }
-                
-                reviewCard.find('.review-rating').empty().append(ratingDiv).append(ratingInput);
-                
-                reviewCard.find('.edit-star').on('click', function() {
-                    var value = $(this).data('value');
-                    
-                    reviewCard.find('.edit-star').each(function(index) {
-                        if (index < value) {
-                            $(this).removeClass('far').addClass('fas');
-                        } else {
-                            $(this).removeClass('fas').addClass('far');
-                        }
-                    });
-                    
-                    reviewCard.find('#edit-rating-value').val(value);
-                });
-                
-                var cancelButton = $('<button>').attr({
-                    'type': 'button',
-                    'class': 'action-button secondary-button cancel-edit'
-                }).text('취소');
-                
-                var saveButton = $('<button>').attr({
-                    'type': 'button',
-                    'class': 'action-button primary-button save-edit',
-                    'data-review-id': reviewId
-                }).text('저장');
-                
-                var actionsDiv = $('<div>').attr('class', 'edit-actions')
-                    .append(cancelButton)
-                    .append(saveButton);
-                
-                reviewCard.find('.review-content').append(actionsDiv);
-                reviewCard.addClass('editing');
-            });
-            
-            // 취소 버튼 클릭 이벤트
-            $(document).on('click', '.cancel-edit', function() {
-                var reviewCard = $(this).closest('.review-card');
-                
-                var originalTitle = reviewCard.data('originalTitle');
-                var originalContent = reviewCard.data('originalContent');
-                var originalRating = reviewCard.data('originalRating');
-                
-                reviewCard.find('.review-title').html(originalTitle);
-                reviewCard.find('.review-content').html('<p>' + originalContent + '</p>');
-                
-                var ratingHtml = '';
-                for (var i = 1; i <= 5; i++) {
-                    if (i <= originalRating) {
-                        ratingHtml += '<i class="fas fa-star"></i>';
-                    } else {
-                        ratingHtml += '<i class="far fa-star"></i>';
-                    }
-                }
-                reviewCard.find('.review-rating').html(ratingHtml);
-                reviewCard.removeClass('editing');
-            });
-            
-            // 저장 버튼 클릭 이벤트
-            $(document).on('click', '.save-edit', function() {
-                var reviewCard = $(this).closest('.review-card');
-                var reviewId = $(this).data('review-id');
-                
-                var editedTitle = reviewCard.find('.edit-review-title').val();
-                var editedContent = reviewCard.find('.edit-review-content').val();
-                var editedRating = parseInt(reviewCard.find('#edit-rating-value').val());
-                
-                if (!editedTitle || !editedTitle.trim()) {
-                    alert('리뷰 제목을 입력해주세요.');
-                    return;
-                }
-                
-                if (!editedContent || !editedContent.trim()) {
-                    alert('리뷰 내용을 입력해주세요.');
-                    return;
-                }
-                
-                if (isNaN(editedRating) || editedRating < 1 || editedRating > 5) {
-                    alert('유효한 별점을 선택해주세요.');
-                    return;
-                }
-                
-                $.ajax({
-                    type: "post",
-                    url: "updateReview",
-                    data: {
-                        reviewId: reviewId,
-                        reviewTitle: editedTitle,
-                        reviewContent: editedContent,
-                        reviewRating: editedRating
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            reviewCard.find('.review-title').html(editedTitle);
-                            reviewCard.find('.review-content').html('<p>' + editedContent + '</p>');
-                            
-                            var ratingHtml = '';
-                            for (var i = 1; i <= 5; i++) {
-                                if (i <= editedRating) {
-                                    ratingHtml += '<i class="fas fa-star"></i>';
-                                } else {
-                                    ratingHtml += '<i class="far fa-star"></i>';
-                                }
-                            }
-                            reviewCard.find('.review-rating').html(ratingHtml);
-                            reviewCard.removeClass('editing');
-                            
-                            alert('리뷰가 성공적으로 수정되었습니다.');
-                        } else {
-                            alert(response.message || '리뷰 수정에 실패했습니다.');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("AJAX 오류:", status, error);
-                        console.error("응답 텍스트:", xhr.responseText);
-                        
-                        var errorMessage = '리뷰 수정 중 오류가 발생했습니다.';
-                        try {
-                            var response = JSON.parse(xhr.responseText);
-                            if (response.message) {
-                                errorMessage = response.message;
-                            }
-                        } catch (e) {
-                            console.error('JSON 파싱 오류:', e);
-                            errorMessage = xhr.responseText;
-                        }
-                        
-                        alert(errorMessage);
-                    }
-                });
-            });
-
-            // 페이지 로드 시 알림 처리
-            const urlParams = new URLSearchParams(window.location.search);
-            const errorMsg = urlParams.get('errorMsg');
-            const successMsg = urlParams.get('successMsg');
-            
-            if (errorMsg) {
-                alert(errorMsg);
-            }
-            
-            if (successMsg) {
-                alert(successMsg);
-            }
-        });
-    </script>
+	        // 페이지 로드 시 알림 처리
+	        const urlParams = new URLSearchParams(window.location.search);
+	        const errorMsg = urlParams.get('errorMsg');
+	        const successMsg = urlParams.get('successMsg');
+	        
+	        if (errorMsg) {
+	            alert(errorMsg);
+	        }
+	        
+	        if (successMsg) {
+	            alert(successMsg);
+	        }
+	    });
+	</script>
 </body>
 </html>
