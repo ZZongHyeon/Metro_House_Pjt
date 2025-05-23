@@ -374,7 +374,7 @@ BEGIN
         END;
     END LOOP;
 END;
-----------------------------------------------------------------------------------------------apartment trriger
+----------------------------------------------------------------------------------------------apartment trigger
 create or replace TRIGGER trg_apartmentinfo_insert
 AFTER INSERT ON apartmentinfo
 FOR EACH ROW
