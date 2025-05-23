@@ -18,6 +18,7 @@ import com.boot.user.dto.UserDTO;
 import com.boot.z_config.security.OAuth2AuthenticationSuccessHandler;
 import com.boot.z_config.security.PrincipalDetails;
 import com.boot.z_config.security.UserUtils;
+import com.boot.z_util.otherMVC.service.UtilService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -35,6 +36,8 @@ public class ViewController {
 	private int todayViews = 0;
 	@Autowired
 	private ApartmentRecommendService apartmentRecommendService;
+	@Autowired
+	private UtilService utilService;
 
     ViewController(OAuth2AuthenticationSuccessHandler OAuth2AuthenticationSuccessHandler) {
         this.OAuth2AuthenticationSuccessHandler = OAuth2AuthenticationSuccessHandler;
@@ -87,6 +90,11 @@ public class ViewController {
 			System.out.println("apartmentList => " + apartmentList);
 			model.addAttribute("apartmentList", apartmentList);
 		}
+		
+		int allApartmentCount = utilService.getAllApartmentCount();
+		model.addAttribute("totalApartments", allApartmentCount);
+		int avgPrice = utilService.getAvgPrice();
+		model.addAttribute("averagePrice", avgPrice);
 
 		return "main";
 	}

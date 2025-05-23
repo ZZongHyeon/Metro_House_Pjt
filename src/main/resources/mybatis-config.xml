@@ -16,5 +16,6 @@
 		<mapper resource="mybatis/mappers/apartment_comparison.xml"/>
 		<mapper resource="mybatis/mappers/apartment_graph.xml"/>
 		<mapper resource="mybatis/mappers/review.xml"/>
+		<mapper resource="mybatis/mappers/util.xml"/>
 	</mappers>
 </configuration>

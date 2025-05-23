@@ -146,7 +146,7 @@
                     <div class="stat-info">
                         <h3>전체 아파트</h3>
                         <div class="number">
-                            <fmt:formatNumber value="${totalApartments}" type="number" />
+                            ${totalApartments}
                         </div>
                     </div>
                 </div>
@@ -170,7 +170,7 @@
                     <div class="stat-info">
                         <h3>평균 매매가</h3>
                         <div class="number">
-                            <fmt:formatNumber value="${averagePrice}" type="number" />
+                            <fmt:formatNumber value="${averagePrice}" type="number" />만원
                         </div>
                     </div>
                 </div>
