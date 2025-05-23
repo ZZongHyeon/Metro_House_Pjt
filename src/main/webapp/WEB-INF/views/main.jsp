@@ -46,7 +46,7 @@
                         <div class="slide-content">
                             <h2>지역별 아파트 시세 비교</h2>
                             <p>다양한 지역의 아파트 시세를 비교하고 최적의 선택을 하세요.</p>
-                            <a href="/search_map" class="slide-button">시세 비교하기</a>
+                            <a href="/search_map?majorRegion=서울&district=강남구&station=강남역" class="slide-button">시세 비교하기</a>
                         </div>
                     </div>
                     <div class="slide">

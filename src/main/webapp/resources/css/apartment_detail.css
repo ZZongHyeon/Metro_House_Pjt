@@ -390,9 +390,9 @@ body {
 }
 
 /* 탭 섹션 */
-.tabs {
-  border-bottom: 1px solid var(--gray-200);
-}
+/*.tabs {*/
+/*  border-bottom: 1px solid var(--gray-200);*/
+/*}*/
 
 .tab-list {
   display: flex;
