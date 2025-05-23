@@ -389,17 +389,6 @@
             localStorage.removeItem('jwtToken');
         }
 
-        function isLoggedIn() {
-            const token = getJwtToken();
-            if (!token) return false;
-            
-            try {
-                const payload = JSON.parse(atob(token.split('.')[1]));
-                return payload.exp > Date.now() / 1000;
-            } catch (e) {
-                return false;
-            }
-        }
 
         function getCurrentUser() {
             const token = getJwtToken();
@@ -462,12 +451,8 @@
             // 리뷰 수정 버튼 클릭 이벤트
             $(document).on('click', '.review-action-icon.edit', function(e) {
                 e.preventDefault();
-                
-                if (!isLoggedIn()) {
-                    showModal('error', '로그인 필요', '리뷰 수정은 로그인 후 이용 가능합니다.');
-                    return;
-                }
-                
+				
+				
                 var reviewCard = $(this).closest('.review-card');
                 var reviewId = reviewCard.find('.review-id-hidden').val();
                 
@@ -569,10 +554,7 @@
             
             // 저장 버튼 클릭 이벤트
             $(document).on('click', '.save-edit', function() {
-                if (!isLoggedIn()) {
-                    showModal('error', '로그인 필요', '리뷰 수정은 로그인 후 이용 가능합니다.');
-                    return;
-                }
+
                 
                 var reviewCard = $(this).closest('.review-card');
                 var reviewId = $(this).data('review-id');
@@ -727,10 +709,7 @@
         }
 
         function markHelpful(reviewId, element) {
-            if (!isLoggedIn()) {
-                showModal('error', '로그인 필요', '도움됨 기능은 로그인 후 이용 가능합니다.');
-                return;
-            }
+
             
             const isActive = $(element).hasClass('active');
             
@@ -934,10 +913,7 @@
 
         // 리뷰 제출
         function submitReview() {
-            if (!isLoggedIn()) {
-                showModal('error', '로그인 필요', '리뷰 작성은 로그인 후 이용 가능합니다.');
-                return;
-            }
+
             
             const reviewId = document.getElementById('reviewId').value;
             const apartmentId = document.getElementById('apartmentIdInput').value;
@@ -1004,10 +980,7 @@
 
         // 리뷰 삭제 확인 모달 표시
         function confirmDeleteReview(reviewId) {
-            if (!isLoggedIn()) {
-                showModal('error', '로그인 필요', '리뷰 삭제는 로그인 후 이용 가능합니다.');
-                return;
-            }
+
             
             document.getElementById('deleteReviewId').value = reviewId;
             document.getElementById('deleteReviewModal').classList.add('show');
@@ -1047,10 +1020,7 @@
 
         // 아파트 문의하기
         function inquireApartment(apartmentId) {
-            if (!isLoggedIn()) {
-                showModal('error', '로그인 필요', '문의 기능은 로그인 후 이용 가능합니다.');
-                return;
-            }
+
             
             document.getElementById('inquireApartmentId').value = apartmentId;
             
@@ -1082,10 +1052,7 @@
 
         // 관심목록에 추가
         function addToFavorites(apartmentId) {
-            if (!isLoggedIn()) {
-                showModal('error', '로그인 필요', '관심목록 기능은 로그인 후 이용 가능합니다.');
-                return;
-            }
+
             
 			$.ajax({
 			    url: '/favorite/insert',
@@ -1111,10 +1078,7 @@
 
         // 아파트 삭제 확인
         function confirmDelete(apartmentId) {
-            if (!isLoggedIn()) {
-                showModal('error', '로그인 필요', '삭제 권한이 없습니다.');
-                return;
-            }
+
             
             const currentUser = getCurrentUser();
             if (!currentUser || currentUser.userAdmin !== 1) {
