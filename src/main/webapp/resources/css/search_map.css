@@ -708,3 +708,53 @@ main.content {
 .comparison-heart .fa-heart-broken {
   display: none;
 }
+
+
+
+/* 오버레이 관심등록 버튼 스타일 개선 */
+.overlay-button.favorite {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.overlay-button.favorite:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.overlay-button.favorite:active {
+    transform: translateY(0);
+}
+
+.overlay-button.favorite.add {
+    background: linear-gradient(135deg, #51bdbd, #51bdbd);
+}
+
+.overlay-button.favorite.add:hover {
+    background: linear-gradient(135deg, #51bdbd, #51bdbd);
+}
+
+.overlay-button.favorite.remove {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+.overlay-button.favorite.remove:hover {
+    background: linear-gradient(135deg, #c0392b, #a93226);
+}
+
+.overlay-button.favorite:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}

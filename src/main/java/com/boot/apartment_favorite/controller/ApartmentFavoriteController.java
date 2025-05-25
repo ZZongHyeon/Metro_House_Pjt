@@ -94,12 +94,15 @@ public class ApartmentFavoriteController {
 	// 관심등록 insert
 	@PostMapping("/favorite/insert")
 	@ResponseBody
-	public ResponseEntity<String> insertFavorite(@RequestBody HashMap<String, Object> param,
-			HttpServletRequest request) {
+	public ResponseEntity<Map<String, Object>> insertFavorite(@RequestBody HashMap<String, Object> param,
+															  HttpServletRequest request) {
 //		System.out.println("param 전체 => " + param);// 전체 파라미터 로그찍어보기
 		BasicUserDTO user = (BasicUserDTO) request.getAttribute("user");
+		Map<String, Object> response = new HashMap<>();
 		if (user == null) {
-			return ResponseEntity.status(401).body("로그인이 필요합니다.");
+			response.put("success", false);
+			response.put("message", "로그인이 필요합니다.");
+			return ResponseEntity.status(401).body(response);
 		}
 		try {
 			// lat, lng 파라미터 체크
@@ -117,19 +120,26 @@ public class ApartmentFavoriteController {
 //            System.out.println("여기왓당.2");
 
 			if (result > 0) {
-//                System.out.println("여기왓당.3");
-				return ResponseEntity.ok("관심등록 성공");
+// insert 후 새로 생성된 favoriteId 응답에 포함 (insert 로직에서 반드시 favoriteId 반환)
+				response.put("success", true);
+				response.put("favoriteId", param.get("favoriteId"));
+				return ResponseEntity.ok(response);
 			} else {
 //                System.out.println("여기왓당.4");
-				return ResponseEntity.status(500).body("등록 실패");
+				response.put("success", false);
+				response.put("message", "등록 실패");
+				return ResponseEntity.status(500).body(response);
 			}
 
 		} catch (NumberFormatException e) {
-			return ResponseEntity.badRequest().body("위도/경도 값이 유효하지 않습니다.");
+			response.put("success", false);
+			response.put("message", "위도/경도 값이 유효하지 않습니다.");
+			return ResponseEntity.badRequest().body(response);
 		} catch (Exception e) {
-			e.printStackTrace();
-			return ResponseEntity.status(500).body("서버 오류 발생");
+            e.printStackTrace();
+            response.put("success", false);
+            response.put("message", "서버 오류 발생");
+            return ResponseEntity.status(500).body(response);
 		}
 	}
-
 }
