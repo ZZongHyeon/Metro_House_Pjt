@@ -195,6 +195,7 @@ CREATE SEQUENCE seq_apartmentinfo
     INCREMENT BY 1
     NOCACHE
     NOCYCLE;
+    
 create table apartment_favorite(
     favoriteId number primary key,
     apartmentId number,
@@ -204,6 +205,7 @@ create table apartment_favorite(
     FOREIGN KEY (apartmentId) REFERENCES APARTMENTINFO(apartmentId)ON DELETE CASCADE,
     FOREIGN KEY (userNumber) REFERENCES USERINFO(userNumber)ON DELETE CASCADE
 );
+
 CREATE SEQUENCE seq_apartment_favorite
 START WITH 1
 INCREMENT BY 1
