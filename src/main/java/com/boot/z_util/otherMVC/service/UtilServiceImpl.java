@@ -21,8 +21,9 @@ public class UtilServiceImpl implements UtilService {
 
 	@Override
 	public int getAvgPrice() {
-		UtilDAO dao = sqlSession.getMapper(UtilDAO.class);
-		return dao.getAvgPrice();
+	    UtilDAO dao = sqlSession.getMapper(UtilDAO.class);
+	    Integer result = dao.getAvgPrice();
+	    return (result != null) ? result : 0;
 	}
 
 }
