@@ -20,7 +20,7 @@ import com.boot.apartment_recommend_detail.service.ApartmentRecommendService;
 import com.boot.apartment_review.dto.ReviewDTO;
 import com.boot.apartment_review.dto.ReviewStatsDTO;
 import com.boot.apartment_review.service.ReviewService;
-import com.boot.user.dto.SafeUserDTO;
+import com.boot.user.dto.BasicUserDTO;
 import com.boot.z_page.PageDTO;
 import com.boot.z_page.criteria.ReviewCriteriaDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;

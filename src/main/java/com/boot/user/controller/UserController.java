@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.boot.board.service.BoardCommentServiceImpl;
-import com.boot.user.dto.SafeUserDTO;
+import com.boot.user.dto.BasicUserDTO;
 import com.boot.user.dto.UserDTO;
 import com.boot.user.service.UserService;
 import com.boot.z_config.security.UserUtils;
@@ -109,8 +109,8 @@ public class UserController {
 	    
 	    // 사용자 ID 추출
 	    String userId = null;
-	    if (userObj instanceof SafeUserDTO) {
-	        userId = ((SafeUserDTO) userObj).getUserId();
+	    if (userObj instanceof BasicUserDTO) {
+	        userId = ((BasicUserDTO) userObj).getUserId();
 	    } else if (userObj instanceof UserDTO) {
 	        userId = ((UserDTO) userObj).getUserId();
 	    } else {

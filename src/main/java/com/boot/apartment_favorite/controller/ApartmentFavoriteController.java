@@ -11,7 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.boot.apartment_favorite.dto.ApartmentFavoriteDTO;
 import com.boot.apartment_favorite.service.ApartmentFavoriteService;
-import com.boot.user.dto.SafeUserDTO;
+import com.boot.user.dto.BasicUserDTO;
 import com.boot.z_page.PageDTO;
 import com.boot.z_page.criteria.ApartmentFavoriteCriteriaDTO;
 
@@ -29,7 +29,7 @@ public class ApartmentFavoriteController {
 		Map<String, Object> response = new HashMap<>();
 
 		try {
-			SafeUserDTO user = (SafeUserDTO) request.getAttribute("user");
+			BasicUserDTO user = (BasicUserDTO) request.getAttribute("user");
 
 			if (user == null) {
 				response.put("success", false);
@@ -61,7 +61,7 @@ public class ApartmentFavoriteController {
 			ApartmentFavoriteCriteriaDTO apartmentFavoriteCriteriaDTO, @RequestParam(required = false) String region,
 			@RequestParam(required = false) String district, @RequestParam(required = false) String priceRange,
 			@RequestParam(defaultValue = "recent") String sort) {
-		SafeUserDTO user = (SafeUserDTO) request.getAttribute("user");
+		BasicUserDTO user = (BasicUserDTO) request.getAttribute("user");
 		System.out.println("user.getUserNumber() : " + user.getUserNumber());
 		// 파라미터 맵 생성
 		Map<String, Object> params = new HashMap<>();
@@ -97,7 +97,7 @@ public class ApartmentFavoriteController {
 	public ResponseEntity<Map<String, Object>> insertFavorite(@RequestBody HashMap<String, Object> param,
 															  HttpServletRequest request) {
 //		System.out.println("param 전체 => " + param);// 전체 파라미터 로그찍어보기
-		SafeUserDTO user = (SafeUserDTO) request.getAttribute("user");
+		BasicUserDTO user = (BasicUserDTO) request.getAttribute("user");
 		Map<String, Object> response = new HashMap<>();
 		if (user == null) {
 			response.put("success", false);

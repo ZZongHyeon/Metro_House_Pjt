@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SafeUserDTO {
+public class BasicUserDTO {
     private int userNumber;
     private String userId;
     private String userName;
@@ -20,7 +20,7 @@ public class SafeUserDTO {
     private int userAdmin;
     private String userRegdate;
     
-    public SafeUserDTO(UserDTO userDTO) {
+    public BasicUserDTO(UserDTO userDTO) {
         this.userNumber = userDTO.getUserNumber();
         this.userId = userDTO.getUserId();
         this.userName = userDTO.getUserName();
