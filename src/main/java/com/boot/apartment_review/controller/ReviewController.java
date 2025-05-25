@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.boot.apartment_review.dto.ReviewDTO;
 import com.boot.apartment_review.service.ReviewService;
-import com.boot.user.dto.BasicUserDTO;
+import com.boot.user.dto.SafeUserDTO;
 
 @Controller
 public class ReviewController {
@@ -22,8 +22,8 @@ public class ReviewController {
     @Autowired
     private HttpServletRequest request;
     
-    private BasicUserDTO getCurrentUser() {
-        return (BasicUserDTO) request.getAttribute("user");
+    private SafeUserDTO getCurrentUser() {
+        return (SafeUserDTO) request.getAttribute("user");
     }
 
     // 리뷰 등록 - @RequestParam으로 개별 파라미터 받기

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.boot.apartment_recommend_detail.dao.ApartmentRecommendDAO;
 import com.boot.apartment_recommend_detail.dto.ApartmentDTO;
-import com.boot.user.dto.BasicUserDTO;
+import com.boot.user.dto.SafeUserDTO;
 
 @Service
 public class ApartmentRecommendServiceImpl implements ApartmentRecommendService {
@@ -16,7 +16,7 @@ public class ApartmentRecommendServiceImpl implements ApartmentRecommendService 
 	private SqlSession sqlSession;
 
 	@Override
-	public List<ApartmentDTO> recommend(BasicUserDTO user) {
+	public List<ApartmentDTO> recommend(SafeUserDTO user) {
 		ApartmentRecommendDAO dao = sqlSession.getMapper(ApartmentRecommendDAO.class);
 		List<ApartmentDTO> list = dao.recommend(user);
 		return list;

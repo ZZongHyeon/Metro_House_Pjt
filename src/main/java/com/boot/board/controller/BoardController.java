@@ -26,7 +26,7 @@ import com.boot.board.dto.BoardDTO;
 import com.boot.board.service.BoardCommentService;
 import com.boot.board.service.BoardCommentServiceImpl;
 import com.boot.board.service.BoardService;
-import com.boot.user.dto.BasicUserDTO;
+import com.boot.user.dto.SafeUserDTO;
 import com.boot.user.dto.UserDTO;
 import com.boot.z_config.security.UserUtils;
 import com.boot.z_page.CommentPageDTO;
@@ -177,8 +177,8 @@ public class BoardController {
 		int userNumber;
 		if (userObj instanceof UserDTO) {
 			userNumber = ((UserDTO) userObj).getUserNumber();
-		} else if (userObj instanceof BasicUserDTO) {
-			userNumber = ((BasicUserDTO) userObj).getUserNumber();
+		} else if (userObj instanceof SafeUserDTO) {
+			userNumber = ((SafeUserDTO) userObj).getUserNumber();
 		} else {
 			return false;
 		}
@@ -201,8 +201,8 @@ public class BoardController {
 	    int userNumber;
 	    if (userObj instanceof UserDTO) {
 	        userNumber = ((UserDTO) userObj).getUserNumber();
-	    } else if (userObj instanceof BasicUserDTO) {
-	        userNumber = ((BasicUserDTO) userObj).getUserNumber();
+	    } else if (userObj instanceof SafeUserDTO) {
+	        userNumber = ((SafeUserDTO) userObj).getUserNumber();
 	    } else {
 	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("사용자 정보를 찾을 수 없습니다");
 	    }

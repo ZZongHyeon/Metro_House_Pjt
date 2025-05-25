@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.boot.apartment.dto.ApartmentTradeDTO;
 import com.boot.apartment_recommend_detail.dto.ApartmentDTO;
 import com.boot.apartment_recommend_detail.service.ApartmentRecommendService;
-import com.boot.user.dto.BasicUserDTO;
+import com.boot.user.dto.SafeUserDTO;
 import com.boot.user.dto.UserDTO;
 import com.boot.z_config.security.OAuth2AuthenticationSuccessHandler;
 import com.boot.z_config.security.PrincipalDetails;
@@ -81,7 +81,7 @@ public class ViewController {
 
 		// 사용자 정보가 필요한 경우 request(토큰)에서 가져옴
 		
-		BasicUserDTO user = (BasicUserDTO) request.getAttribute("user");
+		SafeUserDTO user = (SafeUserDTO) request.getAttribute("user");
 		
 //		System.out.println("user :" + user);
 		if (user != null) {

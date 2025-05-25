@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.boot.apartment_comparison.dto.ApartmentComparisonDTO;
 import com.boot.apartment_comparison.service.ApartmentComparisonService;
-import com.boot.user.dto.BasicUserDTO;
+import com.boot.user.dto.SafeUserDTO;
 import com.boot.user.dto.UserDTO;
 import com.boot.z_config.security.UserUtils;
 
@@ -33,7 +33,7 @@ public class MapController {
 
 	@RequestMapping("/search_map")
 	public String search_map(Model model, HttpServletRequest request, @RequestParam HashMap<String, String> param) {
-		BasicUserDTO user = (BasicUserDTO) request.getAttribute("user");
+		SafeUserDTO user = (SafeUserDTO) request.getAttribute("user");
 		// 파라미터 로깅
 		for (Map.Entry<String, String> entry : param.entrySet()) {
 			System.out.println(entry.getKey() + ": " + entry.getValue());

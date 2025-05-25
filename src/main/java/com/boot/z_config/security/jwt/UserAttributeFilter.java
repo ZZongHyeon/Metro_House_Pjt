@@ -18,7 +18,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import com.boot.user.dto.BasicUserDTO;
+import com.boot.user.dto.SafeUserDTO;
 import com.boot.user.dto.UserDTO;
 
 /**
@@ -63,7 +63,7 @@ public class UserAttributeFilter implements Filter {
                 UserDTO user = jwtTokenUtil.getUserFromToken(token);
                 
                 if (user != null) {
-                	BasicUserDTO safeUser = new BasicUserDTO(user);
+                	SafeUserDTO safeUser = new SafeUserDTO(user);
                     // 사용자 정보를 request 속성으로 설정
                     httpRequest.setAttribute("user", safeUser);
                     logger.debug("사용자 정보를 request 속성으로 설정: {}", user.getUserId());
