@@ -53,3 +53,7 @@
 | Jira | 이슈 관리 및 구체적인 일정 계획 수립을 위한 협업 도구
 | GitHub | 코드 버전 관리 및 팀 협업
 | Postman | API 테스트
+
+
+### ERD
+![스크린샷 2025-07-02 113603](https://github.com/user-attachments/assets/21c4456a-779b-4199-a394-c82380a5dd1c)
