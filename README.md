@@ -53,24 +53,6 @@
 
 
 <details>
-  <summary>게시글 더미값 삽입</summary>
-  <pre><code>
-BEGIN
-  FOR i IN 1..300 LOOP
-    INSERT INTO board (boardNumber, userName, boardTitle, boardContent, boardWriteDate, boardViews)
-    VALUES (i, '사용자'||i, '제목'||i, '내용'||i, SYSDATE, 0);
-    
-    IF MOD(i, 100) = 0 THEN
-      COMMIT;
-    END IF;
-  END LOOP;
-  COMMIT;
-END;
-  </code></pre>
-</details>
-
-
-<details>
   <summary>쿼리(2025-04-27)</summary>
   <pre><code>
 GRANT CREATE SESSION, CREATE TABLE, CREATE VIEW, CREATE SEQUENCE, 
