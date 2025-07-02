@@ -38,7 +38,10 @@
 | Spring MVC | 컨트롤러, 서비스 계층의 구현을 위해 사용<br>표준 MVC 패턴 기반으로 구조화
 | MyBatis | SQL과 서버 객체간 매핑담당 도구<br>좋아요 기능 구현을 위한 쿼리 매핑
 | Oracle | 대규모 데이터 관리를 위한 관계형 데이터베이스 사용<br>게시글, 댓글, 좋아요 정보 저장
-| Spring Security | 사용자 인증 및 권한 관리 (선택적)
+| Spring Security | 사용자 인증 및 권한 관리를 위한 보안 프레임워크<br>JWT 기반 인증 필터 커스터마이징 적용
+| JWT (JSON Web Token) | 로그인 이후 사용자 인증을 위한 토큰 방식 사용<br>Spring Security와 연동해 무상태 인증 처리
+| 공공데이터포털 API	| 부동산 실거래가 정보 수집<br>전국 아파트 거래 데이터 주기적 수집 및 DB 저장
+|Kakao Map API	| 지도 기반 아파트 위치 표시 및 지리 기반 기능 제공<br>위도/경도 기반 주변 정보 시각화에 사용
 
 
 ### 🛠️ 개발 도구 (Development Tools)
