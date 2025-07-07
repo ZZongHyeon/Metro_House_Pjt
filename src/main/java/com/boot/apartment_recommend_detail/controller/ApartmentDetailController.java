@@ -6,6 +6,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.boot.apartment_comparison.dto.ApartmentComparisonDTO;
+import com.boot.apartment_comparison.service.ApartmentComparisonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +30,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Controller
 public class ApartmentDetailController {
     @Autowired
+    private ApartmentComparisonService apartmentComparisonService; // 새로 추가 관심목록 서비스
+
+    @Autowired
     private ApartmentDetailService apartmentDetailService;
     @Autowired
     private ReviewService reviewService;
@@ -38,7 +43,10 @@ public class ApartmentDetailController {
     public String apartmentDetail(
             @RequestParam("apartmentId") int apartmentId, 
             ReviewCriteriaDTO reviewCriteriaDTO,
-            Model model) {
+            Model model,
+            HttpServletRequest request) {
+        //새로추가 로그인 사용자 정보 넘김
+        BasicUserDTO user = (BasicUserDTO) request.getAttribute("user");
 
         // 아파트 상세 정보 조회
         ApartmentDTO apartment = apartmentDetailService.getApartmentInfo(apartmentId);
@@ -79,6 +87,29 @@ public class ApartmentDetailController {
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("priceDataJson", "[]"); // 오류 시 빈 배열
+        }
+
+
+
+        // 새로추가 관심목록 정보 추가
+        if (user != null) {
+            List<ApartmentComparisonDTO> favorites = apartmentComparisonService
+                    .getFavoriteListByUserNumber(user.getUserNumber());
+
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                String json = mapper.writeValueAsString(favorites);
+                model.addAttribute("favoriteListJson", json);
+                model.addAttribute("currentUserNumber", user.getUserNumber());
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+                model.addAttribute("favoriteListJson", "[]");
+            }
+        }
+        else
+        {
+            model.addAttribute("favoriteListJson", "[]");
         }
         
         return "apartment/apartment_detail";

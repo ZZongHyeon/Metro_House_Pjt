@@ -159,13 +159,11 @@
             <i class="fas fa-building"></i>
             주변 아파트 목록
          </div>
-		 
          <div class="apartment-list" id="apartmentList">
             <p style="text-align: center; padding: 50px 0; color: var(--gray-500);" id="loadingMessage">
                <i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i> 데이터를 불러오는 중...
             </p>
-         
-		 </div>
+         </div>
       </div>
    </div>
 </div>
@@ -293,193 +291,129 @@
 	        `;
 	      return overlayContentHTML;
 	   }
-	   
-	   // 아파트 카드 정렬
-	   function sortApartmentsBySubway(apartments, stationName) {
-	     return apartments.sort((a, b) => {
-	       // 1. 역명이 일치하는 아파트를 먼저
-	       const aIsNear = a.subwayStation && a.subwayStation.includes(stationName);
-	       const bIsNear = b.subwayStation && b.subwayStation.includes(stationName);
 
-	       if (aIsNear && !bIsNear) return -1;
-	       if (!aIsNear && bIsNear) return 1;
-
-	       // 2. 둘 다 해당 역이면 거리순 정렬
-	       if (aIsNear && bIsNear) {
-	         return (a.subwayDistance || 99999) - (b.subwayDistance || 99999);
-	       }
-
-	       // 3. 둘 다 아니면 원래 순서
-	       return 0;
-	     });
-	   }
-	   
-	   // 가상스크롤용 전역 변수 및 함수
-	   const CARD_HEIGHT = 270; // 카드+마진 포함 실제 높이에 맞게 조정
-	   const VISIBLE_COUNT = 7; // 한 번에 보여줄 카드 수(여유분 포함)
-	   let apartmentsVirtual = [];
-
-	   function renderVisibleApartments(scrollTop) {
-	     const apartmentListContainer = document.getElementById('apartmentList');
-	     apartmentListContainer.innerHTML = '';
-	     const startIdx = Math.max(0, Math.floor(scrollTop / CARD_HEIGHT));
-	     const endIdx = Math.min(apartmentsVirtual.length, startIdx + VISIBLE_COUNT);
-
-	     for (let i = startIdx; i < endIdx; i++) {
-	       const apt = apartmentsVirtual[i];
-	       const aptName = apt.aptNm || "이름 없음";
-	       const excluUseAr = apt.excluUseAr ? apt.excluUseAr + "㎡" : "면적 없음";
-	       const dealAmount = apt.dealAmount ? apt.dealAmount.toLocaleString() + "만원" : "가격 없음";
-	       const locationContent = apt.estateAgentSggNm || "위치 없음";
-	       const floorText = apt.floor || "-";
-	       const buildYearText = apt.buildYear ? apt.buildYear + "년" : "-";
-	       const subwayStation = apt.subwayStation ? apt.subwayStation.split(' ')[0] : '정보 없음';
-	       const subwayDistance = apt.subwayDistance || '정보 없음';
-	       const sggCd = apt.sggCd;
-	       const uniqueAptId = apt.apartmentId || `apt_${apt.lat}_${apt.lng}_${i}`;
-
-	       const apartmentCard = document.createElement('div');
-	       apartmentCard.className = 'apartment-card';
-	       apartmentCard.dataset.aptId = uniqueAptId;
-	       apartmentCard.dataset.floor = floorText;
-	       apartmentCard.dataset.buildYear = buildYearText;
-	       apartmentCard.dataset.subwayStation = subwayStation;
-	       apartmentCard.dataset.subwayDistance = subwayDistance;
-	       apartmentCard.dataset.name = aptName;
-	       apartmentCard.dataset.location = locationContent;
-	       apartmentCard.dataset.price = dealAmount;
-	       apartmentCard.dataset.size = excluUseAr;
-	       apartmentCard.dataset.lat = apt.lat;
-	       apartmentCard.dataset.lng = apt.lng;
-	       apartmentCard.dataset.sggCd = sggCd;
-
-		   apartmentCard.innerHTML = `
-		                          <div class="apartment-image">
-		                              <i class="fas fa-building"></i>
-		                          </div>
-		                          <div class="apartment-info">
-		                              <h3 class="apartment-name">`+aptName.split('(')[0]+`</h3>
-		                              <div class="apartment-location">`+locationContent+`</div>
-		                              <div class="apartment-details">
-		                                  <span>`+excluUseAr+`</span>
-		                                  <span class="apartment-price">`+dealAmount+`</span>
-		                              </div>
-		                          </div>
-		                      `;
-	       // 가상스크롤 핵심: 카드 위치 지정
-	       apartmentCard.style.position = 'absolute';
-	       apartmentCard.style.top = (i * CARD_HEIGHT) + 'px';
-	       apartmentCard.style.left = '0';
-	       apartmentCard.style.width = '100%';
-	       apartmentCard.style.height = CARD_HEIGHT + 'px';
-
-	       apartmentListContainer.appendChild(apartmentCard);
-	     }
-	     // 전체 높이 지정 (스크롤바 정상 작동)
-	     apartmentListContainer.style.position = 'relative';
-	     apartmentListContainer.style.height = (apartmentsVirtual.length * CARD_HEIGHT) + 'px';
-	   }
-
-	   // displayApartments 함수 (마커 생성 등 기존 로직 유지, 카드만 가상스크롤)
+	   // --- 지도 마커 및 아파트 목록 표시 함수 (롤백된 버전) ---
 	   function displayApartments(apartmentsToDisplay) {
-	     console.time("displayApartments_original");
-	     const apartmentListContainer = document.getElementById('apartmentList');
-	     apartmentListContainer.innerHTML = '';
+	      console.time("displayApartments_original");
+	      const apartmentListContainer = document.getElementById('apartmentList');
+	      apartmentListContainer.innerHTML = ''; // 기존 목록 비우기
 
-	     const searchParams = {
-	       region: "<c:out value='${searchParams.majorRegion}' default='' />",
-	       district: "<c:out value='${searchParams.district}' default='' />",
-	       station: "<c:out value='${searchParams.station}' default='' />"
-	     };
-	     const station = searchParams.station;
+	      const loadingMsgElement = document.getElementById('loadingMessage');
+	      if (loadingMsgElement) loadingMsgElement.style.display = 'none';
 
-	     if (station) {
-	       sortApartmentsBySubway(apartmentsToDisplay, station);
-	     }
+	      if (clusterer) {
+	         clusterer.clear();
+	      }
+	      markersForClusterer = [];
 
-	     const loadingMsgElement = document.getElementById('loadingMessage');
-	     if (loadingMsgElement) loadingMsgElement.style.display = 'none';
+	      if (currentOverlay) {
+	         currentOverlay.setMap(null);
+	         currentOverlay = null;
+	      }
 
-	     if (clusterer) {
-	       clusterer.clear();
-	     }
-	     markersForClusterer = [];
+	      if (!apartmentsToDisplay || apartmentsToDisplay.length === 0) {
+	         apartmentListContainer.innerHTML = `
+	                <p style="text-align: center; padding: 50px 0; color: var(--gray-500);" id="noResultsMessage">
+	                    표시할 아파트 정보가 없습니다.
+	                </p>`;
+	         console.timeEnd("displayApartments_original");
+	         return;
+	      }
 
-	     if (currentOverlay) {
-	       currentOverlay.setMap(null);
-	       currentOverlay = null;
-	     }
+	      const listFragment = document.createDocumentFragment();
 
-	     if (!apartmentsToDisplay || apartmentsToDisplay.length === 0) {
-	       apartmentListContainer.innerHTML = `
-	         <p style="text-align: center; padding: 50px 0; color: var(--gray-500);" id="noResultsMessage">
-	           표시할 아파트 정보가 없습니다.
-	         </p>`;
-	       console.timeEnd("displayApartments_original");
-	       return;
-	     }
+	      apartmentsToDisplay.forEach((apt, idx) => {
+	         if (apt.lat && apt.lng) { // 유효한 위경도 값인지 확인
+	            // 1. 마커 생성
+	            const position = new kakao.maps.LatLng(parseFloat(apt.lat), parseFloat(apt.lng));
+	            const marker = new kakao.maps.Marker({
+	               position: position,
+	               clickable: true
+	            });
+	            const uniqueAptId = apt.apartmentId || `apt_`+apt.lat+`_`+apt.lng+`_`+idx;
+	            marker.aptId = uniqueAptId; // 마커에 ID 연결 (apartmentDataStore 참조용)
+	            marker.sigunguCode = apt.sggCd;
 
-	     // 마커 생성은 기존대로 전체 처리
-	     apartmentsToDisplay.forEach((apt, idx) => {
-	       if (apt.lat && apt.lng) {
-	         const position = new kakao.maps.LatLng(parseFloat(apt.lat), parseFloat(apt.lng));
-	         const marker = new kakao.maps.Marker({
-	           position: position,
-	           clickable: true
-	         });
-	         const uniqueAptId = apt.apartmentId || `apt_${apt.lat}_${apt.lng}_${idx}`;
-	         marker.aptId = uniqueAptId;
-	         marker.sigunguCode = apt.sggCd;
 
-	         kakao.maps.event.addListener(marker, 'click', function() {
-	           const aptDetail = apartmentDataStore[this.aptId];
-	           if (!aptDetail) {
-	             console.warn('마커 클릭: Apartment detail not found in store for ID:', this.aptId);
-	             return;
-	           }
-	           if (currentOverlay) {
-	             currentOverlay.setMap(null);
-	           }
-	           const content = createOverlayContentForApt(aptDetail);
-	           currentOverlay = new kakao.maps.CustomOverlay({
-	             content: content,
-	             map: map,
-	             position: this.getPosition(),
-	             yAnchor: 1,
-	             zIndex: 10
-	           });
-	           map.panTo(this.getPosition());
+	            kakao.maps.event.addListener(marker, 'click', function() {
+	               const aptDetail = apartmentDataStore[this.aptId];
+	               if (!aptDetail) {
+	                  console.warn('마커 클릭: Apartment detail not found in store for ID:', this.aptId);
+	                  return;
+	               }
+	               if (currentOverlay) {
+	                  currentOverlay.setMap(null);
+	               }
+	               const content = createOverlayContentForApt(aptDetail);
+	               currentOverlay = new kakao.maps.CustomOverlay({
+	                  content: content,
+	                  map: map,
+	                  position: this.getPosition(),
+	                  yAnchor: 1,
+	                  zIndex: 10
+	               });
+	               map.panTo(this.getPosition());
 
-	           if(this.sigunguCode) {
-	             clearPolygons();
-	             getApartmentData(this.sigunguCode);
-	           } else {
-	             console.log("시군구 코드 부재");
-	           }
-	         });
-	         markersForClusterer.push(marker);
-	       }
-	     });
+	               if(this.sigunguCode) {
+	                  clearPolygons();
+	                  getApartmentData(this.sigunguCode);
+	               }
+	               else{
+	                  console.log("시군구 코드 부재");
+	               }
+	            });
+	            markersForClusterer.push(marker);
 
-	     if (clusterer) {
-	       clusterer.addMarkers(markersForClusterer);
-	     }
+	            // 2. 아파트 카드 생성
+	            const aptName = apt.aptNm || "이름 없음";
+	            const excluUseAr = apt.excluUseAr ? apt.excluUseAr + "㎡" : "면적 없음";
+	            const dealAmount = apt.dealAmount ? apt.dealAmount.toLocaleString() + "만원" : "가격 없음";
+	            const locationContent = apt.estateAgentSggNm || "위치 없음";
+	            const floorText = apt.floor || "-";
+	            const buildYearText = apt.buildYear ? apt.buildYear + "년" : "-";
+	            const subwayStation = apt.subwayStation ? apt.subwayStation.split(' ')[0] : '정보 없음';
+	            const subwayDistance = apt.subwayDistance || '정보 없음';
+	            const sggCd = apt.sggCd;
 
-	     // 가상스크롤 데이터 세팅 및 렌더링
-	     apartmentsVirtual = apartmentsToDisplay;
-	     renderVisibleApartments(0);
+	            const apartmentCard = document.createElement('div');
+	            apartmentCard.className = 'apartment-card';
+	            apartmentCard.dataset.aptId = uniqueAptId; // 마커와 동일한 ID 사용
+	            apartmentCard.dataset.floor = floorText;
+	            apartmentCard.dataset.buildYear = buildYearText;
+	            apartmentCard.dataset.subwayStation = subwayStation;
+	            apartmentCard.dataset.subwayDistance = subwayDistance;
+	            apartmentCard.dataset.name = aptName;
+	            apartmentCard.dataset.location = locationContent;
+	            apartmentCard.dataset.price = dealAmount;
+	            apartmentCard.dataset.size = excluUseAr;
+	            apartmentCard.dataset.lat = apt.lat;
+	            apartmentCard.dataset.lng = apt.lng;
+	            apartmentCard.dataset.sggCd = sggCd;
 
-	     // 스크롤 이벤트 연결(최초 1회만)
-	     if (!apartmentListContainer._virtualScrollBound) {
-	       apartmentListContainer.addEventListener('scroll', function(e) {
-	         renderVisibleApartments(e.target.scrollTop);
-	       });
-	       apartmentListContainer._virtualScrollBound = true;
-	     }
 
-	     console.timeEnd("displayApartments_original");
+	            apartmentCard.innerHTML = `
+	                    <div class="apartment-image">
+	                        <i class="fas fa-building"></i>
+	                    </div>
+	                    <div class="apartment-info">
+	                        <h3 class="apartment-name">`+aptName.split('(')[0]+`</h3>
+	                        <div class="apartment-location">`+locationContent+`</div>
+	                        <div class="apartment-details">
+	                            <span>`+excluUseAr+`</span>
+	                            <span class="apartment-price">`+dealAmount+`</span>
+	                        </div>
+	                    </div>
+	                `;
+	            listFragment.appendChild(apartmentCard);
+	         }
+	      });
+
+	      if (clusterer) {
+	         clusterer.addMarkers(markersForClusterer);
+	      }
+	      apartmentListContainer.appendChild(listFragment);
+	      console.timeEnd("displayApartments_original");
 	   }
-
 
 	   // --- 아파트 데이터 가져오기 (시군구 코드 기반) ---
 	   function getApartmentData(sigunguCode) {
@@ -630,7 +564,7 @@
 	      };
 	      map = new kakao.maps.Map(mapContainer, mapOptions);
 	      clusterer = new kakao.maps.MarkerClusterer({
-	         map: map, averageCenter: true, minLevel: 3, disableClickZoom: false
+	         map: map, averageCenter: true, minLevel: 6, disableClickZoom: false
 	      });
 	      const zoomControl = new kakao.maps.ZoomControl();
 	      map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);

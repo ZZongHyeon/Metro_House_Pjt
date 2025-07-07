@@ -102,18 +102,18 @@
                                 </div>
 
                                 <!-- 서비스 섹션 -->
-                                <div class="dropdown-section">
-                                    <div class="dropdown-section-title">서비스</div>
-                                    <a href="/search_history" class="dropdown-item">
-                                        <div class="dropdown-icon-wrapper">
-                                            <i class="dropdown-icon fa-solid fa-clock-rotate-left"></i>
-                                        </div>
-                                        <div class="dropdown-item-content">
-                                            <div class="dropdown-item-title">서비스 뭐 넣지</div>
-                                            <div class="dropdown-item-description">아이디어구상중</div>
-                                        </div>
-                                    </a>
-                                </div>
+<!--                                <div class="dropdown-section">-->
+<!--                                    <div class="dropdown-section-title">서비스</div>-->
+<!--                                    <a href="/search_history" class="dropdown-item">-->
+<!--                                        <div class="dropdown-icon-wrapper">-->
+<!--                                            <i class="dropdown-icon fa-solid fa-clock-rotate-left"></i>-->
+<!--                                        </div>-->
+<!--                                        <div class="dropdown-item-content">-->
+<!--                                            <div class="dropdown-item-title">서비스 뭐 넣지</div>-->
+<!--                                            <div class="dropdown-item-description">아이디어구상중</div>-->
+<!--                                        </div>-->
+<!--                                    </a>-->
+<!--                                </div>-->
 
                                 <!-- 관리자 섹션 -->
                                 <c:if test="${user.userAdmin == 1}">

@@ -640,31 +640,31 @@ public class ApartmentDownloadServiceImpl implements ApartmentDownloadService {
 		Map<String, String> regionCodes = new LinkedHashMap<>();
 
 		// 서울특별시
-//		regionCodes.put("11680", "서울특별시 강남구");
-//		regionCodes.put("11740", "서울특별시 강동구");
-//		regionCodes.put("11305", "서울특별시 강북구");
-//		regionCodes.put("11500", "서울특별시 강서구");
-//		regionCodes.put("11620", "서울특별시 관악구");
-//		regionCodes.put("11215", "서울특별시 광진구");
-//		regionCodes.put("11530", "서울특별시 구로구");
-//		regionCodes.put("11545", "서울특별시 금천구");
-//		regionCodes.put("11350", "서울특별시 노원구");
-//		regionCodes.put("11320", "서울특별시 도봉구");
-//		regionCodes.put("11230", "서울특별시 동대문구");
-//		regionCodes.put("11590", "서울특별시 동작구");
-//		regionCodes.put("11440", "서울특별시 마포구");
-//		regionCodes.put("11410", "서울특별시 서대문구");
-//		regionCodes.put("11650", "서울특별시 서초구");
-//		regionCodes.put("11200", "서울특별시 성동구");
-//		regionCodes.put("11290", "서울특별시 성북구");
-//		regionCodes.put("11710", "서울특별시 송파구");
-//		regionCodes.put("11470", "서울특별시 양천구");
-//		regionCodes.put("11560", "서울특별시 영등포구");
-//		regionCodes.put("11170", "서울특별시 용산구");
-//		regionCodes.put("11380", "서울특별시 은평구");
-//		regionCodes.put("11110", "서울특별시 종로구");
-//		regionCodes.put("11140", "서울특별시 중구");
-//		regionCodes.put("11260", "서울특별시 중랑구");
+		regionCodes.put("11680", "서울특별시 강남구");
+		regionCodes.put("11740", "서울특별시 강동구");
+		regionCodes.put("11305", "서울특별시 강북구");
+		regionCodes.put("11500", "서울특별시 강서구");
+		regionCodes.put("11620", "서울특별시 관악구");
+		regionCodes.put("11215", "서울특별시 광진구");
+		regionCodes.put("11530", "서울특별시 구로구");
+		regionCodes.put("11545", "서울특별시 금천구");
+		regionCodes.put("11350", "서울특별시 노원구");
+		regionCodes.put("11320", "서울특별시 도봉구");
+		regionCodes.put("11230", "서울특별시 동대문구");
+		regionCodes.put("11590", "서울특별시 동작구");
+		regionCodes.put("11440", "서울특별시 마포구");
+		regionCodes.put("11410", "서울특별시 서대문구");
+		regionCodes.put("11650", "서울특별시 서초구");
+		regionCodes.put("11200", "서울특별시 성동구");
+		regionCodes.put("11290", "서울특별시 성북구");
+		regionCodes.put("11710", "서울특별시 송파구");
+		regionCodes.put("11470", "서울특별시 양천구");
+		regionCodes.put("11560", "서울특별시 영등포구");
+		regionCodes.put("11170", "서울특별시 용산구");
+		regionCodes.put("11380", "서울특별시 은평구");
+		regionCodes.put("11110", "서울특별시 종로구");
+		regionCodes.put("11140", "서울특별시 중구");
+		regionCodes.put("11260", "서울특별시 중랑구");
 //
 //		// 부산광역시
 		regionCodes.put("26440", "부산광역시 강서구");

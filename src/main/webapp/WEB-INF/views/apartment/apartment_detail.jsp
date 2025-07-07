@@ -19,6 +19,94 @@
 	
 	<!-- Chart.js -->
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <!--새로추가  JSP 데이터 바인딩용 전역 변수 선언 json 으로 넘기기 -->
+    <script>
+        const favoriteList = JSON.parse('<c:out value="${empty favoriteListJson ? '[]' : favoriteListJson}" escapeXml="false" />');
+        const currentUserNumber = ${user.userNumber};
+        const currentApartmentId = ${apartment.apartmentId}; // 현재 아파트 ID
+    </script>
+<%--새로추가 favorite 상태판단 초기세팅--%>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const $btn = $("#favoriteBtn");
+            const apartmentId = $btn.data("apartment-id");
+
+            const matched = favoriteList.find(item =>
+                String(item.apartmentId).trim() === String(apartmentId).trim() &&
+                String(item.userNumber).trim() === String(currentUserNumber).trim()
+            );
+
+            if (matched) {
+                // 이미 등록된 경우
+                $btn.data("favorite", true);
+                $btn.data("favorite-id", matched.favoriteId);
+                $btn.html('<i class="fas fa-heart-broken"></i> 관심 해제');
+                $btn.css("background-color", "#e74c3c");
+            } else {
+                // 미등록 상태
+                $btn.data("favorite", false);
+                $btn.data("favorite-id", "");
+                $btn.html('<i class="fas fa-heart"></i> 관심 등록');
+                $btn.css("background-color", "#3498db");
+            }
+        });
+
+        //  클릭 이벤트 처리 로직
+
+        $(document).on("click", "#favoriteBtn", function () {
+            const $btn = $(this);
+            const apartmentId = $btn.data("apartment-id");
+            const isFavorite = $btn.data("favorite") === true || $btn.data("favorite") === "true";
+            const favoriteId = $btn.data("favorite-id");
+
+            $btn.prop("disabled", true);
+
+            if (isFavorite) {
+                $.ajax({
+                    url: "/apartment_favorite_remove",
+                    type: "POST",
+                    data: { favoriteId: favoriteId },
+                    success: () => {
+                        alert("관심 목록에서 삭제되었습니다.");
+                        $btn.data("favorite", false);
+                        $btn.data("favorite-id", "");
+                        $btn.html('<i class="fas fa-heart"></i> 관심 등록');
+                        $btn.css("background-color", "#3498db");
+                        $btn.prop("disabled", false);
+                    },
+                    error: () => {
+                        alert("관심 해제 실패");
+                        $btn.prop("disabled", false);
+                    },
+                });
+            } else {
+                $.ajax({
+                    url: "/favorite/insert",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({ apartmentId: apartmentId }),
+                    success: (res) => {
+                        if (res.success) {
+                            alert("관심 목록에 등록되었습니다.");
+                            $btn.data("favorite", true);
+                            $btn.data("favorite-id", res.favoriteId);
+                            $btn.html('<i class="fas fa-heart-broken"></i> 관심 해제');
+                            $btn.css("background-color", "#e74c3c");
+                        } else {
+                            alert(res.message || "관심 등록 실패");
+                        }
+                        $btn.prop("disabled", false);
+                    },
+                    error: () => {
+                        alert("관심 등록 실패");
+                        $btn.prop("disabled", false);
+                    },
+                });
+            }
+        });
+    </script>
 </head>
 
 <body>
@@ -77,9 +165,18 @@
                     </div>
 
                     <div class="apartment-actions">
-                        <button class="action-button secondary-button" onclick="addToFavorites('${apartment.apartmentId}')">
-                            <i class="fas fa-heart"></i> 관심목록에 추가
-                        </button>
+<%--                        <button class="action-button secondary-button" onclick="addToFavorites('${apartment.apartmentId}')">--%>
+<%--                            <i class="fas fa-heart"></i> 관심목록에 추가--%>
+<%--                        </button>--%>
+    <!-- 관심 등록/해제 버튼 (초기 상태는 JS에서 판단해서 교체됨) -->
+    <button id="favoriteBtn"
+            class="overlay-button favorite"
+            data-apartment-id="${apartment.apartmentId}"
+            data-favorite-id=""
+            data-favorite="false"
+            style="width: 100%; padding: 10px; font-size: 14px; font-weight: bold; border: none; border-radius: 6px; background-color: #3498db; color: white; cursor: pointer;">
+        <i class="fas fa-heart"></i> 관심 등록
+    </button>
                     </div>
                 </div>
             </div>
