@@ -42,9 +42,9 @@
 </tbody>
 </table>
 
-## 🛠️ 기술 스택 (Tech Stack)
+## 🛠️ 기술 스택
 
-### 🌐 Frontend
+### 🌐 프론트엔드
 
 <table>
 <thead>
@@ -73,7 +73,7 @@
 </tbody>
 </table>
 
-### ⚙️ Backend
+### ⚙️ 백엔드
 
 <table>
 <thead>
