@@ -113,3 +113,132 @@
 
 ### 🔝 [이 섹션 맨 위로 이동](#trade-section-top-erd)
 </details>
+
+## 🖥 주요 화면 및 기능 상세
+
+<a name="trade-section-top1"></a>
+<details>
+<summary>🔐 로그인 & 회원가입</summary>
+  
+![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/1_1로그인.png?raw=true)
+
+1. 일반 로그인
+비회원은 회원가입을 통해 로그인을 할 수 있습니다.
+로그인시 **JWT토큰**을 발급받고 사용자는 해당 서비스를 이용 할 수 있습니다.
+2. 소셜 로그인
+네이버, 카카오, 구글 등을 통해 **소셜 로그인**을 진행 할 수 있습니다.
+**소셜 로그인** 또한 **JWT토큰**을 발급받고 해당 서비스를 이용 할 수 있습니다.
+
+---
+
+![MetroHouse](https://github.com/pingpingeee/Ink_Tree_Pjt/blob/main/lib/images/front/1_2회원가입.png?raw=true)
+![MetroHouse](https://github.com/pingpingeee/Ink_Tree_Pjt/blob/main/lib/images/front/1_3이메일인증.png?raw=true)
+
+1. 이메일 인증
+**네이버 SMTP**를 활용하여 **이메일 인증 시스템**을 구현했습니다.
+이메일 중복 여부를 확인한 후 숫자를 포함한 **8자리 무작위 인증번호**를 생성해 해당 이메일로 전송합니다.
+인증번호 전송 후 사용자가 이메일을 수정하면 최종 입력된 이메일로 가입되는 현상이 발생하여 인증번호 전송과 동시에 이메일 입력 필드와 전송 버튼을 비활성화하여 **입력값 변경**을 막는 방식으로 수정하였습니다.
+2. 정보 입력
+모든 input태그는 해당 패턴에 맞도록 예외처리를 하였습니다.
+**카카오 API**를 활용하여 사용자가 주소를 입력하면 우편번호와 도로명이 자동으로 삽입되도록 구현하였습니다.
+
+
+### 🔝 [이 섹션 맨 위로 이동](#trade-section-top1)
+---
+</details>
+
+<a name="trade-section-top2"></a>
+<details>
+<summary>🏠 메인화면</summary>
+
+
+![MetroHouse](https://github.com/pingpingeee/Ink_Tree_Pjt/blob/main/lib/images/front/2_1메인.png?raw=true)
+
+1. 토큰
+로그인시 사용자의 **토큰 만료시간**과 해당 **토큰의 만료값을 초기화**시켜 다시 30분의 시간을 가지도록 구현하였습니다.
+UI상 창모드 및 모바일로 사용 시 사용자경험을 상승시키기 위해 축소 및 일정 width이하가 되면 숨김처리 되도록 구현하였습니다.
+2. 검색
+
+---
+
+![MetroHouse](https://github.com/pingpingeee/Ink_Tree_Pjt/blob/main/lib/images/front/2_2메인.png?raw=true)
+
+
+### 🔝 [이 섹션 맨 위로 이동](#trade-section-top2)
+---
+</details>
+
+<a name="trade-section-top3"></a>
+<details>
+<summary>📣 게시판</summary>
+
+![MetroHouse](https://github.com/pingpingeee/Ink_Tree_Pjt/blob/main/lib/images/front/3_1게시판.png?raw=true)
+
+![MetroHouse](https://github.com/pingpingeee/Ink_Tree_Pjt/blob/main/lib/images/front/3_2게시글.png?raw=true)
+
+### 🔝 [이 섹션 맨 위로 이동](#trade-section-top3)
+---
+</details>
+
+<a name="trade-section-top4"></a>
+<details>
+<summary>📌 아파트</summary>
+
+![MetroHouse](https://github.com/pingpingeee/Ink_Tree_Pjt/blob/main/lib/images/front/4_1관심아파트.png?raw=true)
+
+### 🔝 [이 섹션 맨 위로 이동](#trade-section-top4)
+---
+</details>
+
+<a name="trade-section-top5"></a>
+<details>
+<summary>마이페이지</summary>
+
+![MetroHouse](https://github.com/pingpingeee/Ink_Tree_Pjt/blob/main/lib/images/front/5_1마이페이지.png?raw=true)
+  
+### 🔝 [이 섹션 맨 위로 이동](#trade-section-top5)
+---
+</details>
+
+<a name="trade-section-top6"></a>
+<details>
+<summary>🛠 관리자 기능</summary>
+
+![MetroHouse](https://github.com/pingpingeee/Ink_Tree_Pjt/blob/main/lib/images/front/6_1관리자전용데이터다운로드.png?raw=true)
+
+![MetroHouse](https://github.com/pingpingeee/Ink_Tree_Pjt/blob/main/lib/images/front/6_2최신 아파트 거래 데이터 다운.png?raw=true)
+
+![MetroHouse](https://github.com/pingpingeee/Ink_Tree_Pjt/blob/main/lib/images/front/6_3과거 데이터 큐테이블에 저장.png?raw=true)
+
+![MetroHouse](https://github.com/pingpingeee/Ink_Tree_Pjt/blob/main/lib/images/front/6_4과거 데이터 테이블화(년별로).png?raw=true)
+
+![MetroHouse](https://github.com/pingpingeee/Ink_Tree_Pjt/blob/main/lib/images/front/6_5큐테이블 데이터 삭제.png?raw=true)
+
+### 🔝 [이 섹션 맨 위로 이동](#trade-section-top6)
+---
+</details>
+
+<a name="trade-section-top7"></a>
+<details>
+<summary>아파트 상세 정보</summary>
+
+![MetroHouse](https://github.com/pingpingeee/Ink_Tree_Pjt/blob/main/lib/images/front/7_1아파트상세.png?raw=true)
+
+![MetroHouse](https://github.com/pingpingeee/Ink_Tree_Pjt/blob/main/lib/images/front/7_2아파트상세.png?raw=true)
+
+
+### 🔝 [이 섹션 맨 위로 이동](#trade-section-top7)
+---
+</details>
+
+<a name="trade-section-top8"></a>
+<details>
+<summary>지도 시각화 & 아파트 값 비교</summary>
+
+![MetroHouse](https://github.com/pingpingeee/Ink_Tree_Pjt/blob/main/lib/images/front/8_1지도 전체.png?raw=true)
+
+![MetroHouse](https://github.com/pingpingeee/Ink_Tree_Pjt/blob/main/lib/images/front/8_2지도 비교.png?raw=true)
+
+### 🔝 [이 섹션 맨 위로 이동](#trade-section-top8)
+---
+</details>
