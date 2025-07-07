@@ -298,14 +298,14 @@
   - <img src="https://img.shields.io/badge/Naver-03C75A?style=flat&logo=naver&logoColor=white" alt="Naver"> <img src="https://img.shields.io/badge/Kakao-FFCD00?style=flat&logo=kakao&logoColor=black" alt="Kakao"> <img src="https://img.shields.io/badge/Google-4285F4?style=flat&logo=google&logoColor=white" alt="Google">
   - OAuth2 기반 간편 로그인
     
-### 🔝 [이 섹션 맨 위로 이동](#trade-section-top1)
-
 <div align="center">
 <a href="#trade-section-top1">
 <img src="https://img.shields.io/badge/🔝이 섹션 맨 위로 이동-4A90E2?style=for-the-badge&logoColor=white" alt="맨 위로">
 </a>
 </div>
+
 ---
+
 </details>
 
 <a name="trade-section-top2"></a>
@@ -326,7 +326,13 @@
 - 모든 입력 필드 **패턴 검증** 및 예외처리
 - **Kakao 주소 API** 연동으로 주소 자동완성
 - 우편번호 및 도로명 자동 입력
-### 🔝 [이 섹션 맨 위로 이동](#trade-section-top2)
+
+<div align="center">
+<a href="#trade-section-top2">
+<img src="https://img.shields.io/badge/🔝이 섹션 맨 위로 이동-4A90E2?style=for-the-badge&logoColor=white" alt="맨 위로">
+</a>
+</div>
+
 ---
 </details>
 
