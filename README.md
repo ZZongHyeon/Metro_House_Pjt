@@ -211,47 +211,66 @@
 <a name="trade-section-top-erd"></a>
 <details>
 <summary>ERD</summary>
-  <br>
-<ul>
-  <li><b>사용자 관리</b>
-    <ul>
-      <li>USERINFO: 사용자 기본 정보</li>
-    </ul>
-  </li>
-  <br>
-  <li><b>커뮤니티 기능</b>
-    <ul>
-      <li>BOARD: 게시판</li>
-      <li>BOARD_COMMENT: 댓글</li>
-      <li>BOARD_LIKES: 게시글 추천</li>
-    </ul>
-  </li>
-  <br>
-  <li><b>아파트 정보 관리</b>
-    <ul>
-      <li>APARTMENTINFO: 아파트 기본 정보</li>
-      <li>APARTMENTINFO_QUEUE: 아파트 데이터를 저장할 큐</li>
-    </ul>
-  </li>
-  <br>
-  <li><b>아파트 사용자 기능</b>
-    <ul>
-      <li>APARTMENT_FAVORITE: 관심 아파트</li>
-      <li>APARTMENT_REVIEW: 아파트 리뷰</li>
-      <li>REVIEW_HELPFUL: 리뷰 도움됨</li>
-    </ul>
-  </li>
-  <li><b>z_년도( ex | z_2016 ) 관리자용 데이터 최신화시 수치에 맞게 테이블 생성</b>
-    <ul>
-      <li>Z_2016: 2016년의 아파트 정보들</li>
-        ...
-      <li>Z_2025: 2025년의 아파트 정보들</li>
-    </ul>
-  </li>
-  
-</ul>
+## 🗄️ 데이터베이스 구조 (Database Schema)
 
-<br>
+<table>
+<thead>
+<tr>
+<th width="25%">카테고리</th>
+<th width="75%">테이블 구성</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://img.shields.io/badge/👤_사용자_관리-4A90E2?style=flat&logoColor=white" alt="사용자 관리"></td>
+<td>
+<ul>
+<li><code>USERINFO</code> - 사용자 기본 정보</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/💬_커뮤니티_기능-F5A623?style=flat&logoColor=white" alt="커뮤니티 기능"></td>
+<td>
+<ul>
+<li><code>BOARD</code> - 게시판</li>
+<li><code>BOARD_COMMENT</code> - 댓글</li>
+<li><code>BOARD_LIKES</code> - 게시글 추천</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/🏢_아파트_정보_관리-7ED321?style=flat&logoColor=white" alt="아파트 정보 관리"></td>
+<td>
+<ul>
+<li><code>APARTMENTINFO</code> - 아파트 기본 정보</li>
+<li><code>APARTMENTINFO_QUEUE</code> - 아파트 데이터를 저장할 큐</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/⭐_아파트_사용자_기능-9013FE?style=flat&logoColor=white" alt="아파트 사용자 기능"></td>
+<td>
+<ul>
+<li><code>APARTMENT_FAVORITE</code> - 관심 아파트</li>
+<li><code>APARTMENT_REVIEW</code> - 아파트 리뷰</li>
+<li><code>REVIEW_HELPFUL</code> - 리뷰 도움됨</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/📅_연도별_데이터_관리-D0021B?style=flat&logoColor=white" alt="연도별 데이터 관리"></td>
+<td>
+<ul>
+<li><code>Z_2016</code> - 2016년의 아파트 정보들</li>
+<li>...</li>
+<li><code>Z_2025</code> - 2025년의 아파트 정보들</li>
+</ul>
+<small>※ 관리자용 데이터 최신화시 수치에 맞게 테이블 생성</small>
+</td>
+</tr>
+</tbody>
+</table>
   
 ## 📌 ERD
 ![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/erd/erd.png?raw=true)
