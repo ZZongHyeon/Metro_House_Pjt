@@ -281,7 +281,7 @@ UI상 창모드 및 모바일로 사용 시 사용자경험을 상승시키기 �
 <details>
 <summary>🗺️ 지도 시각화 & 아파트 값 비교</summary>
 
-![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/8_1지도 전체.png?raw=true)
+![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/8_1지도_전체.png?raw=true)
 
 1. 메인 화면에서의 **지하철역 검색을 기반으로 주변 아파트 위치를 지도에 시각화**할 수 있습니다.
 2. 해당 지하철역 인근 내 **실거래가 기반 아파트 데이터**가 지도와 리스트로 동시 표현됩니다.
@@ -289,7 +289,7 @@ UI상 창모드 및 모바일로 사용 시 사용자경험을 상승시키기 �
 4. 우측에는 **해당 지하철역 인근 아파트 리스트**가 표현되고, 콜릭 시 지도에 상세 정보 카드가 출력됩니다.
 5. 관심 아파트는 실시간으로 **등록 / 삭제 가능**하며, 각 리스트는 상호 연동됩니다.
 
-![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/8_2지도 비교.png?raw=true)
+![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/8_2지도_비교.png?raw=true)
 
 1. 우측 리스트에서 선택한 아파트 카드는 **좌측 상단의 고정 영역**에 등록되고 지도에서도 카드로 표현됩니다.
 2. 등록된 아파트는 사용자 관심 아파트 목록과 **비교 가능한 형식으로 시각화**되어, **면적, 가격, 위치 등 주요 정보를 한눈에 확인**할 수 있습니다.
