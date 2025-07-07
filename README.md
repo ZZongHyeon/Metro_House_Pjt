@@ -281,37 +281,74 @@
 
 ## 🖥 주요 화면 및 기능 상세
 
-<a name="trade-section-top1"></a>
+## 📋 주요 기능 (Main Features)
+
+### 🔐 로그인 & 회원가입
+
+<table>
+<thead>
+<tr>
+<th colspan="2" align="center">
+<img src="https://img.shields.io/badge/🔐_Authentication-4A90E2?style=for-the-badge&logoColor=white" alt="인증 시스템">
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td width="50%" align="center">
+<img src="https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/1_1로그인.png?raw=true" alt="로그인 화면" width="100%">
+</td>
+<td width="50%">
+<h4>🔑 로그인 시스템</h4>
+<ul>
+<li><strong>일반 로그인</strong><br>
+   • 회원가입을 통한 계정 생성<br>
+   • <code>JWT 토큰</code> 기반 인증</li>
+<li><strong>소셜 로그인</strong><br>
+   • <img src="https://img.shields.io/badge/Naver-03C75A?style=flat&logo=naver&logoColor=white" alt="Naver"> <img src="https://img.shields.io/badge/Kakao-FFCD00?style=flat&logo=kakao&logoColor=black" alt="Kakao"> <img src="https://img.shields.io/badge/Google-4285F4?style=flat&logo=google&logoColor=white" alt="Google"><br>
+   • OAuth2 기반 간편 로그인</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td colspan="2">
 <details>
-<summary>🔐 로그인 & 회원가입</summary>
-  
-![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/1_1로그인.png?raw=true)
+<summary><strong>📧 회원가입 상세 과정</strong></summary>
 
-1. 일반 로그인
-비회원은 회원가입을 통해 로그인을 할 수 있습니다.
-로그인시 **JWT토큰**을 발급받고 사용자는 해당 서비스를 이용 할 수 있습니다.
-2. 소셜 로그인
-네이버, 카카오, 구글 등을 통해 **소셜 로그인**을 진행 할 수 있습니다.
-**소셜 로그인** 또한 **JWT토큰**을 발급받고 해당 서비스를 이용 할 수 있습니다.
+<table>
+<tr>
+<td width="50%" align="center">
+<img src="https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/1_2회원가입.png?raw=true" alt="회원가입 화면" width="100%">
+</td>
+<td width="50%" align="center">
+<img src="https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/1_3이메일인증.png?raw=true" alt="이메일 인증 화면" width="100%">
+</td>
+</tr>
+</table>
 
----
+#### ✉️ 이메일 인증 시스템
+- **Naver SMTP** 활용한 이메일 인증
+- **8자리 무작위 인증번호** 생성 및 전송
+- 인증번호 전송 후 **입력 필드 비활성화**로 보안 강화
 
-![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/1_2회원가입.png?raw=true)
+#### 📝 정보 입력 시스템
+- 모든 입력 필드 **패턴 검증** 및 예외처리
+- **Kakao 주소 API** 연동으로 주소 자동완성
+- 우편번호 및 도로명 자동 입력
 
-![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/1_3이메일인증.png?raw=true)
-
-1. 이메일 인증
-**네이버 SMTP**를 활용하여 **이메일 인증 시스템**을 구현했습니다.
-이메일 중복 여부를 확인한 후 숫자를 포함한 **8자리 무작위 인증번호**를 생성해 해당 이메일로 전송합니다.
-인증번호 전송 후 사용자가 이메일을 수정하면 최종 입력된 이메일로 가입되는 현상이 발생하여 인증번호 전송과 동시에 이메일 입력 필드와 전송 버튼을 비활성화하여 **입력값 변경**을 막는 방식으로 수정하였습니다.
-2. 정보 입력
-모든 input태그는 해당 패턴에 맞도록 예외처리를 하였습니다.
-**카카오 API**를 활용하여 사용자가 주소를 입력하면 우편번호와 도로명이 자동으로 삽입되도록 구현하였습니다.
-
-
-### 🔝 [이 섹션 맨 위로 이동](#trade-section-top1)
----
 </details>
+</td>
+</tr>
+</tbody>
+</table>
+
+---
+
+<div align="center">
+<a href="#top">
+<img src="https://img.shields.io/badge/🔝_맨_위로_이동-gray?style=for-the-badge" alt="맨 위로">
+</a>
+</div>
 
 <a name="trade-section-top2"></a>
 <details>
