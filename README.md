@@ -132,6 +132,7 @@
 ---
 
 ![MetroHouse](https://github.com/pingpingeee/Ink_Tree_Pjt/blob/main/lib/images/front/1_2회원가입.png?raw=true)
+
 ![MetroHouse](https://github.com/pingpingeee/Ink_Tree_Pjt/blob/main/lib/images/front/1_3이메일인증.png?raw=true)
 
 1. 이메일 인증
