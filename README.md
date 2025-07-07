@@ -11,8 +11,6 @@
 | **협업 도구** | Jira, Notion |
 | **API 테스트** | Postman |
 
----
-
 ## 🛠️ 기술 스택 (Tech Stack)
 
 ### 🌐 Frontend
@@ -23,8 +21,6 @@
 | **JavaScript / jQuery** | DOM 조작, AJAX 통신 기반 사용자 상호작용 구현 |
 | **CSS3 / Bootstrap** | 반응형 디자인 및 컴포넌트 기반 UI 구성 |
 | **Font Awesome** | 직관적인 UI 아이콘 구성 (좋아요, 조회수 등 시각화) |
-
----
 
 ### ⚙ Backend
 
@@ -39,14 +35,10 @@
 | **공공데이터포털 API** | 실거래가 데이터 수집 및 OracleDB 저장 자동화 |
 | **Kakao Map API** | 아파트 위치 시각화 및 지도 기반 필터링 지원 |
 
----
-
 ## 🔌 외부 연동 API
 
 - **공공데이터포털 Open API** – 전국 아파트 실거래가 정보 주기적 수집  
 - **Kakao Map API** – 위도/경도 기반 아파트 위치 시각화 및 반경 기반 검색  
-
----
 
 ## 💻 개발 도구
 
@@ -59,8 +51,6 @@
 | **Jira** | 태스크 관리 및 애자일 기반 일정 운영 |
 | **Notion** | 문서화 및 기획서 공유 |
 
----
-
 ## ✅ 핵심 기술 요약
 
 - JWT 기반 **무상태 인증 시스템**
@@ -69,12 +59,8 @@
 - 좋아요 기능 및 **조회수 기반 정렬 게시판**
 - Spring Security 기반 **접근 제어 및 권한 분리**
 
----
-
-
 ### ERD
 ![스크린샷 2025-07-02 113603](https://github.com/user-attachments/assets/21c4456a-779b-4199-a394-c82380a5dd1c)
-
 
 # 로그인
 ![로그인화면](https://github.com/user-attachments/assets/2e5c1feb-a582-4577-82ee-286c45ddd362)
