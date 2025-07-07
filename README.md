@@ -1,40 +1,122 @@
 ## 📦 개발 환경 구성
 
-| 항목 | 상세 내용 |
-|------|------|
-| **개발 언어** | Java (JDK 8+), JavaScript |
-| **프레임워크** | Spring Boot, Spring MVC |
-| **ORM** | MyBatis |
-| **데이터베이스** | Oracle 11g 이상 |
-| **빌드 도구** | Gradle |
-| **WAS** | Spring Boot Embedded Tomcat |
-| **형상관리** | Git, GitHub |
-| **협업 도구** | Jira, Notion |
-| **API 테스트** | Postman |
+<table>
+<thead>
+<tr>
+<th width="20%">카테고리</th>
+<th width="30%">기술</th>
+<th width="50%">상세 내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>🔧 백엔드</strong></td>
+<td><img src="https://img.shields.io/badge/Java-ED8B00?style=flat&logo=java&logoColor=white" alt="Java"> <img src="https://img.shields.io/badge/Spring_Boot-6DB33F?style=flat&logo=spring-boot&logoColor=white" alt="Spring Boot"></td>
+<td>Java (JDK 8+), Spring Boot (Spring MVC, Spring Security 포함)</td>
+</tr>
+<tr>
+<td><strong>🗄️ 데이터베이스</strong></td>
+<td><img src="https://img.shields.io/badge/Oracle-F80000?style=flat&logo=oracle&logoColor=white" alt="Oracle"> <img src="https://img.shields.io/badge/MyBatis-000000?style=flat&logo=mybatis&logoColor=white" alt="MyBatis"></td>
+<td>Oracle 11g 이상, MyBatis ORM</td>
+</tr>
+<tr>
+<td><strong>🏗️ 빌드 & WAS</strong></td>
+<td><img src="https://img.shields.io/badge/Gradle-02303A?style=flat&logo=gradle&logoColor=white" alt="Gradle"> <img src="https://img.shields.io/badge/Apache_Tomcat-F8DC75?style=flat&logo=apache-tomcat&logoColor=black" alt="Tomcat"></td>
+<td>Gradle, Spring Boot Embedded Tomcat</td>
+</tr>
+<tr>
+<td><strong>🔄 형상 관리DevOps</strong></td>
+<td><img src="https://img.shields.io/badge/Git-F05032?style=flat&logo=git&logoColor=white" alt="Git"> <img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white" alt="GitHub"></td>
+<td>Git, GitHub Actions CI/CD</td>
+</tr>
+<tr>
+<td><strong>🤝 협업 도구</strong></td>
+<td><img src="https://img.shields.io/badge/Jira-0052CC?style=flat&logo=jira&logoColor=white" alt="Jira"> <img src="https://img.shields.io/badge/Notion-000000?style=flat&logo=notion&logoColor=white" alt="Notion"></td>
+<td>Jira (이슈 관리), Notion (문서화)</td>
+</tr>
+<tr>
+<td><strong>🧪 테스트 도구</strong></td>
+<td><img src="https://img.shields.io/badge/Postman-FF6C37?style=flat&logo=postman&logoColor=white" alt="Postman"> <img src="https://img.shields.io/badge/JUnit-25A162?style=flat&logo=junit5&logoColor=white" alt="JUnit"></td>
+<td>Postman (API 테스트), JUnit (단위 테스트)</td>
+</tr>
+</tbody>
+</table>
 
 ## 🛠️ 기술 스택 (Tech Stack)
 
 ### 🌐 Frontend
 
-| 기술 | 설명 |
-|------|------|
-| **JSP** | 서버 사이드 렌더링 기반 동적 HTML 생성 |
-| **JavaScript / jQuery** | 클라이언트 상호작용 구현 및 Ajax 요청 처리 |
-| **Bootstrap** | 반응형 UI 디자인 구현 |
-| **MyBatis** | View와 DB 간의 데이터 매핑 처리 (JSP ↔ DAO) |
+<table>
+<thead>
+<tr>
+<th width="30%">기술</th>
+<th width="70%">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://img.shields.io/badge/JSP-007396?style=flat&logo=java&logoColor=white" alt="JSP"></td>
+<td>서버 사이드 렌더링 기반 동적 HTML 생성</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black" alt="JavaScript"> <img src="https://img.shields.io/badge/jQuery-0769AD?style=flat&logo=jquery&logoColor=white" alt="jQuery"></td>
+<td>클라이언트 상호작용 구현 및 Ajax 요청 처리</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/Bootstrap-7952B3?style=flat&logo=bootstrap&logoColor=white" alt="Bootstrap"></td>
+<td>반응형 UI 디자인 구현</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/MyBatis-000000?style=flat&logo=mybatis&logoColor=white" alt="MyBatis"></td>
+<td>View와 DB 간의 데이터 매핑 처리 (JSP ↔ DAO)</td>
+</tr>
+</tbody>
+</table>
 
-### ⚙ Backend
+### ⚙️ Backend
 
-| 기술 | 설명 |
-|------|------|
-| **Spring Boot** | RESTful API 구현, 설정 자동화, 내장 톰캣 기반 서버 환경 |
-| **Spring MVC** | 계층화된 컨트롤러-서비스 구조로 웹 애플리케이션 구현 |
-| **MyBatis** | SQL 중심 ORM, DB 연동 및 동적 쿼리 처리 |
-| **Oracle** | 게시글/댓글/좋아요/거래 데이터 관리용 RDBMS |
-| **Spring Security** | 사용자 인증/인가 및 세션 관리 구현 |
-| **JWT** | 토큰 기반 인증 구조, 무상태 인증 처리 방식 적용 |
-| **공공데이터포털 API** | 실거래가 데이터 수집 및 OracleDB 저장 자동화 |
-| **Kakao Map API** | 아파트 위치 시각화 및 지도 기반 필터링 지원 |
+<table>
+<thead>
+<tr>
+<th width="30%">기술</th>
+<th width="70%">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://img.shields.io/badge/Spring_Boot-6DB33F?style=flat&logo=spring-boot&logoColor=white" alt="Spring Boot"></td>
+<td>RESTful API 구현, 설정 자동화, 내장 톰캣 기반 서버 환경</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/Spring_MVC-6DB33F?style=flat&logo=spring&logoColor=white" alt="Spring MVC"></td>
+<td>계층화된 컨트롤러-서비스 구조로 웹 애플리케이션 구현</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/MyBatis-000000?style=flat&logo=mybatis&logoColor=white" alt="MyBatis"></td>
+<td>SQL 중심 ORM, DB 연동 및 동적 쿼리 처리</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/Oracle-F80000?style=flat&logo=oracle&logoColor=white" alt="Oracle"></td>
+<td>게시글/댓글/좋아요/거래 데이터 관리용 RDBMS</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/Spring_Security-6DB33F?style=flat&logo=spring-security&logoColor=white" alt="Spring Security"></td>
+<td>사용자 인증/인가 및 세션 관리 구현</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/JWT-000000?style=flat&logo=json-web-tokens&logoColor=white" alt="JWT"></td>
+<td>토큰 기반 인증 구조, 무상태 인증 처리 방식 적용</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/공공데이터포털-003876?style=flat&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K&logoColor=white" alt="공공데이터포털"></td>
+<td>실거래가 데이터 수집 및 OracleDB 저장 자동화</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/Kakao_Map-FFCD00?style=flat&logo=kakao&logoColor=black" alt="Kakao Map"></td>
+<td>아파트 위치 시각화 및 지도 기반 필터링 지원</td>
+</tr>
+</tbody>
+</table>
 
 ## 🔌 외부 연동 API
 
