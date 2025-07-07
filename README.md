@@ -239,6 +239,8 @@ UI상 창모드 및 모바일로 사용 시 사용자경험을 상승시키기 �
 3. 데이터 동기화: 저장된 데이터를 **연도 기준으로 분할 테이블로 구성**합니다.
 4. 큐 데이터 정리: 분할 테이블 생성 후 APRATMENTINF_OQUEUE테이블의 데이터를 삭제하여 **DB최적화**를 수행합니다.
 
+---
+
 ![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/6_2최신_아파트_거래_데이터_다운.png?raw=true)
 
 🔝 [이 섹션 맨 위로 이동](#trade-section-top6)
@@ -269,6 +271,8 @@ UI상 창모드 및 모바일로 사용 시 사용자경험을 상승시키기 �
 3. 사용자는 각 아파트에 대해 **한 번만 리뷰**를 작성할 수 있으며, 자신의 리뷰는 수정 및 삭제가 가능합니다.
 4. 리뷰 평균 평점은 상단에 시각적으로 **집계**되어 표시되며, 전체 이용자의 평가 흐름을 한눈에 확인할 수 있습니다.
 5. 관리자는 모든 리뷰에 대해 **제한 없이 수정 및 삭제 권한**을 갖습니다.
+
+---
 
 ![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/7_2아파트상세.png?raw=true)
 
