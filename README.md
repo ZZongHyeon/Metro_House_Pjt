@@ -321,8 +321,6 @@
 
 </details>
 
-### 🏠 메인화면
-
 <details>
 <summary><strong>🏠 메인화면</strong></summary>
 
@@ -353,8 +351,6 @@
 - 회원가입 시 등록한 **사용자의 주소를 기반**으로 해당 지역 인근 **추천 아파트 3곳이 자동으로 제공**
 
 </details>
-
-### 📣 게시판
 
 <details>
 <summary><strong>📣 게시판</strong></summary>
@@ -387,8 +383,6 @@
 
 </details>
 
-### 📌 관심 아파트
-
 <details>
 <summary><strong>📌 관심 아파트</strong></summary>
 
@@ -407,8 +401,6 @@
 
 </details>
 
-### 👤 마이페이지
-
 <details>
 <summary><strong>👤 마이페이지</strong></summary>
 
@@ -423,8 +415,6 @@
 - 보안 강화를 위해 **현재 비밀번호 입력 및 일치 여부 확인 후 변경이 가능**하도록 설계
 
 </details>
-
-### 🛠 관리자 기능
 
 <details>
 <summary><strong>🛠 관리자 기능</strong></summary>
@@ -451,8 +441,6 @@
 
 </details>
 
-### 🏢 아파트 상세 정보
-
 <details>
 <summary><strong>🏢 아파트 상세 정보</strong></summary>
 
@@ -476,8 +464,6 @@
 </div>
 
 </details>
-
-### 🗺️ 지도 시각화 & 아파트 값 비교
 
 <details>
 <summary><strong>🗺️ 지도 시각화 & 아파트 값 비교</strong></summary>
