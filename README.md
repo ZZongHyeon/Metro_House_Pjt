@@ -78,8 +78,8 @@
 <table>
 <thead>
 <tr>
-<th width="30%">기술</th>
-<th width="70%">설명</th>
+<th width="25%">기술</th>
+<th width="75%">설명</th>
 </tr>
 </thead>
 <tbody>
@@ -107,8 +107,6 @@
 <td><img src="https://img.shields.io/badge/JWT-000000?style=flat&logo=json-web-tokens&logoColor=white" alt="JWT"></td>
 <td>토큰 기반 인증 구조, 무상태 인증 처리 방식 적용</td>
 </tr>
-<tr>
-
 </tbody>
 </table>
 
