@@ -280,62 +280,31 @@
 </details>
 
 ## 🖥 주요 화면 및 기능 상세
-
-## 📋 주요 기능 (Main Features)
-
-### 🔐 로그인 & 회원가입
-
-<table>
-<thead>
-<tr>
-<th colspan="2" align="center">
-<img src="https://img.shields.io/badge/🔐_Authentication-4A90E2?style=for-the-badge&logoColor=white" alt="인증 시스템">
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td colspan="2">
 <details>
 <summary><strong>🔑 로그인 시스템</strong></summary>
 
-<table>
-<tr>
-<td width="50%" align="center">
-<img src="https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/1_1로그인.png?raw=true" alt="로그인 화면" width="100%">
-</td>
-<td width="50%">
-<h4>🔑 로그인 방식</h4>
-<ul>
-<li><strong>일반 로그인</strong><br>
-   • 회원가입을 통한 계정 생성<br>
-   • <code>JWT 토큰</code> 기반 인증</li>
-<li><strong>소셜 로그인</strong><br>
-   • <img src="https://img.shields.io/badge/Naver-03C75A?style=flat&logo=naver&logoColor=white" alt="Naver"> <img src="https://img.shields.io/badge/Kakao-FFCD00?style=flat&logo=kakao&logoColor=black" alt="Kakao"> <img src="https://img.shields.io/badge/Google-4285F4?style=flat&logo=google&logoColor=white" alt="Google"><br>
-   • OAuth2 기반 간편 로그인</li>
-</ul>
-</td>
-</tr>
-</table>
+<div align="center">
+<img src="https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/1_1로그인.png?raw=true" alt="로그인 화면" width="60%">
+</div>
+
+#### 🔑 로그인 방식
+- **일반 로그인**
+  - 회원가입을 통한 계정 생성
+  - `JWT 토큰` 기반 인증
+
+- **소셜 로그인**
+  - <img src="https://img.shields.io/badge/Naver-03C75A?style=flat&logo=naver&logoColor=white" alt="Naver"> <img src="https://img.shields.io/badge/Kakao-FFCD00?style=flat&logo=kakao&logoColor=black" alt="Kakao"> <img src="https://img.shields.io/badge/Google-4285F4?style=flat&logo=google&logoColor=white" alt="Google">
+  - OAuth2 기반 간편 로그인
 
 </details>
-</td>
-</tr>
-<tr>
-<td colspan="2">
+
 <details>
 <summary><strong>📧 회원가입 시스템</strong></summary>
 
-<table>
-<tr>
-<td width="50%" align="center">
-<img src="https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/1_2회원가입.png?raw=true" alt="회원가입 화면" width="100%">
-</td>
-<td width="50%" align="center">
-<img src="https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/1_3이메일인증.png?raw=true" alt="이메일 인증 화면" width="100%">
-</td>
-</tr>
-</table>
+<div align="center">
+<img src="https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/1_2회원가입.png?raw=true" alt="회원가입 화면" width="45%">
+<img src="https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/1_3이메일인증.png?raw=true" alt="이메일 인증 화면" width="45%">
+</div>
 
 #### ✉️ 이메일 인증 시스템
 - **Naver SMTP** 활용한 이메일 인증
@@ -348,18 +317,6 @@
 - 우편번호 및 도로명 자동 입력
 
 </details>
-</td>
-</tr>
-</tbody>
-</table>
-
----
-
-<div align="center">
-<a href="#top">
-<img src="https://img.shields.io/badge/🔝_맨_위로_이동-gray?style=for-the-badge" alt="맨 위로">
-</a>
-</div>
 
 #### ✉️ 이메일 인증 시스템
 - **Naver SMTP** 활용한 이메일 인증
