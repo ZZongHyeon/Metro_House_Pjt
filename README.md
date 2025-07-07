@@ -155,15 +155,23 @@
 
 ![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/2_1메인.png?raw=true)
 
-1. 토큰
-로그인시 사용자의 **토큰 만료시간**과 해당 **토큰의 만료값을 초기화**시켜 다시 30분의 시간을 가지도록 구현하였습니다.
+1. 토큰<br>
+로그인시 사용자의 **토큰 만료시간**과 해당 **토큰의 만료값을 초기화**시켜 다시 30분의 시간을 가지도록 구현하였습니다.<br>
 UI상 창모드 및 모바일로 사용 시 사용자경험을 상승시키기 위해 축소 및 일정 width이하가 되면 숨김처리 되도록 구현하였습니다.
-2. 검색
-
+2. 검색<br>
+시 → 구/군 → 지하철역 순의 **계층적 드릴다운 방식**으로 지역을 탐색할 수 있는 검색 기능을 제공합니다.<br>
+사용자가 특정 시를 선택하면 해당 시에 속한 **구/군 목록**이 자동으로 표시되며,
+구/군을 선택하면 해당 지역을 지나는 **지하철역 목록**이 동적으로 제공됩니다.
 ---
 
 ![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/2_2메인.png?raw=true)
 
+1. 아래와 같은 지표를 시각적으로 제공합니다.
+   - 전체 등록 아파트 수
+   - 등록된 지하철역 수
+   - 전체 아파트의 평균 매매가
+   - 일일 방문자 수
+2. 회원가입 시 등록한 **사용자의 주소를 기반**으로 해당 지역 인근 **추천 아파트 3곳이 자동으로 제공**됩니다.
 
 ### 🔝 [이 섹션 맨 위로 이동](#trade-section-top2)
 ---
@@ -175,7 +183,19 @@ UI상 창모드 및 모바일로 사용 시 사용자경험을 상승시키기 �
 
 ![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/3_1게시판.png?raw=true)
 
+1. 게시판은 커뮤니티 기능의 중심이 되는 구성 요소로 데이터가 많아질수록 성능과 사용 편의성에 영향을 주기 때문에 **페이지당 10개씩** 불러오는 페이징 처리를 적용하여 초기 로딩 속도와 데이터 접근 효율성을 개선하였습니다.
+2. 게시글 목록에서는 추천 수와 댓글 수를 사전 노출 하여 사용자가 리스트를 탐색하면서도 활발한 게시글, 인기 게시글을 직관적으로 파악할 수 있도록 UI/UX를 강화하였습니다.
+3. **다양한 검색 조건**을 적용할 수 있도록 제목, 본문 내용, 작성자 기준의 검색 기능을 구현하였습니다.
+4. 이로 인해 사용자는 키워드 기반으로 빠르고 정확하게 원하는 게시글을 탐색할 수 있습니다.
+
+---
+   
 ![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/3_2게시글.png?raw=true)
+
+1. 게시글 상세 기능에서는 사용자의 반응을 유도하고 콘텐츠의 신뢰도를 높이기 위해 추천 기능을 도입하였습니다.
+2. 사용자는 특정 게시글에 공감하거나 유익하다고 판단될 경우 **추천 버튼**을 통해 피드백을 줄 수 있으며 이는 커뮤니티 내에서 콘텐츠 품질을 자연스럽게 평가할 수 있는 간접적인 장치로 작용합니다.
+3. 댓글 시스템에서는 **계층형 구조**를 구현하기 위해 SubNumber 컬럼을 활용하였습니다.
+4. 댓글 작성 시 부모 댓글의 ID와 함께 계층 구조를 판단할 수 있도록 설계하여 일반 댓글과 대댓글의 관계를 명확하게 구분하고 프론트엔드에서는 이를 바탕으로 들여쓰기 형식의 계층 UI를 구현할 수 있게 하였습니다.
 
 ### 🔝 [이 섹션 맨 위로 이동](#trade-section-top3)
 ---
@@ -183,9 +203,13 @@ UI상 창모드 및 모바일로 사용 시 사용자경험을 상승시키기 �
 
 <a name="trade-section-top4"></a>
 <details>
-<summary>📌 아파트</summary>
+<summary>📌 관심 아파트</summary>
 
 ![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/4_1관심아파트.png?raw=true)
+
+1. 아파트 상세 페이지 및 지도 기반 인터페이스에서 **관심 아파트 등록 기능**을 제공합니다.
+2. 지역 / 가격 범위 / 정렬 기준(최근 등록순, 가격 낮은순, 가격 높은순, 면적 작은순, 면적 큰순)을 통하여 아파트를 효율적으로 검색할 수 있습니다.
+3. 상세보기 버튼 클릭 시, 해당 아파트의 **상세 정보 페이지로 즉시 이동**할 수 있습니다.
 
 ### 🔝 [이 섹션 맨 위로 이동](#trade-section-top4)
 ---
@@ -196,6 +220,9 @@ UI상 창모드 및 모바일로 사용 시 사용자경험을 상승시키기 �
 <summary>👤 마이페이지</summary>
 
 ![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/5_1마이페이지.png?raw=true)
+
+1. 사용자는 마이페이지를 통해 **개인정보 및 비밀번호를 수정**할 수 있습니다.
+2. 보안 강화를 위해 **현재 비밀번호 입력 및 일치 여부 확인 후 변경이 가능**하도록 설계되어 있습니다.
   
 ### 🔝 [이 섹션 맨 위로 이동](#trade-section-top5)
 ---
@@ -207,11 +234,22 @@ UI상 창모드 및 모바일로 사용 시 사용자경험을 상승시키기 �
 
 ![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/6_1관리자전용데이터다운로드.png?raw=true)
 
+1. 최신데이터 다운로드: 실시간 API를 통해 **가장 최신의 실거래가 데이터**를 APRATMENTINFO 테이블에 저장합니다.
+2. 과거 데이터 다운로드: 관리자가 원하는 **관거 연도 수를 입력**하면, 매년 1월 기준의 과거 데이터를 API에서 수집하여 APARTMENTINFO_QUEUE 테이블에 저장합니다.
+3. 데이터 동기화: 저장된 데이터를 **연도 기준으로 분할 테이블로 구성**합니다.
+4. 큐 데이터 정리: 분할 테이블 생성 후 APRATMENTINF_OQUEUE테이블의 데이터를 삭제하여 **DB최적화**를 수행합니다.
+
 ![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/6_2최신_아파트_거래_데이터_다운.png?raw=true)
+
+🔝 [이 섹션 맨 위로 이동](#trade-section-top6)
 
 ![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/6_3과거_데이터_큐테이블에_저장.png?raw=true)
 
+🔝 [이 섹션 맨 위로 이동](#trade-section-top6)
+
 ![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/6_4과거_데이터_테이블화(년별로).png?raw=true)
+
+🔝 [이 섹션 맨 위로 이동](#trade-section-top6)
 
 ![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/6_5큐테이블_데이터_삭제.png?raw=true)
 
@@ -226,6 +264,12 @@ UI상 창모드 및 모바일로 사용 시 사용자경험을 상승시키기 �
 
 ![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/7_1아파트상세.png?raw=true)
 
+1. 페이지 진입 시 해당 아파트의 기본 정보와 **그래프로 표현한 년별 가격**이 최우선으로 노출됩니다.
+2. 사용자는 아파트에 대해 **관심 등록 기능**을 이용할 수 있습니다.
+3. 사용자는 각 아파트에 대해 **한 번만 리뷰**를 작성할 수 있으며, 자신의 리뷰는 수정 및 삭제가 가능합니다.
+4. 리뷰 평균 평점은 상단에 시각적으로 **집계**되어 표시되며, 전체 이용자의 평가 흐름을 한눈에 확인할 수 있습니다.
+5. 관리자는 모든 리뷰에 대해 **제한 없이 수정 및 삭제 권한**을 갖습니다.
+
 ![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/7_2아파트상세.png?raw=true)
 
 
@@ -239,7 +283,16 @@ UI상 창모드 및 모바일로 사용 시 사용자경험을 상승시키기 �
 
 ![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/8_1지도 전체.png?raw=true)
 
+1. 메인 화면에서의 **지하철역 검색을 기반으로 주변 아파트 위치를 지도에 시각화**할 수 있습니다.
+2. 해당 지하철역 인근 내 **실거래가 기반 아파트 데이터**가 지도와 리스트로 동시 표현됩니다.
+3. 좌측에는 사용자가 **관심 등록한 아파트 리스트**가 표현됩니다.
+4. 우측에는 **해당 지하철역 인근 아파트 리스트**가 표현되고, 콜릭 시 지도에 상세 정보 카드가 출력됩니다.
+5. 관심 아파트는 실시간으로 **등록 / 삭제 가능**하며, 각 리스트는 상호 연동됩니다.
+
 ![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/8_2지도 비교.png?raw=true)
+
+1. 우측 리스트에서 선택한 아파트 카드는 **좌측 상단의 고정 영역**에 등록되고 지도에서도 카드로 표현됩니다.
+2. 등록된 아파트는 사용자 관심 아파트 목록과 **비교 가능한 형식으로 시각화**되어, **면적, 가격, 위치 등 주요 정보를 한눈에 확인**할 수 있습니다.
 
 ### 🔝 [이 섹션 맨 위로 이동](#trade-section-top8)
 ---
