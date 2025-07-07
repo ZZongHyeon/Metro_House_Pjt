@@ -120,24 +120,73 @@
 
 ## 🔌 외부 연동 API
 
-| API | 설명 |
-|------|------|
-| **Naver SMTP** | 이메일 인증 시스템 구현  |
-| **Kakao 주소 API** | 회원가입 주소 자동입력  |
-| **OAuth2 (Naver, Kakao, Google)** | 소셜 로그인 연동 |
-| **공공데이터포털 Open API** | 전국 아파트 실거래가 정보 주기적 수집  |
-| **Kakao Map API** | 위도/경도 기반 아파트 위치 시각화 및 반경 기반 검색  |
+<table>
+<thead>
+<tr>
+<th width="30%">API</th>
+<th width="70%">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://img.shields.io/badge/Naver_SMTP-03C75A?style=flat&logo=naver&logoColor=white" alt="Naver SMTP"></td>
+<td>이메일 인증 시스템 구현</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/Kakao_주소-FFCD00?style=flat&logo=kakao&logoColor=black" alt="Kakao 주소"></td>
+<td>회원가입 주소 자동입력</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/OAuth2-4285F4?style=flat&logo=google&logoColor=white" alt="OAuth2"> <img src="https://img.shields.io/badge/Naver-03C75A?style=flat&logo=naver&logoColor=white" alt="Naver"> <img src="https://img.shields.io/badge/Kakao-FFCD00?style=flat&logo=kakao&logoColor=black" alt="Kakao"></td>
+<td>소셜 로그인 연동</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/공공데이터포털-003876?style=flat&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K&logoColor=white" alt="공공데이터포털"></td>
+<td>전국 아파트 실거래가 정보 주기적 수집</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/Kakao_Map-FFCD00?style=flat&logo=kakao&logoColor=black" alt="Kakao Map"></td>
+<td>위도/경도 기반 아파트 위치 시각화 및 반경 기반 검색</td>
+</tr>
+</tbody>
+</table>
 
 ## 💻 개발 도구
 
-| 도구 | 목적 |
-|------|------|
-| **IntelliJ IDEA / Eclipse** | Java 백엔드 및 Spring Boot 개발 |
-| **Visual Studio Code** | 프론트엔드, JSP 및 JS 개발 |
-| **Postman** | API 테스트 및 디버깅 |
-| **GitHub** | 프로젝트 버전 관리 및 협업 |
-| **Notion** | 기획/기록/문서화 |
-| **Jira** | 업무 프로세스 관리, 일정 계획 |
+<table>
+<thead>
+<tr>
+<th width="30%">도구</th>
+<th width="70%">역할</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://img.shields.io/badge/IntelliJ_IDEA-000000?style=flat&logo=intellij-idea&logoColor=white" alt="IntelliJ"> <img src="https://img.shields.io/badge/Eclipse-2C2255?style=flat&logo=eclipse&logoColor=white" alt="Eclipse"></td>
+<td>Java 백엔드 및 Spring Boot 개발</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/Visual_Studio_Code-007ACC?style=flat&logo=visual-studio-code&logoColor=white" alt="VS Code"></td>
+<td>프론트엔드, JSP 및 JS 개발</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/Postman-FF6C37?style=flat&logo=postman&logoColor=white" alt="Postman"></td>
+<td>API 테스트 및 디버깅</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white" alt="GitHub"></td>
+<td>프로젝트 버전 관리 및 협업</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/Notion-000000?style=flat&logo=notion&logoColor=white" alt="Notion"></td>
+<td>기획/기록/문서화</td>
+</tr>
+<tr>
+<td><img src="https://img.shields.io/badge/Jira-0052CC?style=flat&logo=jira&logoColor=white" alt="Jira"></td>
+<td>업무 프로세스 관리, 일정 계획</td>
+</tr>
+</tbody>
+</table>
 
 ## ✅ 핵심 기술 요약
 
