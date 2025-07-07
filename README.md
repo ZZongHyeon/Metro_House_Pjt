@@ -208,13 +208,14 @@ UI상 창모드 및 모바일로 사용 시 사용자경험을 상승시키기 �
 
 ![MetroHouse](https://github.com/pingpingeee/Ink_Tree_Pjt/blob/main/lib/images/front/6_1관리자전용데이터다운로드.png?raw=true)
 
-![MetroHouse](https://github.com/pingpingeee/Ink_Tree_Pjt/blob/main/lib/images/front/6_2최신 아파트 거래 데이터 다운.png?raw=true)
+![MetroHouse](https://github.com/pingpingeee/Ink_Tree_Pjt/blob/main/lib/images/front/6_2최신_아파트_거래_데이터_다운.png?raw=true)
 
-![MetroHouse](https://github.com/pingpingeee/Ink_Tree_Pjt/blob/main/lib/images/front/6_3과거 데이터 큐테이블에 저장.png?raw=true)
+![MetroHouse](https://github.com/pingpingeee/Ink_Tree_Pjt/blob/main/lib/images/front/6_3과거_데이터_큐테이블에_저장.png?raw=true)
 
-![MetroHouse](https://github.com/pingpingeee/Ink_Tree_Pjt/blob/main/lib/images/front/6_4과거 데이터 테이블화(년별로).png?raw=true)
+![MetroHouse](https://github.com/pingpingeee/Ink_Tree_Pjt/blob/main/lib/images/front/6_4과거_데이터_테이블화(년별로).png?raw=true)
 
-![MetroHouse](https://github.com/pingpingeee/Ink_Tree_Pjt/blob/main/lib/images/front/6_5큐테이블 데이터 삭제.png?raw=true)
+![MetroHouse](https://github.com/pingpingeee/Ink_Tree_Pjt/blob/main/lib/images/front/6_5큐테이블_데이터_삭제.png?raw=true)
+
 
 ### 🔝 [이 섹션 맨 위로 이동](#trade-section-top6)
 ---
