@@ -62,3 +62,54 @@
 - 공공데이터 Open API를 활용한 **실거래가 자동 수집기**
 - Kakao Map 기반 **아파트 위치 시각화 및 필터링**
 
+## 📊 데이터베이스 
+<a name="trade-section-top-erd"></a>
+<details>
+<summary>ERD</summary>
+  <br>
+<ul>
+  <li><b>사용자 관리</b>
+    <ul>
+      <li>USERINFO: 사용자 기본 정보</li>
+    </ul>
+  </li>
+  <br>
+  <li><b>커뮤니티 기능</b>
+    <ul>
+      <li>BOARD: 게시판</li>
+      <li>BOARD_COMMENT: 댓글</li>
+      <li>BOARD_LIKES: 게시글 추천</li>
+    </ul>
+  </li>
+  <br>
+  <li><b>아파트 정보 관리</b>
+    <ul>
+      <li>APARTMENTINFO: 아파트 기본 정보</li>
+      <li>APARTMENTINFO_QUEUE: 아파트 데이터를 저장할 큐</li>
+    </ul>
+  </li>
+  <br>
+  <li><b>아파트 사용자 기능</b>
+    <ul>
+      <li>APARTMENT_FAVORITE: 관심 아파트</li>
+      <li>APARTMENT_REVIEW: 아파트 리뷰</li>
+      <li>REVIEW_HELPFUL: 리뷰 도움됨</li>
+    </ul>
+  </li>
+  <li><b>z_년도( ex | z_2016 ) 관리자용 데이터 최신화시 수치에 맞게 테이블 생성</b>
+    <ul>
+      <li>Z_2016: 2016년의 아파트 정보들</li>
+        ...
+      <li>Z_2025: 2025년의 아파트 정보들</li>
+    </ul>
+  </li>
+  
+</ul>
+
+<br>
+  
+## 📌 ERD
+![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/erd/erd.png?raw=true)
+
+### 🔝 [이 섹션 맨 위로 이동](#trade-section-top-erd)
+</details>
