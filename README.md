@@ -1,58 +1,89 @@
-# Metro_House_Pjt
+<div align="center">
+  
+  <img src="https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Oracle-F80000?style=for-the-badge&logo=oracle&logoColor=white"/>
+  <img src="https://img.shields.io/badge/MyBatis-000000?style=for-the-badge&logo=data&logoColor=white"/>
+  <img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Kakao Map-FFCD00?style=for-the-badge&logo=kakaotalk&logoColor=black"/>
+  <img src="https://img.shields.io/badge/Public Data API-0052CC?style=for-the-badge&logo=datadog&logoColor=white"/>
 
-  <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> 
-  <img src="https://img.shields.io/badge/oracle-F80000?style=for-the-badge&logo=oracle&logoColor=white"> 
-  <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> 
+</div>
 
-## 📦 개발 환경 구조 요약
+---
 
-| 구분 | 내용
-|-----|-----
-| **개발 언어** | Java (JDK 8 이상), JavaScript
-| **프레임워크** | Spring Boot + MyBatis
-| **DB** | Oracle 11g 이상
-| **빌드 도구** | Gradle
-| **내장 WAS** | Spring Boot 내장 Tomcat
-| **형상관리** | Git / GitHub
-| **협업 도구** | Jira, Notion
+## 📦 개발 환경 요약
 
+| 항목 | 내용 |
+|------|------|
+| **개발 언어** | Java (JDK 8+), JavaScript |
+| **프레임워크** | Spring Boot, Spring MVC, MyBatis |
+| **데이터베이스** | Oracle 11g 이상 |
+| **빌드 도구** | Gradle |
+| **WAS** | Spring Boot Embedded Tomcat |
+| **형상관리** | Git, GitHub |
+| **협업 도구** | Jira, Notion |
+| **API 테스트** | Postman |
 
-## 기술 스택 (Tech Stack)
+---
 
-### 🌐 프론트엔드 (Frontend)
+## 🛠️ 기술 스택 (Tech Stack)
 
-| 기술 | 설명
-|-----|-----
-| JSP | 서버 측에서 HTML을 생성하는 렌더링 기술<br>동적인 웹 페이지 구현에 사용
-| js/jQuery | 클라이언트 측에 필요한 동작처리, 동적 콘텐츠 로딩<br>AJAX를 통한 비동기 통신으로 좋아요 기능 구현
-| CSS | 반응형 디자인 구현, 게시판 및 상세 페이지 스타일링 <br>좋아요 버튼 애니메이션 및 상태 표시 효과
-| Font Awesome | 아이콘 라이브러리를 활용한 UI 개선<br>좋아요, 조회수 등 아이콘 강화
-| Bootstrap | 반응형 UI 컴포넌트 활용
+### 🌐 Frontend
 
+| 기술 | 설명 |
+|------|------|
+| **JSP** | 서버 사이드 렌더링 기반 동적 HTML 처리 |
+| **JavaScript / jQuery** | DOM 조작, AJAX 통신 기반 사용자 상호작용 구현 |
+| **CSS3 / Bootstrap** | 반응형 디자인 및 컴포넌트 기반 UI 구성 |
+| **Font Awesome** | 직관적인 UI 아이콘 구성 (좋아요, 조회수 등 시각화) |
 
-### ⚙️ 백엔드 (Backend)
+---
 
-| 기술 | 설명
-|-----|-----
-| Spring Boot | 자동 설정과 내장 서버를 통한 빠른 개발 환경 구축<br>Spring MVC 기반 RESTful API 구현
-| Spring MVC | 컨트롤러, 서비스 계층의 구현을 위해 사용<br>표준 MVC 패턴 기반으로 구조화
-| MyBatis | SQL과 서버 객체간 매핑담당 도구<br>좋아요 기능 구현을 위한 쿼리 매핑
-| Oracle | 대규모 데이터 관리를 위한 관계형 데이터베이스 사용<br>게시글, 댓글, 좋아요 정보 저장
-| Spring Security | 사용자 인증 및 권한 관리를 위한 보안 프레임워크<br>JWT 기반 인증 필터 커스터마이징 적용
-| JWT (JSON Web Token) | 로그인 이후 사용자 인증을 위한 토큰 방식 사용<br>Spring Security와 연동해 무상태 인증 처리
-| 공공데이터포털 API	| 부동산 실거래가 정보 수집<br>전국 아파트 거래 데이터 주기적 수집 및 DB 저장
-| Kakao Map API	| 지도 기반 아파트 위치 표시 및 지리 기반 기능 제공<br>위도/경도 기반 주변 정보 시각화에 사용
+### ⚙ Backend
 
+| 기술 | 설명 |
+|------|------|
+| **Spring Boot** | RESTful API 구현, 설정 자동화, 내장 톰캣 기반 서버 환경 |
+| **Spring MVC** | 계층화된 컨트롤러-서비스 구조로 웹 애플리케이션 구현 |
+| **MyBatis** | SQL 중심 ORM, DB 연동 및 동적 쿼리 처리 |
+| **Oracle** | 게시글/댓글/좋아요/거래 데이터 관리용 RDBMS |
+| **Spring Security** | 사용자 인증/인가 및 세션 관리 구현 |
+| **JWT** | 토큰 기반 인증 구조, 무상태 인증 처리 방식 적용 |
+| **공공데이터포털 API** | 실거래가 데이터 수집 및 OracleDB 저장 자동화 |
+| **Kakao Map API** | 아파트 위치 시각화 및 지도 기반 필터링 지원 |
 
-### 🛠️ 개발 도구 (Development Tools)
+---
 
-| 도구 | 사용 목적
-|-----|-----
-| Visual Studio Code | JS, CSS, 프론트 등 코드 작성용 에디터
-| IntelliJ IDEA/STS | Spring Boot 기반 프로젝트 개발 환경
-| Jira | 이슈 관리 및 구체적인 일정 계획 수립을 위한 협업 도구
-| GitHub | 코드 버전 관리 및 팀 협업
-| Postman | API 테스트
+## 🔌 외부 연동 API
+
+- **공공데이터포털 Open API** – 전국 아파트 실거래가 정보 주기적 수집  
+- **Kakao Map API** – 위도/경도 기반 아파트 위치 시각화 및 반경 기반 검색  
+
+---
+
+## 💻 개발 도구
+
+| 도구 | 목적 |
+|------|------|
+| **IntelliJ IDEA / STS** | Java 및 Spring Boot 개발 환경 |
+| **VS Code** | JSP, JavaScript, CSS 등 프론트엔드 리소스 작성 |
+| **Postman** | REST API 테스트 및 디버깅 |
+| **GitHub** | 소스코드 버전 관리 및 협업 |
+| **Jira** | 태스크 관리 및 애자일 기반 일정 운영 |
+| **Notion** | 문서화 및 기획서 공유 |
+
+---
+
+## ✅ 핵심 기술 요약
+
+- JWT 기반 **무상태 인증 시스템**
+- 공공데이터 Open API를 활용한 **실거래가 자동 수집기**
+- Kakao Map 기반 **아파트 위치 시각화 및 필터링**
+- 좋아요 기능 및 **조회수 기반 정렬 게시판**
+- Spring Security 기반 **접근 제어 및 권한 분리**
+
+---
 
 
 ### ERD
