@@ -108,13 +108,13 @@
 <td>토큰 기반 인증 구조, 무상태 인증 처리 방식 적용</td>
 </tr>
 <tr>
-<td><img src="https://img.shields.io/badge/공공데이터포털-003876?style=flat&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K&logoColor=white" alt="공공데이터포털"></td>
+<!-- <td><img src="https://img.shields.io/badge/공공데이터포털-003876?style=flat&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K&logoColor=white" alt="공공데이터포털"></td>
 <td>실거래가 데이터 수집 및 OracleDB 저장 자동화</td>
 </tr>
 <tr>
 <td><img src="https://img.shields.io/badge/Kakao_Map-FFCD00?style=flat&logo=kakao&logoColor=black" alt="Kakao Map"></td>
 <td>아파트 위치 시각화 및 지도 기반 필터링 지원</td>
-</tr>
+</tr> -->
 </tbody>
 </table>
 
