@@ -281,6 +281,8 @@
 
 ## 🖥 주요 화면 및 기능 상세
 
+## 📋 주요 기능 (Main Features)
+
 ### 🔐 로그인 & 회원가입
 
 <table>
@@ -293,11 +295,17 @@
 </thead>
 <tbody>
 <tr>
+<td colspan="2">
+<details>
+<summary><strong>🔑 로그인 시스템</strong></summary>
+
+<table>
+<tr>
 <td width="50%" align="center">
 <img src="https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/1_1로그인.png?raw=true" alt="로그인 화면" width="100%">
 </td>
 <td width="50%">
-<h4>🔑 로그인 시스템</h4>
+<h4>🔑 로그인 방식</h4>
 <ul>
 <li><strong>일반 로그인</strong><br>
    • 회원가입을 통한 계정 생성<br>
@@ -308,10 +316,15 @@
 </ul>
 </td>
 </tr>
+</table>
+
+</details>
+</td>
+</tr>
 <tr>
 <td colspan="2">
 <details>
-<summary><strong>📧 회원가입 상세 과정</strong></summary>
+<summary><strong>📧 회원가입 시스템</strong></summary>
 
 <table>
 <tr>
@@ -323,6 +336,30 @@
 </td>
 </tr>
 </table>
+
+#### ✉️ 이메일 인증 시스템
+- **Naver SMTP** 활용한 이메일 인증
+- **8자리 무작위 인증번호** 생성 및 전송
+- 인증번호 전송 후 **입력 필드 비활성화**로 보안 강화
+
+#### 📝 정보 입력 시스템
+- 모든 입력 필드 **패턴 검증** 및 예외처리
+- **Kakao 주소 API** 연동으로 주소 자동완성
+- 우편번호 및 도로명 자동 입력
+
+</details>
+</td>
+</tr>
+</tbody>
+</table>
+
+---
+
+<div align="center">
+<a href="#top">
+<img src="https://img.shields.io/badge/🔝_맨_위로_이동-gray?style=for-the-badge" alt="맨 위로">
+</a>
+</div>
 
 #### ✉️ 이메일 인증 시스템
 - **Naver SMTP** 활용한 이메일 인증
