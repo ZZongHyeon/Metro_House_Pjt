@@ -193,7 +193,7 @@ UI상 창모드 및 모바일로 사용 시 사용자경험을 상승시키기 �
 
 <a name="trade-section-top5"></a>
 <details>
-<summary>마이페이지</summary>
+<summary>👤 마이페이지</summary>
 
 ![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/5_1마이페이지.png?raw=true)
   
@@ -222,7 +222,7 @@ UI상 창모드 및 모바일로 사용 시 사용자경험을 상승시키기 �
 
 <a name="trade-section-top7"></a>
 <details>
-<summary>아파트 상세 정보</summary>
+<summary>🏢 아파트 상세 정보</summary>
 
 ![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/7_1아파트상세.png?raw=true)
 
@@ -235,7 +235,7 @@ UI상 창모드 및 모바일로 사용 시 사용자경험을 상승시키기 �
 
 <a name="trade-section-top8"></a>
 <details>
-<summary>지도 시각화 & 아파트 값 비교</summary>
+<summary>🗺️ 지도 시각화 & 아파트 값 비교</summary>
 
 ![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/8_1지도 전체.png?raw=true)
 
