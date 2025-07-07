@@ -3,7 +3,8 @@
 | 항목 | 상세 내용 |
 |------|------|
 | **개발 언어** | Java (JDK 8+), JavaScript |
-| **프레임워크** | Spring Boot, Spring MVC, MyBatis |
+| **프레임워크** | Spring Boot, Spring MVC |
+| **ORM** | MyBatis |
 | **데이터베이스** | Oracle 11g 이상 |
 | **빌드 도구** | Gradle |
 | **WAS** | Spring Boot Embedded Tomcat |
