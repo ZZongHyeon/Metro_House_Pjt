@@ -23,14 +23,14 @@
             <p>메트로 하우스 이용을 위한 회원가입 페이지입니다.<br>아래 정보를 입력하여 회원가입을 완료해주세요.</p>
         </div>
 
-        <div class="progress-container">
-            <div class="progress-bar">
-                <div class="step active" data-step="1">1<span class="step-label">이용약관 동의</span></div>
-                <div class="step" data-step="2">2<span class="step-label">이메일 인증</span></div>
-                <div class="step" data-step="3">3<span class="step-label">정보 입력</span></div>
-                <div class="step" data-step="4">4<span class="step-label">가입 완료</span></div>
-            </div>
-        </div>
+<!--        <div class="progress-container">-->
+<!--            <div class="progress-bar">-->
+<!--                <div class="step active" data-step="1">1<span class="step-label">이용약관 동의</span></div>-->
+<!--                <div class="step" data-step="2">2<span class="step-label">이메일 인증</span></div>-->
+<!--                <div class="step" data-step="3">3<span class="step-label">정보 입력</span></div>-->
+<!--                <div class="step" data-step="4">4<span class="step-label">가입 완료</span></div>-->
+<!--            </div>-->
+<!--        </div>-->
 
         <form id="joinForm">
             <!-- 단계 1: 이용약관 동의 -->
