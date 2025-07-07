@@ -276,7 +276,11 @@
 ## 📌 ERD
 ![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/erd/erd.png?raw=true)
 
-### 🔝 [이 섹션 맨 위로 이동](#trade-section-top-erd)
+<div align="center">
+<a href="#trade-section-top-erd">
+<img src="https://img.shields.io/badge/🔼위로 이동-4A90E2?style=for-the-badge&logoColor=white" alt="맨 위로">
+</a>
+</div>
 </details>
 
 ## 🖥 주요 화면 및 기능 상세
@@ -300,7 +304,7 @@
     
 <div align="center">
 <a href="#trade-section-top1">
-<img src="https://img.shields.io/badge/🔝이 섹션 맨 위로 이동-4A90E2?style=for-the-badge&logoColor=white" alt="맨 위로">
+<img src="https://img.shields.io/badge/🔼위로 이동-4A90E2?style=for-the-badge&logoColor=white" alt="맨 위로">
 </a>
 </div>
 
@@ -328,7 +332,7 @@
 
 <div align="center">
 <a href="#trade-section-top2">
-<img src="https://img.shields.io/badge/🔝이 섹션 맨 위로 이동-4A90E2?style=for-the-badge&logoColor=white" alt="맨 위로">
+<img src="https://img.shields.io/badge/🔼위로 이동-4A90E2?style=for-the-badge&logoColor=white" alt="맨 위로">
 </a>
 </div>
 
@@ -367,7 +371,7 @@
 
 <div align="center">
 <a href="#trade-section-top3">
-<img src="https://img.shields.io/badge/🔝이 섹션 맨 위로 이동-4A90E2?style=for-the-badge&logoColor=white" alt="맨 위로">
+<img src="https://img.shields.io/badge/🔼위로 이동-4A90E2?style=for-the-badge&logoColor=white" alt="맨 위로">
 </a>
 </div>
 
@@ -406,7 +410,7 @@
 
 <div align="center">
 <a href="#trade-section-top4">
-<img src="https://img.shields.io/badge/🔝이 섹션 맨 위로 이동-4A90E2?style=for-the-badge&logoColor=white" alt="맨 위로">
+<img src="https://img.shields.io/badge/🔼위로 이동-4A90E2?style=for-the-badge&logoColor=white" alt="맨 위로">
 </a>
 </div>
 
@@ -432,7 +436,7 @@
 
 <div align="center">
 <a href="#trade-section-top5">
-<img src="https://img.shields.io/badge/🔝이 섹션 맨 위로 이동-4A90E2?style=for-the-badge&logoColor=white" alt="맨 위로">
+<img src="https://img.shields.io/badge/🔼위로 이동-4A90E2?style=for-the-badge&logoColor=white" alt="맨 위로">
 </a>
 </div>
 
@@ -455,7 +459,7 @@
 
 <div align="center">
 <a href="#trade-section-top6">
-<img src="https://img.shields.io/badge/🔝이 섹션 맨 위로 이동-4A90E2?style=for-the-badge&logoColor=white" alt="맨 위로">
+<img src="https://img.shields.io/badge/🔼위로 이동-4A90E2?style=for-the-badge&logoColor=white" alt="맨 위로">
 </a>
 </div>
 
@@ -488,7 +492,7 @@
 
 <div align="center">
 <a href="#trade-section-top7">
-<img src="https://img.shields.io/badge/🔝이 섹션 맨 위로 이동-4A90E2?style=for-the-badge&logoColor=white" alt="맨 위로">
+<img src="https://img.shields.io/badge/🔼위로 이동-4A90E2?style=for-the-badge&logoColor=white" alt="맨 위로">
 </a>
 </div>
 
@@ -521,7 +525,7 @@
 
 <div align="center">
 <a href="#trade-section-top8">
-<img src="https://img.shields.io/badge/🔝이 섹션 맨 위로 이동-4A90E2?style=for-the-badge&logoColor=white" alt="맨 위로">
+<img src="https://img.shields.io/badge/🔼위로 이동-4A90E2?style=for-the-badge&logoColor=white" alt="맨 위로">
 </a>
 </div>
 
@@ -556,7 +560,7 @@
 
 <div align="center">
 <a href="#trade-section-top9">
-<img src="https://img.shields.io/badge/🔝이 섹션 맨 위로 이동-4A90E2?style=for-the-badge&logoColor=white" alt="맨 위로">
+<img src="https://img.shields.io/badge/🔼위로 이동-4A90E2?style=for-the-badge&logoColor=white" alt="맨 위로">
 </a>
 </div>
 
