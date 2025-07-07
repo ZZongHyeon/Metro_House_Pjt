@@ -1,17 +1,3 @@
-<div align="center">
-  
-  <img src="https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Oracle-F80000?style=for-the-badge&logo=oracle&logoColor=white"/>
-  <img src="https://img.shields.io/badge/MyBatis-000000?style=for-the-badge&logo=data&logoColor=white"/>
-  <img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Kakao Map-FFCD00?style=for-the-badge&logo=kakaotalk&logoColor=black"/>
-  <img src="https://img.shields.io/badge/Public Data API-0052CC?style=for-the-badge&logo=datadog&logoColor=white"/>
-
-</div>
-
----
-
 ## 📦 개발 환경 요약
 
 | 항목 | 내용 |
