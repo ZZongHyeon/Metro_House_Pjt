@@ -182,11 +182,30 @@
 
 ## ✅ 핵심 기술 요약
 
-- JWT + OAuth2 **기반 로그인/인증 시스템**
-- Spring Security **기반 권한 분기 및 접근 제어 구현**
-- Oracle + MyBatis **활용한 데이터 핸들링**
-- 공공데이터 Open API를 활용한 **실거래가 자동 수집기**
-- Kakao Map 기반 **아파트 위치 시각화 및 필터링**
+<table>
+<thead>
+<tr>
+<th width="100%">주요 특징</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🔐 JWT + OAuth2 기반 로그인/인증 시스템</td>
+</tr>
+<tr>
+<td>🛡️ Spring Security 기반 권한 분기 및 접근 제어 구현</td>
+</tr>
+<tr>
+<td>🗄️ Oracle + MyBatis 활용한 데이터 핸들링</td>
+</tr>
+<tr>
+<td>📊 공공데이터 Open API를 활용한 실거래가 자동 수집기</td>
+</tr>
+<tr>
+<td>🗺️ Kakao Map 기반 아파트 위치 시각화 및 필터링</td>
+</tr>
+</tbody>
+</table>
 
 ## 📊 데이터베이스 
 <a name="trade-section-top-erd"></a>
