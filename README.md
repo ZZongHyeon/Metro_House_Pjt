@@ -280,6 +280,9 @@
 </details>
 
 ## 🖥 주요 화면 및 기능 상세
+
+### 🔐 로그인 & 회원가입
+
 <details>
 <summary><strong>🔑 로그인 시스템</strong></summary>
 
@@ -317,30 +320,6 @@
 - 우편번호 및 도로명 자동 입력
 
 </details>
-
-#### ✉️ 이메일 인증 시스템
-- **Naver SMTP** 활용한 이메일 인증
-- **8자리 무작위 인증번호** 생성 및 전송
-- 인증번호 전송 후 **입력 필드 비활성화**로 보안 강화
-
-#### 📝 정보 입력 시스템
-- 모든 입력 필드 **패턴 검증** 및 예외처리
-- **Kakao 주소 API** 연동으로 주소 자동완성
-- 우편번호 및 도로명 자동 입력
-
-</details>
-</td>
-</tr>
-</tbody>
-</table>
-
----
-
-<div align="center">
-<a href="#top">
-<img src="https://img.shields.io/badge/🔝_맨_위로_이동-gray?style=for-the-badge" alt="맨 위로">
-</a>
-</div>
 
 <a name="trade-section-top2"></a>
 <details>
