@@ -316,7 +316,7 @@
 - 모든 입력 필드 **패턴 검증** 및 예외처리
 - **Kakao 주소 API** 연동으로 주소 자동완성
 - 우편번호 및 도로명 자동 입력
-
+---
 </details>
 
 <details>
@@ -347,7 +347,7 @@
 
 #### 🏡 추천 아파트
 - 회원가입 시 등록한 **사용자의 주소를 기반**으로 해당 지역 인근 **추천 아파트 3곳이 자동으로 제공**
-
+---
 </details>
 
 <details>
@@ -378,7 +378,7 @@
 #### 💬 계층형 댓글 시스템
 - 댓글 시스템에서는 **계층형 구조**를 구현하기 위해 SubNumber 컬럼을 활용
 - 댓글 작성 시 부모 댓글의 ID와 함께 계층 구조를 판단할 수 있도록 설계하여 일반 댓글과 대댓글의 관계를 명확하게 구분하고 프론트엔드에서는 이를 바탕으로 들여쓰기 형식의 계층 UI를 구현
-
+---
 </details>
 
 <details>
@@ -396,7 +396,7 @@
 
 #### 📋 상세 정보 접근
 - 상세보기 버튼 클릭 시, 해당 아파트의 **상세 정보 페이지로 즉시 이동** 가능
-
+---
 </details>
 
 <details>
@@ -411,7 +411,7 @@
 
 #### 🔒 보안 강화
 - 보안 강화를 위해 **현재 비밀번호 입력 및 일치 여부 확인 후 변경이 가능**하도록 설계
-
+---
 </details>
 
 <details>
@@ -436,7 +436,7 @@
 <img src="https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/6_4과거_데이터_테이블화(년별로).png?raw=true" alt="연도별 테이블화" width="45%">
 <img src="https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/6_5큐테이블_데이터_삭제.png?raw=true" alt="큐 테이블 삭제" width="45%">
 </div>
-
+---
 </details>
 
 <details>
@@ -460,7 +460,7 @@
 <div align="center">
 <img src="https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/7_2아파트상세.png?raw=true" alt="아파트 상세 정보 하단" width="60%">
 </div>
-
+---
 </details>
 
 <details>
@@ -486,5 +486,5 @@
 #### 🔄 아파트 비교 기능
 - 우측 리스트에서 선택한 아파트 카드는 **좌측 상단의 고정 영역**에 등록되고 지도에서도 카드로 표현
 - 등록된 아파트는 사용자 관심 아파트 목록과 **비교 가능한 형식으로 시각화**되어, **면적, 가격, 위치 등 주요 정보를 한눈에 확인** 가능
-
+---
 </details>
