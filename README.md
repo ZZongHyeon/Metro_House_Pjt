@@ -121,7 +121,7 @@
 <br>
   
 ## 📌 ERD
-![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/erd/ERD.png?raw=true)
+![MetroHouse](https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/erd/erd.png?raw=true)
 
 ### 🔝 [이 섹션 맨 위로 이동](#trade-section-top-erd)
 </details>
