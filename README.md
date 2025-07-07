@@ -436,7 +436,9 @@
 <img src="https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/6_4과거_데이터_테이블화(년별로).png?raw=true" alt="연도별 테이블화" width="45%">
 <img src="https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/6_5큐테이블_데이터_삭제.png?raw=true" alt="큐 테이블 삭제" width="45%">
 </div>
+
 ---
+
 </details>
 
 <details>
@@ -460,7 +462,9 @@
 <div align="center">
 <img src="https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/7_2아파트상세.png?raw=true" alt="아파트 상세 정보 하단" width="60%">
 </div>
+
 ---
+
 </details>
 
 <details>
