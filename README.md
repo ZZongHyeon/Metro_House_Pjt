@@ -211,6 +211,7 @@
 <a name="trade-section-top-erd"></a>
 <details>
 <summary>ERD</summary>
+  
 ## 🗄️ 데이터베이스 구조 (Database Schema)
 
 <table>
