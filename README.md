@@ -302,16 +302,9 @@
 
 <div align="center">
 <a href="#trade-section-top1">
-<img src="https://img.shields.io/badge/🔝_맨_위로_이동-4A90E2?style=for-the-badge&logoColor=white" alt="맨 위로">
+<img src="https://img.shields.io/badge/🔝이 섹션 맨 위로 이동-4A90E2?style=for-the-badge&logoColor=white" alt="맨 위로">
 </a>
 </div>
-
-<div align="center">
-<a href="#trade-section-top1">
-<img src="https://img.shields.io/badge/⬆️_TOP-gray?style=for-the-badge" alt="맨 위로">
-</a>
-</div>
-
 ---
 </details>
 
