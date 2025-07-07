@@ -281,8 +281,6 @@
 
 ## 🖥 주요 화면 및 기능 상세
 
-### 🔐 로그인 & 회원가입
-
 <details>
 <summary><strong>🔑 로그인 시스템</strong></summary>
 
@@ -298,7 +296,7 @@
 - **소셜 로그인**
   - <img src="https://img.shields.io/badge/Naver-03C75A?style=flat&logo=naver&logoColor=white" alt="Naver"> <img src="https://img.shields.io/badge/Kakao-FFCD00?style=flat&logo=kakao&logoColor=black" alt="Kakao"> <img src="https://img.shields.io/badge/Google-4285F4?style=flat&logo=google&logoColor=white" alt="Google">
   - OAuth2 기반 간편 로그인
-
+---
 </details>
 
 <details>
