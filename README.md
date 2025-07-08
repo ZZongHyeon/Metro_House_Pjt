@@ -35,6 +35,7 @@
 </tr>
 <tr>
 <td><strong>🧪 테스트 도구</strong></td>
+<td><img src="https://img.shields.io/badge/Postman-FF6C37?style=flat&logo=postman&logoColor=white" alt="Postman"> <img src="https://img.shields.io/badge/JUnit-25A162?style=flat&logo=junit5&logoColor=white" alt="JUnit"></td>
 <td>Postman (API 테스트)</td>
 </tr>
 </tbody>
@@ -83,7 +84,7 @@
 </tr>
 <tr>
 <td><img src="https://img.shields.io/badge/🧪_API_테스트-7ED321?style=flat&logoColor=white" alt="API 테스트"></td>
-<td><img src="https://img.shields.io/badge/Postman-FF6C37?style=flat&logo=postman&logoColor=white" alt="Postman"> <img src="https://img.shields.io/badge/JUnit-25A162?style=flat&logo=junit5&logoColor=white" alt="JUnit"> Postman (API 테스트), JUnit (단위 테스트)</td>
+<td> Postman (API 테스트), JUnit (단위 테스트)</td>
 </tr>
 </tbody>
 </table>
