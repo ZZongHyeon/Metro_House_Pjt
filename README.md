@@ -573,7 +573,8 @@
 <summary><strong>🏢 아파트 상세 정보</strong></summary>
 
 <div align="center">
-<img src="https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/7_1아파트상세.png?raw=true" alt="아파트 상세 정보" width="60%">
+<img src="https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/7_1아파트상세.png?raw=true" alt="아파트 상세 정보" width="45%">
+<img src="https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/7_2아파트상세.png?raw=true" alt="아파트 상세 정보" width="45%">
 </div>
 
 #### 📊 기본 정보 및 가격 그래프
@@ -586,10 +587,6 @@
 - 사용자는 각 아파트에 대해 **한 번만 리뷰**를 작성할 수 있으며, 자신의 리뷰는 수정 및 삭제가 가능
 - 리뷰 평균 평점은 상단에 시각적으로 **집계**되어 표시되며, 전체 이용자의 평가 흐름을 한눈에 확인 가능
 - 관리자는 모든 리뷰에 대해 **제한 없이 수정 및 삭제 권한**을 보유
-
-<div align="center">
-<img src="https://github.com/pingpingeee/Metro_House_Pjt/blob/main/lib/images/front/7_2아파트상세.png?raw=true" alt="아파트 상세 정보 하단" width="60%">
-</div>
 
 <div align="center">
 <a href="#trade-section-top8">
